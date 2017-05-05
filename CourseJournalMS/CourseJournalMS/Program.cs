@@ -1,17 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourseJournalMS
 {
-    class Program
+    class Program:Functions   
     {
+        
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Witaj!00");
-            Console.ReadKey();
+        // Creatin new Journal and getting data 
+            Journal _CodementorsJournal = new Journal(); 
+            _CodementorsJournal.CourseStudentsNumber = 2;  //temp
+            GetJournalData(_CodementorsJournal);
+            GetStudentsData(_CodementorsJournal.CourseStudentsNumber,_CodementorsJournal.CourseStudentsList);
+        //**************************************
+        // Add a new day of course
+            
+
+        //************************************** 
+        // Add a homework
+            
+
+        //************************************** 
+        // Print summary
+            
+
+        //************************************** 
+            
+            Console.WriteLine("Witaj!00");  //temp
+            Console.ReadKey();              //temp
         }
     }
 }
+
+
+
+
+/*
+        Pamiętać:
+        Dodać "TRY" przy wczytywaniu danych
+
+
+
+
+ */

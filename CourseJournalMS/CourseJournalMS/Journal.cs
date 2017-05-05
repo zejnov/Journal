@@ -15,7 +15,11 @@ namespace CourseJournalMS
         public double CoursePresenceThreshold;
         public int CourseStudentsNumber;
 
-        public Dictionary<int,Student> CourseJournal = new Dictionary<int, Student>();
+        public Dictionary<int,Student> CourseStudentsList = new Dictionary<int, Student>();
+
+        
+
+
 
     }
 }

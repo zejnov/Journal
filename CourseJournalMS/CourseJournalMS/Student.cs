@@ -8,10 +8,17 @@ namespace CourseJournalMS
 {
     class Student
     {
+        public enum GenderType
+        {
+            none,
+            male,
+            female,
+        }
+
         public int OrderNumber;
         public string Name, Surname;
         public DateTime BirthDate;
-        public string Gender;
+        public GenderType Gender;
 
     }
 }
