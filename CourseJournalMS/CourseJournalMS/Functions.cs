@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace CourseJournalMS
             journal.CourseHomeworkThreshold = Double.Parse(Console.ReadLine());
             Console.Write("Number of students: ");
             journal.CourseStudentsNumber = Int32.Parse(Console.ReadLine());
+            
         }
         
         public static void GetStudentsData(int numberOfStudents, Dictionary<int, Student> journal)
@@ -51,7 +53,15 @@ namespace CourseJournalMS
             journal[student.OrderNumber] = student;
         }
 
-
+        public static void AddDayOfCourse(Journal journal)
+        {
+            //START HERE ********************************
+            foreach (var student in journal.CourseStudentsList)
+            {
+                CourseDay courseDay = new CourseDay(student.Value.OrderNumber);
+                student.Value.CourseList.Add(courseDay);
+            }
+        }
 
     }
 }

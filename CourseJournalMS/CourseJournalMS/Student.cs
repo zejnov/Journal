@@ -20,5 +20,8 @@ namespace CourseJournalMS
         public DateTime BirthDate;
         public GenderType Gender;
 
+        // attendance list
+        public List<CourseDay> CourseList = new List<CourseDay>() ;
+
     }
 }
