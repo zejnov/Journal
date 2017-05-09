@@ -23,5 +23,6 @@ namespace CourseJournalMS
         // attendance list
         public List<CourseDay> CourseList = new List<CourseDay>() ;
 
+        public Homework StudentsHomework;
     }
 }

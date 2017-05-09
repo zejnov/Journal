@@ -1,22 +1,26 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CourseJournalMS
 {
     class Program:Functions   
     {
         private static Journal _CodementorsJournal = new Journal();
-
+        
         static void Main(string[] args)
         {
         // Creatin new Journal and getting data 
-          //  Journal _CodementorsJournal = new Journal(); 
-            _CodementorsJournal.CourseStudentsNumber = 2;  //temp
-            GetJournalData(_CodementorsJournal);
+            //GetJournalData(_CodementorsJournal);
+            SampleYournal(_CodementorsJournal);         //temp
+
             GetStudentsData(_CodementorsJournal.CourseStudentsNumber,_CodementorsJournal.CourseStudentsList);
         //**************************************
         // Add a new day of course
-            AddDayOfCourse(_CodementorsJournal);
+            int courseDayNumber = 0;
+            courseDayNumber = AddDayOfCourse(_CodementorsJournal, courseDayNumber);
+            courseDayNumber = AddDayOfCourse(_CodementorsJournal, courseDayNumber);
 
+            Console.WriteLine("Dni kursu minęło: " + courseDayNumber);       //temp
         //************************************** 
         // Add a homework
             

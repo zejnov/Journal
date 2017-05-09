@@ -8,26 +8,36 @@ namespace CourseJournalMS
 {
     class CourseDay
     {
-        public DateTime CourseDayDate;  //add
-        public int CourseDayNumber = 0; //!?!?
+        public DateTime CourseDayDate;      //add
+        private int _courseDayNumber = 0;    //!?!?
 
-        public enum Attendance
+        public enum AttendanceOnCourse
         {
             none,
-            p, //present
-            a, //absent
+            p,      //for present
+            present,
+            a,      //for absent
+            absent,
         }
 
-        public Attendance attendance;
+        public AttendanceOnCourse Attendance;
 
         public CourseDay(int studentOrderNumber)  //creator!!
         {
-            CourseDayNumber++;
-
             Console.Write("Student {0} is: ", studentOrderNumber);
-            attendance = (CourseDay.Attendance) Enum.Parse(typeof(CourseDay.Attendance), Console.ReadLine());
+            Attendance = (CourseDay.AttendanceOnCourse) Enum.Parse(typeof(CourseDay.AttendanceOnCourse), Console.ReadLine());
         }
-       // student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
+        // student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
+
+        public void NewCourseDay()
+        {
+            _courseDayNumber++;
+        }
+
+        public int DaysOfCourse()
+        {
+            return _courseDayNumber;
+        }
 
     }
 }

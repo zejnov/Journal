@@ -16,10 +16,5 @@ namespace CourseJournalMS
         public int CourseStudentsNumber;
 
         public Dictionary<int,Student> CourseStudentsList = new Dictionary<int, Student>();
-
-        
-
-
-
     }
 }
