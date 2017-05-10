@@ -54,7 +54,6 @@ namespace CourseJournalMS
             journal[student.OrderNumber] = student;
         }
 
-        
         public static void AddDayOfCourse(Journal journal)
         {
             CourseDay.NewCourseDay();
@@ -75,6 +74,45 @@ namespace CourseJournalMS
                 student.Value.HomeworksList.Add(homework);
             }
             Homework.IncreaseHomeworksNumber();
+        }
+
+        public static void PrintReport(Journal journal)
+        {   
+            Console.Clear();
+            Console.WriteLine("{0} COURSE REPORT",journal.CourseName);
+            Console.WriteLine("Course start date: {0}.", journal.CourseStartDate);
+            Console.WriteLine("Course leader: {0} {1}", journal.CourseLeaderName, journal.CourseLeaderSurname);
+            Console.WriteLine("Course presence threshold {0}", journal.CoursePresenceThreshold);
+            Console.WriteLine("Course homework threshold {0}", journal.CourseHomeworkThreshold);
+           // Console.WriteLine("{0}", journal);
+
+            foreach (var student in journal.CourseStudentsList)
+            {
+                CheckAttendance(student.Value);
+            }
+
+            foreach (var student in journal.CourseStudentsList)
+            {
+                CheckHomework(student.Value);
+            }
+
+
+        }
+
+        public static void CheckAttendance(Student student)
+        {   Console.WriteLine(CourseDay.DaysOfCourse());
+            foreach (var day in student.CourseList)
+            {
+                if (day.Attendance == CourseDay.AttendanceOnCourse.present || day.Attendance == CourseDay.AttendanceOnCourse.p)
+                {
+                    
+                }
+            }
+        }
+
+        public static void CheckHomework(Student student)
+        {
+
         }
 
         //******************Sample data starts here**************************

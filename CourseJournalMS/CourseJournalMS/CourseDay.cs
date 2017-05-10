@@ -24,7 +24,7 @@ namespace CourseJournalMS
         {
             Console.Write("{0}. {1} {2} is: ", student.OrderNumber, student.Name, student.Surname);
             Attendance = (CourseDay.AttendanceOnCourse) Enum.Parse(typeof(CourseDay.AttendanceOnCourse), Console.ReadLine());
-            DayOrderNumber = ++_courseDayNumber;
+            DayOrderNumber = _courseDayNumber+1;
             DayOfClasses = CourseDayDate;
         }
 

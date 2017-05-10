@@ -12,7 +12,7 @@ namespace CourseJournalMS
         // Creatin new Journal and getting data 
             //GetJournalData(_CodementorsJournal);
             //GetStudentsData(_CodementorsJournal);
-            SampleFullData(_CodementorsJournal,5);
+            SampleFullData(_CodementorsJournal,4);
         //**************************************
         // Add a new day of course
             
