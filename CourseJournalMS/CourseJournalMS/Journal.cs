@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseJournalMS
 {
-    class Journal
+    public class Journal
     {
         public string CourseName;
         public string CourseLeaderName, CourseLeaderSurname;

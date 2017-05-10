@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseJournalMS
 {
-    class Student
+    public class Student
     {
         public enum GenderType
         {
@@ -19,10 +19,7 @@ namespace CourseJournalMS
         public string Name, Surname;
         public DateTime BirthDate;
         public GenderType Gender;
-
-        // attendance list
-        public List<CourseDay> CourseList = new List<CourseDay>() ;
-
-        public Homework StudentsHomework;
+        public List<CourseDay> CourseList = new List<CourseDay>(); // attendance list
+        public List<Homework> HomeworksList = new List<Homework>(); //homework list
     }
 }

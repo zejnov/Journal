@@ -8,22 +8,12 @@ using System.Threading.Tasks;
 
 namespace CourseJournalMS
 {
-    class Functions
+    public class Functions
     {
-        public static void SampleYournal(Journal journal)
-        {
-            journal.CourseName = "Codementors";
-            journal.CourseLeaderName = "Kuba";
-            journal.CourseLeaderSurname = "Bulczak";
-            journal.CourseStartDate = DateTime.Parse("4 / 24 / 2017");
-            journal.CoursePresenceThreshold = 80;
-            journal.CourseHomeworkThreshold = 60;
-            journal.CourseStudentsNumber = 5;
-        }
-
         public static void GetJournalData (Journal journal)
         {//getting basic journal data
-            Console.Write("Give course name: ");
+            Console.WriteLine("Please provide the following fields.");
+            Console.Write("Course name: ");
             journal.CourseName = Console.ReadLine();
             Console.Write("Course leader name: ");
             journal.CourseLeaderName = Console.ReadLine();
@@ -40,11 +30,11 @@ namespace CourseJournalMS
             
         }
         
-        public static void GetStudentsData(int numberOfStudents, Dictionary<int, Student> journal)
+        public static void GetStudentsData(Journal journal)
         {//getting students data in order of number of students in course given
-            for (int i = 1; i <= numberOfStudents; i++)
+            for (int i = 1; i <= journal.CourseStudentsNumber; i++)
             {
-                GetPersonalStudentData(i,journal);
+                GetPersonalStudentData(i,journal.CourseStudentsList);
             }
         }
         
@@ -52,46 +42,73 @@ namespace CourseJournalMS
         {//getting students data
             Student student = new Student();
             student.OrderNumber = identifier;
-            Console.Write("Give " + identifier + " student name: ");
+            Console.Write("Enter {0} student name: ", identifier);
             student.Name = Console.ReadLine();
-            //Console.Write("Give " + identifier + " student surname: ");
-            //student.Surname = Console.ReadLine();
-            //Console.Write("Give " + identifier + " student birth date: ");
-            //student.BirthDate = DateTime.Parse(Console.ReadLine());
-            Console.Write("Give " + identifier + " student gender(male/female): ");
+            Console.Write("Enter {0} student surname: ", identifier);
+            student.Surname = Console.ReadLine();
+            Console.Write("Enter {0} student birth date: ", identifier);
+            student.BirthDate = DateTime.Parse(Console.ReadLine());
+            Console.Write("Enter {0} student gender(male/female): ", identifier);
             student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
             
             journal[student.OrderNumber] = student;
         }
 
-        public static int AddDayOfCourse(Journal journal, int dayCounter)
+        
+        public static void AddDayOfCourse(Journal journal)
         {
-            //START HERE ********************************
-            Console.Write("Please give date of course day: ");
-            DateTime courseDayDate = DateTime.Parse(Console.ReadLine());
-            
+            CourseDay.NewCourseDay();
             foreach (var student in journal.CourseStudentsList)
             {
-                CourseDay courseDay = new CourseDay(student.Value.OrderNumber);
-                //courseDay.CourseDayDate = courseDayDate;
-
+                CourseDay courseDay = new CourseDay(student.Value);
                 student.Value.CourseList.Add(courseDay);
-                
             }
-           
-            return ++dayCounter;
-
+            CourseDay.IncreaseCourseDayNumber();
         }
 
         public static void AddHomework(Journal journal)
         {
-            // MAX Homework Points?!
-
+            Homework.NewHomework();
             foreach (var student in journal.CourseStudentsList)
             {
-                Homework homework = new Homework(student.Value.OrderNumber);
-                student.Value.StudentsHomework = homework;
+                Homework homework = new Homework(student.Value);
+                student.Value.HomeworksList.Add(homework);
             }
+            Homework.IncreaseHomeworksNumber();
+        }
+
+        //******************Sample data starts here**************************
+        public static void SampleFullData(Journal journal, int students)
+        {
+            SampleYournal(journal, students);
+            SampleStudentsData(journal.CourseStudentsList,journal.CourseStudentsNumber);
+        }
+
+        public static void SampleStudentsData(Dictionary<int, Student> journal, int x)
+        {
+
+            for (int i = 1; i <= x; i++)
+            {
+                Student student = new Student();
+                student.OrderNumber = i;
+                student.Name = "Student" + i;
+                student.Surname = "Kowalski" + 2 * i;
+                student.BirthDate = DateTime.Parse("7/12/1984");
+                student.Gender = Student.GenderType.male;
+                
+                journal[student.OrderNumber] = student;
+            }
+        }
+
+        public static void SampleYournal(Journal journal, int x)
+        {
+            journal.CourseName = "Codementors";
+            journal.CourseLeaderName = "Kuba";
+            journal.CourseLeaderSurname = "Bulczak";
+            journal.CourseStartDate = DateTime.Parse("4 / 24 / 2017");
+            journal.CoursePresenceThreshold = 80;
+            journal.CourseHomeworkThreshold = 60;
+            journal.CourseStudentsNumber = x;
         }
 
     }

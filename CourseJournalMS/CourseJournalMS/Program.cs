@@ -11,25 +11,30 @@ namespace CourseJournalMS
         {
         // Creatin new Journal and getting data 
             //GetJournalData(_CodementorsJournal);
-            SampleYournal(_CodementorsJournal);         //temp
-
-            GetStudentsData(_CodementorsJournal.CourseStudentsNumber,_CodementorsJournal.CourseStudentsList);
+            //GetStudentsData(_CodementorsJournal);
+            SampleFullData(_CodementorsJournal,5);
         //**************************************
         // Add a new day of course
-            int courseDayNumber = 0;
-            courseDayNumber = AddDayOfCourse(_CodementorsJournal, courseDayNumber);
-            courseDayNumber = AddDayOfCourse(_CodementorsJournal, courseDayNumber);
-
-            Console.WriteLine("Dni kursu minęło: " + courseDayNumber);       //temp
+            
+            AddDayOfCourse(_CodementorsJournal);
+            
+            
+                                                       //temp
         //************************************** 
         // Add a homework
-            
+            AddHomework(_CodementorsJournal);
 
+            
         //************************************** 
         // Print summary
+            Console.WriteLine("Testttt");
+            Console.WriteLine(CourseDay.DaysOfCourse());
+            Console.WriteLine(Homework.NumberOfHomeworks());
+
+
             
 
-        //************************************** 
+        //*****************TEMP********************* 
             
             Console.WriteLine("Witaj!00");  //temp
             Console.ReadKey();              //temp
@@ -42,9 +47,11 @@ namespace CourseJournalMS
 
 /*
         Pamiętać:
-        Funkcja ma przypisywać dane do journala!!
-
-        Dodać "TRY" przy wczytywaniu danych
+        Zrobić drukowanie raportu
+        (brak list i prac, tylko lista osób)
+        
+        Zrobić Main SWITCH
+        Dodać "TRY" przy wczytywaniu danych WSZYSTKICH!
 
 
 
