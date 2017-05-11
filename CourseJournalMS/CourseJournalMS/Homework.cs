@@ -14,13 +14,15 @@ namespace CourseJournalMS
         public int StudentHomeworkPoints;
         public int MaxHomeworkPoints;
         public int HomeworkOrderNumber;
+        
 
         public Homework(Student student)    //creator!
         {
             Console.Write("{0}. {1} {2} get: ", student.OrderNumber, student.Name, student.Surname);
             StudentHomeworkPoints =  Int32.Parse(Console.ReadLine());
             MaxHomeworkPoints = _maxHomeworkPoints;
-            HomeworkOrderNumber = _numberOfHomeworks+1;
+            HomeworkOrderNumber = _numberOfHomeworks + 1;
+            
         }
     
         public static void NewHomework()

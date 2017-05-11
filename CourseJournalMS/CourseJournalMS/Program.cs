@@ -5,7 +5,7 @@ namespace CourseJournalMS
 {
     class Program:Functions   
     {
-        private static Journal _CodementorsJournal = new Journal();
+        public static Journal _CodementorsJournal = new Journal();
         
         static void Main(string[] args)
         {
@@ -16,20 +16,21 @@ namespace CourseJournalMS
         //**************************************
         // Add a new day of course
             
-            AddDayOfCourse(_CodementorsJournal);
+            //AddDayOfCourse(_CodementorsJournal);
+            //AddDayOfCourse(_CodementorsJournal);
+            //AddDayOfCourse(_CodementorsJournal);
             
             
                                                        //temp
         //************************************** 
         // Add a homework
-            AddHomework(_CodementorsJournal);
-
+            //AddHomework(_CodementorsJournal);
+            //AddHomework(_CodementorsJournal);
+            
             
         //************************************** 
         // Print summary
-            Console.WriteLine("Testttt");
-            Console.WriteLine(CourseDay.DaysOfCourse());
-            Console.WriteLine(Homework.NumberOfHomeworks());
+            PrintReport(_CodementorsJournal);
 
 
             

@@ -5,7 +5,7 @@ namespace CourseJournalMS
 {
     public class CourseDay
     {
-        private static DateTime CourseDayDate;               //add
+        private static DateTime _courseDayDate;               //add
         private static int _courseDayNumber = 0;     //!?!?
 
         public enum AttendanceOnCourse
@@ -24,14 +24,14 @@ namespace CourseJournalMS
         {
             Console.Write("{0}. {1} {2} is: ", student.OrderNumber, student.Name, student.Surname);
             Attendance = (CourseDay.AttendanceOnCourse) Enum.Parse(typeof(CourseDay.AttendanceOnCourse), Console.ReadLine());
-            DayOrderNumber = _courseDayNumber+1;
-            DayOfClasses = CourseDayDate;
+            DayOrderNumber = _courseDayNumber + 1;
+            DayOfClasses = _courseDayDate;
         }
 
         public static void NewCourseDay()
         {
             Console.Write("Please enter date of course day: ");
-            CourseDayDate = DateTime.Parse(Console.ReadLine());
+            _courseDayDate = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("For each student please enter p(present) or a(absent):");
         }
 

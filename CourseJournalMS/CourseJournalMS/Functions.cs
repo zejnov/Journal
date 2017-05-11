@@ -19,15 +19,14 @@ namespace CourseJournalMS
             journal.CourseLeaderName = Console.ReadLine();
             Console.Write("Course leader surname: ");
             journal.CourseLeaderSurname = Console.ReadLine();
-            Console.Write("Course start date: ");
+            Console.Write("Course start date (MM/DD/YYYY): ");
             journal.CourseStartDate = DateTime.Parse(Console.ReadLine());
-            Console.Write("Presence threshold: ");
+            Console.Write("Presence threshold(%): ");
             journal.CoursePresenceThreshold = Double.Parse((Console.ReadLine()));
-            Console.Write("Homework threshold: ");
+            Console.Write("Homework threshold(%): ");
             journal.CourseHomeworkThreshold = Double.Parse(Console.ReadLine());
             Console.Write("Number of students: ");
             journal.CourseStudentsNumber = Int32.Parse(Console.ReadLine());
-            
         }
         
         public static void GetStudentsData(Journal journal)
@@ -51,7 +50,7 @@ namespace CourseJournalMS
             Console.Write("Enter {0} student gender(male/female): ", identifier);
             student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
             
-            journal[student.OrderNumber] = student;
+            journal[student.OrderNumber] = student;         //adding student to Dictionary
         }
 
         public static void AddDayOfCourse(Journal journal)
@@ -76,46 +75,88 @@ namespace CourseJournalMS
             Homework.IncreaseHomeworksNumber();
         }
 
+        //******************Printing report starts here************************
         public static void PrintReport(Journal journal)
         {   
             Console.Clear();
-            Console.WriteLine("{0} COURSE REPORT",journal.CourseName);
+            PrintCourseInfo(journal);
+            PrintAttendance(journal);
+            PrintHomework(journal);
+            if (Homework.NumberOfHomeworks() == 0 && CourseDay.DaysOfCourse() == 0)
+            {
+                PrintStudentList(journal);  //prints only if no days and no homeworks
+            }
+        }
+
+        public static void PrintCourseInfo(Journal journal)
+        {
+            Console.WriteLine("COURSE REPORT \n\nCourse name: {0}", journal.CourseName);
             Console.WriteLine("Course start date: {0}.", journal.CourseStartDate);
             Console.WriteLine("Course leader: {0} {1}", journal.CourseLeaderName, journal.CourseLeaderSurname);
-            Console.WriteLine("Course presence threshold {0}", journal.CoursePresenceThreshold);
-            Console.WriteLine("Course homework threshold {0}", journal.CourseHomeworkThreshold);
-           // Console.WriteLine("{0}", journal);
+            Console.WriteLine("Course presence threshold: {0}%", journal.CoursePresenceThreshold);
+            Console.WriteLine("Course homework threshold: {0}%", journal.CourseHomeworkThreshold);
+        }
 
-            foreach (var student in journal.CourseStudentsList)
+        public static void PrintAttendance(Journal journal)
+        {
+            Console.WriteLine("\nDuring the course, there were {0} classes.", CourseDay.DaysOfCourse());
+
+            if (CourseDay.DaysOfCourse() != 0)
             {
-                CheckAttendance(student.Value);
+                foreach (var student in journal.CourseStudentsList.Values)
+                {
+                    if (student.CheckStudentAttendence())
+                    {
+                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - passed",
+                            student.Name, student.Surname, student.PresentDays, CourseDay.DaysOfCourse(), 
+                            Convert.ToInt32(student.StudentAttendance));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - not passed",
+                            student.Name, student.Surname, student.PresentDays, CourseDay.DaysOfCourse(), 
+                            Convert.ToInt32(student.StudentAttendance));
+                    }
+                }
             }
-
-            foreach (var student in journal.CourseStudentsList)
-            {
-                CheckHomework(student.Value);
-            }
-
 
         }
 
-        public static void CheckAttendance(Student student)
-        {   Console.WriteLine(CourseDay.DaysOfCourse());
-            foreach (var day in student.CourseList)
+        public static void PrintHomework(Journal journal)
+        {
+            Console.WriteLine("\nDuring the course, there were {0} homeworks.", Homework.NumberOfHomeworks());
+
+            if (Homework.NumberOfHomeworks() != 0)
             {
-                if (day.Attendance == CourseDay.AttendanceOnCourse.present || day.Attendance == CourseDay.AttendanceOnCourse.p)
+                foreach (var student in journal.CourseStudentsList.Values)
                 {
-                    
+                    if (student.CheckStudentHomework())
+                    {
+                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - passed",
+                            student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints, 
+                            Convert.ToInt32(student.HomeworkPerformance));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - not passed",
+                            student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints, 
+                            Convert.ToInt32(student.HomeworkPerformance));
+                    }
                 }
             }
         }
 
-        public static void CheckHomework(Student student)
+        public static void PrintStudentList(Journal journal)
         {
-
+            Console.WriteLine("\n{0} students attend to this course:\n", journal.CourseStudentsNumber);
+            foreach (var student in journal.CourseStudentsList.Values)
+            {
+                Console.WriteLine("{0}. {1} {2}",
+                    student.OrderNumber,student.Name,student.Surname);
+            }
         }
 
-        //******************Sample data starts here**************************
+        //******************Sample data starts here****************************
         public static void SampleFullData(Journal journal, int students)
         {
             SampleYournal(journal, students);
@@ -144,8 +185,8 @@ namespace CourseJournalMS
             journal.CourseLeaderName = "Kuba";
             journal.CourseLeaderSurname = "Bulczak";
             journal.CourseStartDate = DateTime.Parse("4 / 24 / 2017");
-            journal.CoursePresenceThreshold = 80;
-            journal.CourseHomeworkThreshold = 60;
+            journal.CoursePresenceThreshold = 70;
+            journal.CourseHomeworkThreshold = 80;
             journal.CourseStudentsNumber = x;
         }
 
