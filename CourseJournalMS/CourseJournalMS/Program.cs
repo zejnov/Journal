@@ -3,56 +3,54 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace CourseJournalMS
 {
-    class Program:Functions   
+    public class Program:Functions   
     {
-        public static Journal _CodementorsJournal = new Journal();
+        public static Journal CodementorsJournal = new Journal();
+        public static bool Working = true;
         
+
         static void Main(string[] args)
         {
-        // Creatin new Journal and getting data 
-            //GetJournalData(_CodementorsJournal);
-            //GetStudentsData(_CodementorsJournal);
-            SampleFullData(_CodementorsJournal,4);
-        //**************************************
-        // Add a new day of course
-            
-            //AddDayOfCourse(_CodementorsJournal);
-            //AddDayOfCourse(_CodementorsJournal);
-            //AddDayOfCourse(_CodementorsJournal);
-            
-            
-                                                       //temp
-        //************************************** 
-        // Add a homework
-            //AddHomework(_CodementorsJournal);
-            //AddHomework(_CodementorsJournal);
-            
-            
-        //************************************** 
-        // Print summary
-            PrintReport(_CodementorsJournal);
-
-
-            
-
-        //*****************TEMP********************* 
-            
-            Console.WriteLine("Witaj!00");  //temp
-            Console.ReadKey();              //temp
+            SampleFullData(CodementorsJournal,4); //temp
+        
+            while (Working)
+            {
+                    Console.WriteLine("\n(create / sample / addday / addhome / print / clear / exit / help)");
+                    Console.Write("Please enter the name of the action: ");
+                try
+                {
+                    SwitchCommand(GetCommandFromUser());
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bad data format, please try again...");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("It is too big for this program, sorry.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Some unexpected error occured!");
+                    throw;
+                }
+            }//while Working
+            //*****************TEMP********************* 
         }
     }
 }
 
-
-
-
 /*
-        Pamiętać:
-        Zrobić drukowanie raportu
-        (brak list i prac, tylko lista osób)
+        Pamiętać opcjonalnie:
         
-        Zrobić Main SWITCH
-        Dodać "TRY" przy wczytywaniu danych WSZYSTKICH!
+        Czy pytać na wejsciu czy nowy czy sample?
+        Zostawićdomyślny sample, czy nie?
+        Jeśli nie to blokada:
+        dodania dnia
+        pracy domowej
+        drukowania raportu
+        w przypadku braku studentów / nie stworzenia dziennika.....<<<<<======
 
 
 

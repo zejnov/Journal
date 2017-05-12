@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourseJournalMS
 {
@@ -39,7 +36,7 @@ namespace CourseJournalMS
             }
             StudentAttendance = 100 * PresentDays / CourseDay.DaysOfCourse();
 
-            if (StudentAttendance >= Program._CodementorsJournal.CoursePresenceThreshold)
+            if (StudentAttendance >= Program.CodementorsJournal.CoursePresenceThreshold)
             return true;
             return false;
         }
@@ -57,7 +54,7 @@ namespace CourseJournalMS
 
             HomeworkPerformance = 100 * HomeworkPoints / HomeworkMaxPoints;
 
-            if (HomeworkPerformance >= Program._CodementorsJournal.CourseHomeworkThreshold )
+            if (HomeworkPerformance >= Program.CodementorsJournal.CourseHomeworkThreshold )
             return true;
             return false;
         }
