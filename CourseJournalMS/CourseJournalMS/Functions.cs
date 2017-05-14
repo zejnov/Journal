@@ -99,29 +99,39 @@ namespace CourseJournalMS
         public static void GetStudentsData(Journal journal)
         {//getting students data in order of number of students in course given
             journal.CourseStudentsList.Clear();
-
-            for (int i = 1; i <= journal.CourseStudentsNumber; i++)
+            int i = 1;
+            while (i <= journal.CourseStudentsNumber)
             {
-                GetPersonalStudentData(i,journal.CourseStudentsList);
+                i = GetPersonalStudentData(i,journal.CourseStudentsList);
             }
 
             Journal.SetCourseActive();
         }
         
-        public static void GetPersonalStudentData(int identifier, Dictionary<int,Student> journal)
+        public static int GetPersonalStudentData(int identifier, Dictionary<int,Student> journal)
         {//getting students data
-            Student student = new Student();
-            student.OrderNumber = identifier;
-            Console.Write("Enter {0} student name: ", identifier);
-            student.Name = Console.ReadLine();
-            Console.Write("Enter {0} student surname: ", identifier);
-            student.Surname = Console.ReadLine();
-            Console.Write("Enter {0} student birth date: ", identifier);
-            student.BirthDate = DateTime.Parse(Console.ReadLine());
-            Console.Write("Enter {0} student gender(male/female): ", identifier);
-            student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
-            
-            journal[student.OrderNumber] = student;         //adding student to Dictionary
+            try
+            {
+                Student student = new Student();
+                student.OrderNumber = identifier;
+                Console.Write("Enter {0} student name: ", identifier);
+                student.Name = Console.ReadLine();
+                Console.Write("Enter {0} student surname: ", identifier);
+                student.Surname = Console.ReadLine();
+                Console.Write("Enter {0} student birth date: ", identifier);
+                student.BirthDate = DateTime.Parse(Console.ReadLine());
+                Console.Write("Enter {0} student gender(male/female): ", identifier);
+                student.Gender = (Student.GenderType) Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
+
+                journal[student.OrderNumber] = student; //adding student to Dictionary
+                return ++identifier;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Bad data format, please try again...");
+                //throw;
+            }
+            return identifier;
         }
 
         public static void AddDayOfCourse(Journal journal)

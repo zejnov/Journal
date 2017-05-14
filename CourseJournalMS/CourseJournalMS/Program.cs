@@ -8,7 +8,6 @@ namespace CourseJournalMS
         public static Journal CodementorsJournal = new Journal();
         public static bool Working = true;
         
-
         static void Main(string[] args)
         {
             while (Working)
