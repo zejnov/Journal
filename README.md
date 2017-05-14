@@ -11,7 +11,8 @@
 ### What is this repository for? ###
 
 * Quick summary
-* Version
+Journal for course, where you can create a list of students, add day of classes, add homeworks and print report
+* Version 1.01
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
