@@ -39,8 +39,6 @@ namespace CourseJournalMS
 }
 
 /*
-        Pamiętać opcjonalnie:
-        
         Blokada:
         dodania dnia
         pracy domowej
