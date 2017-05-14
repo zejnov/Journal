@@ -98,10 +98,14 @@ namespace CourseJournalMS
 
         public static void GetStudentsData(Journal journal)
         {//getting students data in order of number of students in course given
+            journal.CourseStudentsList.Clear();
+
             for (int i = 1; i <= journal.CourseStudentsNumber; i++)
             {
                 GetPersonalStudentData(i,journal.CourseStudentsList);
             }
+
+            Journal.SetCourseActive();
         }
         
         public static void GetPersonalStudentData(int identifier, Dictionary<int,Student> journal)
@@ -122,24 +126,38 @@ namespace CourseJournalMS
 
         public static void AddDayOfCourse(Journal journal)
         {
-            CourseDay.NewCourseDay();
-            foreach (var student in journal.CourseStudentsList)
+            if (Journal.CourseActive())
             {
-                CourseDay courseDay = new CourseDay(student.Value);
-                student.Value.CourseList.Add(courseDay);
+                CourseDay.NewCourseDay();
+                foreach (var student in journal.CourseStudentsList)
+                {
+                    CourseDay courseDay = new CourseDay(student.Value);
+                    student.Value.CourseList.Add(courseDay);
+                }
+                CourseDay.IncreaseCourseDayNumber();
             }
-            CourseDay.IncreaseCourseDayNumber();
+            else
+            {
+                Console.WriteLine("\nCould not add day of course if there is no course!");
+            }
         }
 
         public static void AddHomework(Journal journal)
         {
-            Homework.NewHomework();
-            foreach (var student in journal.CourseStudentsList)
+            if (Journal.CourseActive())
             {
-                Homework homework = new Homework(student.Value);
-                student.Value.HomeworksList.Add(homework);
+                Homework.NewHomework();
+                foreach (var student in journal.CourseStudentsList)
+                {
+                    Homework homework = new Homework(student.Value);
+                    student.Value.HomeworksList.Add(homework);
+                }
+                Homework.IncreaseHomeworksNumber();
             }
-            Homework.IncreaseHomeworksNumber();
+            else
+            {
+                Console.WriteLine("\nCould not add homework if there is no course!");
+            }
         }
         
         //******************Some MAIN functions********************************
@@ -184,7 +202,7 @@ namespace CourseJournalMS
         {
             switch (command)
             {
-#region         Command types   
+#region         Command types on short list   
                 //    none,
                 //    create,
                 //    sample,
@@ -258,20 +276,33 @@ namespace CourseJournalMS
             journal.CoursePresenceThreshold = 1;
             journal.CourseHomeworkThreshold = 1;
             journal.CourseStudentsNumber = 1;
+
+            journal.CourseStudentsList.Clear();
+            CourseDay.ResetCoursDayNumber();
+            Homework.ResetHomeworkNumber();
+            Journal.ResetCourseActive();
         }
 
         //******************Printing report starts here************************
         public static void PrintReport(Journal journal)
         {   
             Console.Clear();
-            PrintCourseInfo(journal);
-            PrintAttendance(journal);
-            PrintHomework(journal);
-            if (Homework.NumberOfHomeworks() == 0 && CourseDay.DaysOfCourse() == 0)
+            if (Journal.CourseActive())
             {
-                PrintStudentList(journal);  //prints only if no days and no homeworks
+                PrintCourseInfo(journal);
+                PrintAttendance(journal);
+                PrintHomework(journal);
+                if (Homework.NumberOfHomeworks() == 0 && CourseDay.DaysOfCourse() == 0)
+                {
+                    PrintStudentList(journal);  //prints only if no days and no homeworks
+                }
+                Console.WriteLine("\n\n");
             }
-            Console.WriteLine("\n\n");
+            else
+            {
+                Console.WriteLine("\nThere is nothing to print...");
+            }
+            
         }
 
         public static void PrintCourseInfo(Journal journal)
@@ -291,18 +322,19 @@ namespace CourseJournalMS
             {
                 foreach (var student in journal.CourseStudentsList.Values)
                 {
+                    string result;
                     if (student.CheckStudentAttendence())
                     {
-                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - passed",
-                            student.Name, student.Surname, student.PresentDays, CourseDay.DaysOfCourse(), 
-                            Convert.ToInt32(student.StudentAttendance));
+                        result = "passed";
                     }
                     else
                     {
-                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - not passed",
-                            student.Name, student.Surname, student.PresentDays, CourseDay.DaysOfCourse(), 
-                            Convert.ToInt32(student.StudentAttendance));
+                        result = "not passed";
                     }
+
+                    Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - " + result,
+                        student.Name, student.Surname, student.PresentDays, CourseDay.DaysOfCourse(),
+                        Convert.ToInt32(student.StudentAttendance));
                 }
             }
 
@@ -316,18 +348,19 @@ namespace CourseJournalMS
             {
                 foreach (var student in journal.CourseStudentsList.Values)
                 {
+                    string result;
                     if (student.CheckStudentHomework())
                     {
-                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - passed",
-                            student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints, 
-                            Convert.ToInt32(student.HomeworkPerformance));
+                        result = "passed";
                     }
                     else
                     {
-                        Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - not passed",
-                            student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints, 
-                            Convert.ToInt32(student.HomeworkPerformance));
+                        result = "not passed";
                     }
+
+                    Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - " + result,
+                        student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints,
+                        Convert.ToInt32(student.HomeworkPerformance));
                 }
             }
         }
@@ -344,24 +377,29 @@ namespace CourseJournalMS
 
         public static void PrintHelp()
         {
-            Console.WriteLine("\n      HELP!");
-            Console.WriteLine("\ncreate  - creating a new journal" +
-                              "\nsample  - loading some sample journal to print report" +
+            Console.Clear();
+            Console.WriteLine("\nWELCOME TO HELP!");
+            Console.WriteLine("\ncreate  - creating a new journal (removes previous data)" +
+                              "\n          the course is active once all students data has been entered" +
+                              "\nsample  - loading some sample journal to print report (removes previous data)" +
                               "\naddday  - adding a day of classes to course" +
                               "\naddhome - adding homework to course" +
                               "\nprint   - printing course report" +
                               "\nclear   - clearing the console" +
                               "\nexit    - exit console" +
                               "\nhelp    - is exactly where you are :)");
-            Console.WriteLine("\n\n\nzejnov/2017\n\n");
+            Console.WriteLine("\n\nzejnov/2017\n");
         }
 
         //******************Sample data starts here****************************
         public static void SampleFullData(Journal journal, int students)
         {
-            journal.CourseStudentsList.Clear();     //prevent some errors
+            ClearJournalData(journal);     //prevent some errors
+
             SampleYournal(journal, students);
             SampleStudentsData(journal.CourseStudentsList,journal.CourseStudentsNumber);
+            Journal.SetCourseActive();
+            Console.WriteLine("\nSample journal loaded succesfully!");
         }
 
         public static void SampleStudentsData(Dictionary<int, Student> journal, int x)

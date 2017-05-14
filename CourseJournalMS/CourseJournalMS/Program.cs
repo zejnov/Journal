@@ -11,8 +11,6 @@ namespace CourseJournalMS
 
         static void Main(string[] args)
         {
-            SampleFullData(CodementorsJournal,4); //temp
-        
             while (Working)
             {
                     Console.WriteLine("\n(create / sample / addday / addhome / print / clear / exit / help)");
@@ -36,7 +34,6 @@ namespace CourseJournalMS
                     throw;
                 }
             }//while Working
-            //*****************TEMP********************* 
         }
     }
 }
@@ -44,15 +41,9 @@ namespace CourseJournalMS
 /*
         Pamiętać opcjonalnie:
         
-        Czy pytać na wejsciu czy nowy czy sample?
-        Zostawićdomyślny sample, czy nie?
-        Jeśli nie to blokada:
+        Blokada:
         dodania dnia
         pracy domowej
         drukowania raportu
-        w przypadku braku studentów / nie stworzenia dziennika.....<<<<<======
-
-
-
-
+             w przypadku braku studentów / nie stworzeniu dziennika...
  */

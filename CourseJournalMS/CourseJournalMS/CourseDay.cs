@@ -5,7 +5,7 @@ namespace CourseJournalMS
 {
     public class CourseDay
     {
-        private static DateTime _courseDayDate;               //add
+        private static DateTime _courseDayDate;      //add
         private static int _courseDayNumber = 0;     //!?!?
 
         public enum AttendanceOnCourse
@@ -64,6 +64,11 @@ namespace CourseJournalMS
         public static int DaysOfCourse()
         {
             return _courseDayNumber;
+        }
+
+        public static void ResetCoursDayNumber()
+        {
+            _courseDayNumber = 0;
         }
 
     }

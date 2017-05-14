@@ -72,5 +72,10 @@ namespace CourseJournalMS
         {
         return _numberOfHomeworks;
         }
+
+        public static void ResetHomeworkNumber()
+        {
+            _numberOfHomeworks = 0;
+        }
     }
 }

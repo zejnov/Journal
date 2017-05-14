@@ -16,5 +16,24 @@ namespace CourseJournalMS
         public int CourseStudentsNumber;
 
         public Dictionary<int,Student> CourseStudentsList = new Dictionary<int, Student>();
+
+        //for protection to not print report of the empty journal
+        private static bool _courseActive = false;
+
+        public static bool CourseActive()
+        {
+            return _courseActive;
+        }
+
+        public static void SetCourseActive()
+        {
+            _courseActive = true;
+        }
+
+        public static void ResetCourseActive()
+        {
+            _courseActive = false;
+        }
+
     }
 }

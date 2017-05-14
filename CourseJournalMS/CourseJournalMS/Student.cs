@@ -16,7 +16,7 @@ namespace CourseJournalMS
         public string Name, Surname;
         public DateTime BirthDate;
         public GenderType Gender;
-        public List<CourseDay> CourseList = new List<CourseDay>(); // attendance list
+        public List<CourseDay> CourseList = new List<CourseDay>();  //attendance list
         public List<Homework> HomeworksList = new List<Homework>(); //homework list
         public int PresentDays;
         public double StudentAttendance, HomeworkPerformance;
