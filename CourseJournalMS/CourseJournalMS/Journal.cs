@@ -19,6 +19,7 @@ namespace CourseJournalMS
 
         //for protection to not print report of the empty journal
         private static bool _courseActive = false;
+        private static bool _courseCreated = false;
 
         public static bool CourseActive()
         {
@@ -33,6 +34,21 @@ namespace CourseJournalMS
         public static void ResetCourseActive()
         {
             _courseActive = false;
+        }
+
+        public static void SetCourseCreated()
+        {
+            _courseActive = true;
+        }
+
+        public static void ResetCourseCreated()
+        {
+            _courseActive = false;
+        }
+
+        public static bool CourseCreatedStatus()
+        {
+            return _courseCreated;
         }
 
     }

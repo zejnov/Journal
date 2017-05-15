@@ -33,7 +33,9 @@ namespace CourseJournalMS
             {
                 try
                 {
-                    Attendance = (CourseDay.AttendanceOnCourse)Enum.Parse(typeof(CourseDay.AttendanceOnCourse), Console.ReadLine());
+                    Attendance =
+                        (CourseDay.AttendanceOnCourse) Enum.Parse(typeof(CourseDay.AttendanceOnCourse),
+                            Console.ReadLine());
 
                     if (Attendance != AttendanceOnCourse.none)
                         parameterOk = true;
@@ -42,18 +44,54 @@ namespace CourseJournalMS
                         Console.Write("Bad entry, please try again: ");
                     }
                 }
+                catch (ArgumentException e)
+                {
+                    Console.Write("Bad entry, please try p(present) or a(absent): ");
+                }
+                catch (FormatException e)
+                {
+                    Console.Write("Bad data format, please try again...");
+                }
+                catch (OverflowException e)
+                {
+                    Console.Write("It is too big for this program, sorry.");
+                }
                 catch (Exception e)
                 {
-                    Console.Write("Bad entry, please try again: ");
+                    Console.WriteLine(e);
+                    Console.WriteLine("Some unexpected error occured!");
                 }
             } while (!parameterOk);
         }
 
         public static void NewCourseDay()
         {
-            Console.Write("Please enter date of course day: ");
-            _courseDayDate = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("For each student please enter p(present) or a(absent):");
+            bool parameterOk = false;
+
+            do
+            {
+                try
+                {
+                    Console.Write("Please enter date of course day: ");
+                    _courseDayDate = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("For each student please enter p(present) or a(absent):");
+                    parameterOk = true;
+                }
+
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bad data format, please try again...");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("It is too big for this program, sorry.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Some unexpected error occured!");
+                }
+            } while (!parameterOk);
         }
 
         public static void IncreaseCourseDayNumber()

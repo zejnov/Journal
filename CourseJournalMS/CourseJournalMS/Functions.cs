@@ -15,8 +15,8 @@ namespace CourseJournalMS
         {//getting basic journal data
             ClearJournalData(journal);
 
-            //try
-            //{
+            try
+            {
                 Console.WriteLine("Please provide the following fields.");
                 Console.Write("Course name: ");
                 journal.CourseName = Console.ReadLine();
@@ -24,12 +24,37 @@ namespace CourseJournalMS
                 journal.CourseLeaderName = Console.ReadLine();
                 Console.Write("Course leader surname: ");
                 journal.CourseLeaderSurname = Console.ReadLine();
-                Console.Write("Course start date (MM/DD/YYYY): ");
-                journal.CourseStartDate = DateTime.Parse(Console.ReadLine());
 
+                bool dateOk = false;
                 bool presenceOk = false;
                 bool homeworkOk = false;
                 bool studentsOk = false;
+
+                do
+                {
+                    try
+                    {
+                        Console.Write("Course start date (MM/DD/YYYY): ");
+                        journal.CourseStartDate = DateTime.Parse(Console.ReadLine());
+                        dateOk = true;
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("Bad data format, please try again...");
+                    }
+                    catch (OverflowException e)
+                    {
+                        Console.WriteLine("It is too big for this program, sorry.");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        Console.WriteLine("Some unexpected error occured!");
+                    }
+                } while (!dateOk);
+                
+
+                
 
                 Console.Write("Presence threshold(%): ");
                 do
@@ -73,39 +98,46 @@ namespace CourseJournalMS
                     }
 
                 } while (!studentsOk);
-            //}
+                
+                Journal.SetCourseCreated();
+            }//try
+            
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine("Bad command, please try again...");
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bad data format, please try again...");
+                }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("It is too big for this program, sorry.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Unexpected error occured!");
+                }
 
-
-            //catch (ArgumentException e)
-            //{
-            //    Console.WriteLine("Bad command, please try again...");
-            //}
-            //catch (FormatException e)
-            //{
-            //    Console.WriteLine("Bad data format, please try again...");
-            //}
-            //catch (OverflowException e)
-            //{
-            //    Console.WriteLine("It is too big for this program, sorry.");
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    Console.WriteLine("Unexpected error occured!");
-            //   // throw;
-            //}
         }
 
         public static void GetStudentsData(Journal journal)
         {//getting students data in order of number of students in course given
             journal.CourseStudentsList.Clear();
             int i = 1;
-            while (i <= journal.CourseStudentsNumber)
+
+            if (Journal.CourseCreatedStatus())
             {
-                i = GetPersonalStudentData(i,journal.CourseStudentsList);
+                while (i <= journal.CourseStudentsNumber)
+                {
+                    i = GetPersonalStudentData(i, journal.CourseStudentsList);
+                }
+
+                Journal.SetCourseActive();
             }
 
-            Journal.SetCourseActive();
+            
         }
         
         public static int GetPersonalStudentData(int identifier, Dictionary<int,Student> journal)
@@ -125,6 +157,14 @@ namespace CourseJournalMS
 
                 journal[student.OrderNumber] = student; //adding student to Dictionary
                 return ++identifier;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Bad data format, please try again...");
+            }
+            catch (OverflowException e)
+            {
+                Console.WriteLine("It is too big for this program, sorry.");
             }
             catch (Exception e)
             {
@@ -291,6 +331,7 @@ namespace CourseJournalMS
             CourseDay.ResetCoursDayNumber();
             Homework.ResetHomeworkNumber();
             Journal.ResetCourseActive();
+            Journal.ResetCourseCreated();
         }
 
         //******************Printing report starts here************************

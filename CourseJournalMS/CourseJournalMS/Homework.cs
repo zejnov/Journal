@@ -25,19 +25,36 @@ namespace CourseJournalMS
             Console.Write("{0}. {1} {2} get: ", student.OrderNumber, student.Name, student.Surname);
             do
             {
-            StudentHomeworkPoints =  Int32.Parse(Console.ReadLine());
-                if (StudentHomeworkPoints >= 0 && StudentHomeworkPoints <= MaxHomeworkPoints)
+                try
                 {
-                    parameterOk = true;
+                    StudentHomeworkPoints = Int32.Parse(Console.ReadLine());
+                    if (StudentHomeworkPoints >= 0 && StudentHomeworkPoints <= MaxHomeworkPoints)
+                    {
+                        parameterOk = true;
+                    }
+                    else if (StudentHomeworkPoints > MaxHomeworkPoints)
+                    {
+                        Console.Write("Student can not get more points than max, please try again: ");
+                    }
+                    else
+                    {
+                        Console.Write("Bad range of number, please try again: ");
+                    }
                 }
-                else if(StudentHomeworkPoints > MaxHomeworkPoints)
+                catch (FormatException e)
                 {
-                    Console.Write("Student can not get more points than max, please try again: ");
-                }    
-                else
-                {
-                    Console.Write("Bad range of number, please try again: ");
+                    Console.WriteLine("Bad data format, please try again...");
                 }
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("It is too big for this program, sorry.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Some unexpected error occured!");
+                }
+
             } while (!parameterOk);
         }
     
@@ -48,16 +65,31 @@ namespace CourseJournalMS
             Console.Write("Please enter the maximum number of points for this homework: ");
             do
             {
-            _maxHomeworkPoints = Int32.Parse(Console.ReadLine());
-                if (_maxHomeworkPoints > 0)
+                try
                 {
-                    parameterOk = true;
+                    _maxHomeworkPoints = Int32.Parse(Console.ReadLine());
+                    if (_maxHomeworkPoints > 0)
+                    {
+                        parameterOk = true;
+                    }
+                    else
+                    {
+                        Console.Write("Bad range of number, please try again: ");
+                    }
                 }
-                else
+                catch (FormatException e)
                 {
-                    Console.Write("Bad range of number, please try again: ");
+                    Console.WriteLine("Bad data format, please try again...");
                 }
-                
+                catch (OverflowException e)
+                {
+                    Console.WriteLine("It is too big for this program, sorry.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Console.WriteLine("Some unexpected error occured!");
+                }
             } while (!parameterOk);
 
             Console.WriteLine("For each student please enter the number of points earned: ");
