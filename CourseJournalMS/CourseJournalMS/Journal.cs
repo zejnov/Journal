@@ -38,12 +38,12 @@ namespace CourseJournalMS
 
         public static void SetCourseCreated()
         {
-            _courseActive = true;
+            _courseCreated = true;
         }
 
         public static void ResetCourseCreated()
         {
-            _courseActive = false;
+            _courseCreated = false;
         }
 
         public static bool CourseCreatedStatus()

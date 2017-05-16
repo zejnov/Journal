@@ -79,11 +79,11 @@ namespace CourseJournalMS
                 }
                 catch (FormatException e)
                 {
-                    Console.WriteLine("Bad data format, please try again...");
+                    Console.Write("Bad data format, please try again: ");
                 }
                 catch (OverflowException e)
                 {
-                    Console.WriteLine("It is too big for this program, sorry.");
+                    Console.Write("It is too big for this program, please try again: ");
                 }
                 catch (Exception e)
                 {
