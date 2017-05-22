@@ -22,7 +22,7 @@ namespace CourseJournalMS
         public double StudentAttendance, HomeworkPerformance;
         public int HomeworkPoints, HomeworkMaxPoints;
 
-        public bool CheckStudentAttendence()
+        public bool CheckStudentAttendence(Course course)
         {
             PresentDays = 0;
                 
@@ -36,12 +36,12 @@ namespace CourseJournalMS
             }
             StudentAttendance = 100 * PresentDays / CourseDay.DaysOfCourse();
 
-            if (StudentAttendance >= Program.CodementorsJournal.CoursePresenceThreshold)
+            if (StudentAttendance >= course.PresenceThreshold)
             return true;
             return false;
         }
 
-        public bool CheckStudentHomework()
+        public bool CheckStudentHomework(Course course)
         {
             HomeworkMaxPoints = 0;
             HomeworkPoints = 0;
@@ -54,7 +54,7 @@ namespace CourseJournalMS
 
             HomeworkPerformance = 100 * HomeworkPoints / HomeworkMaxPoints;
 
-            if (HomeworkPerformance >= Program.CodementorsJournal.CourseHomeworkThreshold )
+            if (HomeworkPerformance >= course.HomeworkThreshold )
             return true;
             return false;
         }
