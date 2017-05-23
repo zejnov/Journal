@@ -10,16 +10,23 @@ namespace CourseJournalMS
 {
     public class Program
     {
-        public static Dictionary<int, Course> Journal = new Dictionary<int, Course>();
+        public static Dictionary<int, Course> Journal = new Dictionary<int, Course>();  //main Journal of program
         
-        public static Course CodementorsJournal = new Course();
+        //public static Course CodementorsJournal = new Course();   //old stuff
 
         static void Main(string[] args)
         {
             new Journal().Run();
         }
 
-        
+        /*
+         *TODO sprawdzanie homeworku po ilości wpisów w liście (obecności podobnie) 
+         * 
+        //TODO drukowanie listy studentów przy braku prac i obecności
+ 
+         *TODO pousuwać komentarze w Homework i CourseDay 
+         */
+
         /*
         Uwagi nie wplywajace na ocene:
 courseday - klasa jest wporzadku i posiada zupelnie niepotrzebne pola i metody statyczne
@@ -31,9 +38,17 @@ homework - to samo co w courseday
 ogolnie polecam Ci uproscic kod i popozbywac sie tych statycznych pol i metod ktore sa niepotrzebne
  */
 
+        //Szablon
+        //public int GetInt(string message, int minValue, int maxValue)
+        //{
+        //    int result;
+
+        //    return result;
+        //}
 
 
-////////////////////////DELETEEEEEEEEEEEEEEEEEE
+
+        ////////////////////////DELETEEEEEEEEEEEEEEEEEE
 
 
 

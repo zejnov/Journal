@@ -18,23 +18,25 @@ namespace CourseJournalMS
         public GenderType Gender;
         public List<CourseDay> CourseList = new List<CourseDay>();  //attendance list
         public List<Homework> HomeworksList = new List<Homework>(); //homework list
-        public int PresentDays;
+        public int PresentDays, PassedDays;
         public double StudentAttendance, HomeworkPerformance;
         public int HomeworkPoints, HomeworkMaxPoints;
 
         public bool CheckStudentAttendence(Course course)
         {
             PresentDays = 0;
+            PassedDays = 0;
                 
             foreach (var day in CourseList)
             {
+                PassedDays++;
                 if (day.Attendance == CourseDay.AttendanceOnCourse.present ||
                     day.Attendance == CourseDay.AttendanceOnCourse.p)
                 {
                     PresentDays++;
                 }
             }
-            StudentAttendance = 100 * PresentDays / CourseDay.DaysOfCourse();
+            StudentAttendance = 100 * PresentDays / PassedDays;
 
             if (StudentAttendance >= course.PresenceThreshold)
             return true;

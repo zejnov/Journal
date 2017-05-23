@@ -8,20 +8,14 @@ namespace CourseJournalMS
 {
     public class Homework
     {
-        private static int _maxHomeworkPoints = 0;
-        private static int _numberOfHomeworks = 0;
-
         public int StudentHomeworkPoints;
         public int MaxHomeworkPoints;
-        public int HomeworkOrderNumber;
         
-
-        public Homework(Student student)    //creator!
+        public Homework(Student student, int maxHomeworkPoints)    //creator!
         {
             bool parameterOk = false;
-            MaxHomeworkPoints = _maxHomeworkPoints;
-            HomeworkOrderNumber = _numberOfHomeworks + 1;
-
+            MaxHomeworkPoints = maxHomeworkPoints;
+            
             Console.Write("{0}. {1} {2} get: ", student.OrderNumber, student.Name, student.Surname);
             do
             {
@@ -57,57 +51,6 @@ namespace CourseJournalMS
 
             } while (!parameterOk);
         }
-    
-        public static void NewHomework()
-        {
-            bool parameterOk = false;
-
-            Console.Write("Please enter the maximum number of points for this homework: ");
-            do
-            {
-                try
-                {
-                    _maxHomeworkPoints = Int32.Parse(Console.ReadLine());
-                    if (_maxHomeworkPoints > 0)
-                    {
-                        parameterOk = true;
-                    }
-                    else
-                    {
-                        Console.Write("Bad range of number, please try again: ");
-                    }
-                }
-                catch (FormatException e)
-                {
-                    Console.Write("Bad data format, please try again: ");
-                }
-                catch (OverflowException e)
-                {
-                    Console.Write("It is too big for this program, please try again: ");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Some unexpected error occured!");
-                }
-            } while (!parameterOk);
-
-            Console.WriteLine("For each student please enter the number of points earned: ");
-        }
-
-        public static void IncreaseHomeworksNumber()
-        {
-            _numberOfHomeworks++;
-        }
-
-        public static int NumberOfHomeworks()
-        {
-        return _numberOfHomeworks;
-        }
-
-        public static void ResetHomeworkNumber()
-        {
-            _numberOfHomeworks = 0;
-        }
+        
     }
 }
