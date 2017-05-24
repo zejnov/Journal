@@ -11,7 +11,6 @@ namespace CourseJournalMS
         private static int _numberOfCreatedCourses = 0;
         public static int ChoosenCourse = 0;
 
-        //public static int ActiveCourseId = 0;
         public int Id;
         public string Name;
         public string LeaderName, CourseLeaderSurname;
@@ -68,7 +67,7 @@ namespace CourseJournalMS
         }
 
 
-        //********Homework********
+        //********Homework i ClasesDay********
         public int MaxHomeworkPoints = 0;
         public int NumberOfHomeworks = 0;
         public int NumberOfClasesDays = 0;
@@ -115,15 +114,16 @@ namespace CourseJournalMS
             NumberOfHomeworks++;
         }
 
+        public void NewCourseDay()
+        {
+            Console.WriteLine("For each student please enter p(present) or a(absent):");
+        }
+
         public void IncreaseClasesDaysNumber()
         {
             NumberOfClasesDays++;
         }
         
-        public void NewCourseDay()
-        {
-            Console.WriteLine("For each student please enter p(present) or a(absent):");
-        }
 
 
     }

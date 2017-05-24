@@ -282,37 +282,43 @@ namespace CourseJournalMS
 
         public void AddDayOfCourse(Course course)
         {
-            if (course.CourseIsActive())
+            if (Program.Journal.Count != 0)
             {
-                course.NewCourseDay();   //tylko napis
-                foreach (var student in course.CourseStudentsList)
+                if (course.CourseIsActive())
                 {
-                    CourseDay courseDay = new CourseDay(student.Value);
-                    student.Value.CourseList.Add(courseDay);
+                    course.NewCourseDay();   //tylko napis
+                    foreach (var student in course.CourseStudentsList)
+                    {
+                        CourseDay courseDay = new CourseDay(student.Value);
+                        student.Value.AttendanceList.Add(courseDay);
+                    }
+                    course.IncreaseClasesDaysNumber();  //statsy
                 }
-                course.IncreaseClasesDaysNumber();  //statsy
             }
             else
             {
-                Console.WriteLine("\nCould not add day of course if there is no course!");
+                Console.WriteLine("Could not add day of course if there is no course!");
             }
         }
 
         public void AddHomework(Course course)
         {
-            if (course.CourseIsActive())
+            if (Program.Journal.Count != 0)
             {
-                course.NewHomework();  //setting max points value
-                foreach (var student in course.CourseStudentsList)
+                if (course.CourseIsActive())
                 {
-                    Homework homework = new Homework(student.Value, course.MaxHomeworkPoints);
-                    student.Value.HomeworksList.Add(homework);
+                    course.NewHomework(); //setting max points value
+                    foreach (var student in course.CourseStudentsList)
+                    {
+                        Homework homework = new Homework(student.Value, course.MaxHomeworkPoints);
+                        student.Value.HomeworksList.Add(homework);
+                    }
+                    course.IncreaseHomeworksNumber(); //some stats... lepiej z ilości w liście?
                 }
-                course.IncreaseHomeworksNumber();  //some stats... lepiej z ilości w liście?
             }
             else
             {
-                Console.WriteLine("\nCould not add homework if there is no course!");
+                Console.WriteLine("Could not add homework if there is no course!");
             }
         }
 
@@ -519,6 +525,27 @@ namespace CourseJournalMS
             Console.WriteLine("Course homework threshold: {0}%", course.HomeworkThreshold);
         }
 
+        public bool CheckStudentAttendence(Course course, Student student)
+        {
+            int presentDays = 0;
+            
+            foreach (var day in student.AttendanceList)
+            {
+                if (day.Attendance == CourseDay.AttendanceOnCourse.present ||
+                    day.Attendance == CourseDay.AttendanceOnCourse.p)
+                {
+                    presentDays++;
+                }
+            }
+            int studentAttendance = 100 * presentDays / student.AttendanceList.Count;
+            student.PresentDays = presentDays;
+            student.StudentAttendance = studentAttendance;
+
+            if (studentAttendance >= course.PresenceThreshold)
+                return true;
+            return false;
+        }
+
         public void PrintAttendance(Course course)
         {
             Console.WriteLine("\nDuring the course, there were {0} classes.", course.NumberOfClasesDays);
@@ -528,7 +555,7 @@ namespace CourseJournalMS
                 foreach (var student in course.CourseStudentsList.Values)
                 {
                     string result;
-                    if (student.CheckStudentAttendence(ActiveCourse()))
+                    if (CheckStudentAttendence(ActiveCourse(), student))
                     {
                         result = "passed";
                     }
@@ -538,11 +565,31 @@ namespace CourseJournalMS
                     }
 
                     Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - " + result,
-                        student.Name, student.Surname, student.PresentDays, course.NumberOfClasesDays,
+                        student.Name, student.Surname, student.PresentDays, student.AttendanceList.Count,
                         Convert.ToInt32(student.StudentAttendance));
                 }
             }
 
+        }
+
+        public bool CheckStudentHomework(Course course, Student student)
+        {
+            int homeworkMaxPoints = 0;
+            int homeworkPoints = 0;
+
+            foreach (var homework in student.HomeworksList)
+            {
+                homeworkMaxPoints += homework.MaxHomeworkPoints;
+                homeworkPoints += homework.StudentHomeworkPoints;
+            }
+
+            double homeworkPerformance = 100 * homeworkPoints / homeworkMaxPoints;
+            student.HomeworkPoints = homeworkPoints;
+            student.HomeworkMaxPoints = homeworkMaxPoints;
+            student.HomeworkPerformance = homeworkPerformance;
+            if (homeworkPerformance >= course.HomeworkThreshold)
+                return true;
+            return false;
         }
 
         public void PrintHomework(Course course)
@@ -554,7 +601,7 @@ namespace CourseJournalMS
                 foreach (var student in course.CourseStudentsList.Values)
                 {
                     string result;
-                    if (student.CheckStudentHomework(ActiveCourse()))
+                    if (CheckStudentHomework(ActiveCourse(), student))
                     {
                         result = "passed";
                     }
