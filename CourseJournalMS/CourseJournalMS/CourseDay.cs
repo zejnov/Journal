@@ -20,7 +20,7 @@ namespace CourseJournalMS
         {
             bool parameterOk = false;
             
-            Console.Write("{0}. {1} {2} is: ", student.OrderNumber, student.Name, student.Surname);
+            Console.Write("{0}. {1} {2} is: ", student.Id, student.Name, student.Surname);
 
             do
             {

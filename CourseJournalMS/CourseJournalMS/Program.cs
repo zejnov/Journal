@@ -11,7 +11,7 @@ namespace CourseJournalMS
     public class Program
     {
         public static Dictionary<int, Course> Journal = new Dictionary<int, Course>();  //main Journal of program
-        
+        public static Dictionary<int, Student> StudentsList = new Dictionary<int, Student>();  //List of students
         //public static Course CodementorsJournal = new Course();   //old stuff
 
         static void Main(string[] args)

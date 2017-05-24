@@ -12,10 +12,16 @@ namespace CourseJournalMS
     {
         public Course ActiveCourse()
         {
-            /*Console.WriteLine(Course.ChoosenCourse);*/  //temp
-            //return Program.CodementorsJournal;
-            return Program.Journal[Course.ChoosenCourse];
-        }
+            if (Program.Journal.Count != 0)
+            {
+                return Program.Journal[Course.ChoosenCourse];
+            }
+            else
+            {
+                Console.WriteLine("There is no course in journal");
+                return null;
+            }
+        }  //return choosen course
 
         public void SetActiveCourse(int id)
         {
@@ -76,7 +82,7 @@ namespace CourseJournalMS
                     return result;
         }
 
-        //TODO GetDouble, GetData, Get...
+        //TODO GetDouble, GetData, GetString, Get...
 
         //******************Basic functionality********************************
         public void CreateNewCourse()
@@ -85,7 +91,7 @@ namespace CourseJournalMS
             Program.Journal.Add(course.Id,course);
             SetActiveCourse(course.Id);
             GetJournalData(course);
-            GetStudentsData(course);
+            AddStudentsToCourse(course, Program.StudentsList);
         }
 
         public void GetJournalData(Course course)
@@ -129,10 +135,7 @@ namespace CourseJournalMS
                         Console.WriteLine("Some unexpected error occured!");
                     }
                 } while (!dateOk);
-
-
-
-
+                
                 Console.Write("Presence threshold(%): ");
                 do
                 {
@@ -165,13 +168,13 @@ namespace CourseJournalMS
                 do
                 {
                     course.StudentsNumber = Int32.Parse(Console.ReadLine());
-                    if (course.StudentsNumber > 0)
+                    if (course.StudentsNumber > 0 && course.StudentsNumber <= Program.StudentsList.Count)
                     {
                         studentsOk = true;
                     }
                     else
                     {
-                        Console.Write("Number of students can not be negative or 0, please try again: ");
+                        Console.Write("Number of students should be between <1 - {0}>: ", Program.StudentsList.Count);
                     }
 
                 } while (!studentsOk);
@@ -199,41 +202,67 @@ namespace CourseJournalMS
 
         }
 
-        public void GetStudentsData(Course course)
-        {//getting students data in order of number of students in course given
-            course.CourseStudentsList.Clear();
+        public void AddStudentsToCourse(Course course, Dictionary<int, Student> studentsDictionary)
+        {//adding students to course in order of number of students in course given
+            
             int i = 1;
 
             if (course.CourseCreatedStatus())
             {
-                while (i <= course.StudentsNumber)
-                {
-                    i = GetPersonalStudentData(i, course.CourseStudentsList);
+                while (i <= course.StudentsNumber && i <= studentsDictionary.Count)
+                {     //pobieraj tak długo aż będzie dość studentów lub się skończą
+                    Console.Write("Please enter student ID: ");
+                    int id = Int32.Parse(Console.ReadLine());
+                    //TODO użyć funkcji GetInt(message...
+
+                    if (studentsDictionary.ContainsKey(id))
+                    {
+                        if (!course.CourseStudentsList.ContainsKey(id))
+                        {
+                            var student = studentsDictionary[id];
+                            course.CourseStudentsList[student.Id] = student;  //przypisanie studenta na kurs
+                            i++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Student already attend to course!");
+                        }
+                        }
+                    else
+                    {
+                        Console.WriteLine("Student not found.");
+                    }
                 }
-
-                course.SetCourseActive();
+                course.SetCourseActive();  //po dodaniu wszystkich kursantów może działać
             }
-
-
         }
-
-        public int GetPersonalStudentData(int identifier, Dictionary<int, Student> studentsDictionary)
-        {//getting students data
+        
+        public void AddStudentToList(Dictionary<int, Student> studentsDictionary)
+        {//getting student data
             try
             {
                 Student student = new Student();
-                student.OrderNumber = identifier;
-                Console.Write("Enter {0} student name: ", identifier);
-                student.Name = Console.ReadLine();
-                Console.Write("Enter {0} student surname: ", identifier);
-                student.Surname = Console.ReadLine();
-                Console.Write("Enter {0} student birth date: ", identifier);
-                student.BirthDate = DateTime.Parse(Console.ReadLine());
-                Console.Write("Enter {0} student gender(male/female): ", identifier);
-                student.Gender = (Student.GenderType)Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
+                Console.Write("Enter student unique ID: ");
+                int identifier = Int32.Parse(Console.ReadLine());
 
-                studentsDictionary[student.OrderNumber] = student; //adding student to Dictionary
-                return ++identifier;
+                if (!Program.StudentsList.ContainsKey(identifier))
+                {
+                    student.Id = identifier;
+                    Console.Write("Enter {0} student name: ", identifier);
+                    student.Name = Console.ReadLine();
+                    Console.Write("Enter {0} student surname: ", identifier);
+                    student.Surname = Console.ReadLine();
+                    Console.Write("Enter {0} student birth date: ", identifier);
+                    student.BirthDate = DateTime.Parse(Console.ReadLine());
+                    Console.Write("Enter {0} student gender(male/female): ", identifier);
+                    student.Gender = (Student.GenderType)Enum.Parse(typeof(Student.GenderType), Console.ReadLine());
+
+                    studentsDictionary[student.Id] = student; //adding student to Dictionary
+                }
+                else
+                {
+                    Console.WriteLine("Student with ID:{0}, already exist in journal.",identifier);
+                }
             }
             catch (FormatException e)
             {
@@ -248,7 +277,7 @@ namespace CourseJournalMS
                 Console.WriteLine("Bad data format, please try again...");
                 //throw;
             }
-            return identifier;
+            //return identifier;
         }
 
         public void AddDayOfCourse(Course course)
@@ -290,15 +319,16 @@ namespace CourseJournalMS
         //******************Some MAIN functions********************************
         public void Run()
         {
-            SampleFullData(3);
+           // SampleFullData(3);
             SwitchCommand();
         }
 
         public enum CommandTypes
         {
             none,
-            create,
+            add,
             sample,
+            create,
             change,
             addday,
             addhome,
@@ -346,18 +376,25 @@ namespace CourseJournalMS
                 {
                     #region         Command types on short list   
                     //    none,
-                    //    create,
-                    //    sample,
-                    //    addday,
-                    //    addhome,
-                    //    print,
-                    //    clear,
-                    //    exit,
-                    //    help,
+                        //add,
+                        //sample,
+                        //create,
+                        //change,
+                        //addday,
+                        //addhome,
+                        //print,
+                        //clear,
+                        //exit,
+                        //help,
                     #endregion
                     case CommandTypes.none:
                     {
                         //nothing happens here
+                    }
+                        break;
+                    case CommandTypes.add:
+                    {
+                        AddStudentToList(Program.StudentsList);
                     }
                         break;
                     case CommandTypes.create:
@@ -417,19 +454,19 @@ namespace CourseJournalMS
             
         }
 
-        public void ClearJournalData(Course journal)
+        public void ClearJournalData(Course course)
         {
-            journal.Name = "";
-            journal.LeaderName = "";
-            journal.CourseLeaderSurname = "";
-            journal.StartDate = DateTime.Parse("1 / 1 / 1000");
-            journal.PresenceThreshold = 1;
-            journal.HomeworkThreshold = 1;
-            journal.StudentsNumber = 1;
+            course.Name = "";
+            course.LeaderName = "";
+            course.CourseLeaderSurname = "";
+            course.StartDate = DateTime.Parse("1 / 1 / 1000");
+            course.PresenceThreshold = 1;
+            course.HomeworkThreshold = 1;
+            course.StudentsNumber = 1;
 
-            journal.CourseStudentsList.Clear();
-            journal.ResetCourseActive();
-            journal.ResetCourseCreated();
+            course.CourseStudentsList.Clear();
+            course.ResetCourseActive();
+            course.ResetCourseCreated();
         }
 
         //******************Printing report starts here************************
@@ -438,25 +475,39 @@ namespace CourseJournalMS
             Console.Clear();
             //Console.WriteLine(Course.ChoosenCourse);  /temp
             //Console.WriteLine(course.Id);
-
-            if (course.CourseIsActive())
+            if (Program.Journal.Count != 0)
             {
-                PrintCourseInfo(course);
-                PrintAttendance(course);
-                PrintHomework(course);
-
-                //TODO drukowanie listy studentó przy braku prac i obecności
-                //if (Homework.NumberOfHomeworks() == 0 && CourseDay.DaysOfCourse() == 0)
-                //{
-                //    PrintStudentList(course);  //prints only if no days and no homeworks
-                //}
-                //Console.WriteLine("\n\n");
+                if (course.CourseIsActive())
+                {
+                    PrintCourseInfo(course);
+                    PrintAttendance(course);
+                    PrintHomework(course);
+                    
+                    if (course.NumberOfHomeworks == 0 && course.NumberOfClasesDays == 0)
+                    {
+                        PrintStudentsOnCourse(course);  //prints only if no days and no homeworks
+                    }
+                    Console.WriteLine("\n\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nThere is nothing to print...");
+                }
             }
             else
             {
-                Console.WriteLine("\nThere is nothing to print...");
-            }
+                Console.WriteLine("There is no course in journal...");
 
+                if (Program.StudentsList.Count != 0)
+                {
+                PrintStudentList(Program.StudentsList);
+                }
+                else
+                {
+                    Console.WriteLine("...and there is no students added :(");
+                }
+
+            }
         }
 
         public void PrintCourseInfo(Course course)
@@ -519,23 +570,46 @@ namespace CourseJournalMS
             }
         }
 
-        public void PrintStudentList(Course journal)
+        public void PrintStudentList(Dictionary<int, Student> studentList)
         {
-            Console.WriteLine("\n{0} students attend to this course:\n", journal.StudentsNumber);
-            foreach (var student in journal.CourseStudentsList.Values)
+            Console.WriteLine("\nPrinting just student list:");
+            foreach (var student in studentList.Values)
             {
                 Console.WriteLine("{0}. {1} {2}",
-                    student.OrderNumber, student.Name, student.Surname);
+                    student.Id, student.Name, student.Surname);
+            }
+        }
+
+        public void PrintStudentsOnCourse(Course course)
+        {
+            Console.WriteLine("\n{0} students attend to this course:\n", course.StudentsNumber);
+            foreach (var student in course.CourseStudentsList.Values)
+            {
+                Console.WriteLine("{0}. {1} {2}",
+                    student.Id, student.Name, student.Surname);
             }
         }
 
         public void PrintHelp()
         {
             Console.Clear();
+            //add,
+            //sample,
+            //create,
+            //change,
+            //addday,
+            //addhome,
+            //print,
+            //clear,
+            //exit,
+            //help,
+
+
             Console.WriteLine("\nWELCOME TO HELP!");
-            Console.WriteLine("\ncreate  - creating a new journal (removes previous data)" +
-                              "\n          the course is active once all students data has been entered" +
-                              "\nsample  - loading some sample journal to print report (removes previous data)" +
+            Console.WriteLine("\nadd     - add new student to list" +
+                              "\nsample  - loading some sample journal & students to print report" +
+                              "\nchange  - jump to other course" +
+                              "\ncreate  - creating a new journal" +
                               "\naddday  - adding a day of classes to course" +
                               "\naddhome - adding homework to course" +
                               "\nprint   - printing course report" +
@@ -547,7 +621,7 @@ namespace CourseJournalMS
 
         public void PrintMenu()
         {
-            Console.WriteLine("\n(create / sample / addday / addhome / print / clear / exit / help)");
+            Console.WriteLine("\nadd / sample / create / change / addday / addhome / print / clear / exit / help");
             Console.Write("Please enter the name of the action: ");
         }
 
@@ -561,40 +635,50 @@ namespace CourseJournalMS
         {
             var course = new Course();
             Program.Journal.Add(course.Id, course);
-
-            //ClearJournalData(journal);     //prevent some errors
-
+            
             SampleYournal(course, students);
-            SampleStudentsData(course.CourseStudentsList, course.StudentsNumber);
+            SampleStudentsData(Program.StudentsList, course.StudentsNumber);  //źródło Kowalskich
+            AddStudentsToCourse(course,Program.StudentsList);
             course.SetCourseActive();
             Console.WriteLine("\nSample journal loaded succesfully!");
         }
 
-        public void SampleStudentsData(Dictionary<int, Student> journal, int x)
+        public void SampleStudentsData(Dictionary<int, Student> studentList, int x)
         {
+            int id = 0;
 
             for (int i = 1; i <= x; i++)
             {
+                id = i;
+                if (Program.StudentsList.ContainsKey(id))
+                {
+                    do
+                    {
+                        id++;
+                    } while (Program.StudentsList.ContainsKey(id));
+                }
+                
                 Student student = new Student();
-                student.OrderNumber = i;
-                student.Name = "Student" + i;
-                student.Surname = "Kowalski" + 2 * i;
+                student.Id = id;
+                student.Name = "Student" + id;
+                student.Surname = "Kowalski" + 2 * id;
                 student.BirthDate = DateTime.Parse("7/12/1984");
                 student.Gender = Student.GenderType.male;
 
-                journal[student.OrderNumber] = student;
+                studentList[student.Id] = student;
             }
         }
 
-        public void SampleYournal(Course journal, int x)
+        public void SampleYournal(Course course, int x)
         {
-            journal.Name = "Codementors";
-            journal.LeaderName = "Kuba";
-            journal.CourseLeaderSurname = "Bulczak";
-            journal.StartDate = DateTime.Parse("4 / 24 / 2017");
-            journal.PresenceThreshold = 70;
-            journal.HomeworkThreshold = 80;
-            journal.StudentsNumber = x;
+            course.Name = "Codementors";
+            course.LeaderName = "Kuba";
+            course.CourseLeaderSurname = "Bulczak";
+            course.StartDate = DateTime.Parse("4 / 24 / 2017");
+            course.PresenceThreshold = 70;
+            course.HomeworkThreshold = 80;
+            course.StudentsNumber = x;
+            course.SetCourseCreated();
         }
 
     }

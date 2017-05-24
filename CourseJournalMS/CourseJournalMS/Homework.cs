@@ -16,7 +16,7 @@ namespace CourseJournalMS
             bool parameterOk = false;
             MaxHomeworkPoints = maxHomeworkPoints;
             
-            Console.Write("{0}. {1} {2} get: ", student.OrderNumber, student.Name, student.Surname);
+            Console.Write("{0}. {1} {2} get: ", student.Id, student.Name, student.Surname);
             do
             {
                 try

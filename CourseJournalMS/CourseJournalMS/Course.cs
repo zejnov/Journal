@@ -62,7 +62,7 @@ namespace CourseJournalMS
             _courseCreated = false;
         }
 
-        public bool CourseCreatedStatus()
+        public bool CourseCreatedStatus() 
         {
             return _courseCreated;
         }

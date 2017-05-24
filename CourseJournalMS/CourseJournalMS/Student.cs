@@ -12,7 +12,7 @@ namespace CourseJournalMS
             female,
         }
 
-        public int OrderNumber;
+        public int Id;
         public string Name, Surname;
         public DateTime BirthDate;
         public GenderType Gender;
