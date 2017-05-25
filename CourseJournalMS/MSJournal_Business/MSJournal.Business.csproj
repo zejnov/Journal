@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\CourseDayDto.cs" />
+    <Compile Include="Dtos\CourseDto.cs" />
+    <Compile Include="Dtos\HomeworkDto.cs" />
+    <Compile Include="Dtos\StudentDto.cs" />
     <Compile Include="JournalServices\Journal.cs" />
+    <Compile Include="Mappers\EntityToDtoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -49,8 +54,6 @@
       <Name>MSJournal.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
