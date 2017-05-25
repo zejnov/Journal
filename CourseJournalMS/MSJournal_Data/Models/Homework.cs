@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseJournalMS
+namespace MSJournal_Data.Models
 {
     public class Homework
     {

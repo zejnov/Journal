@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseJournalMS
+namespace MSJournal_Data.Models
 {
     public class Course
     {
@@ -23,8 +23,7 @@ namespace CourseJournalMS
 
         public Course()  //creator
         {
-            Id = ++_numberOfCreatedCourses;
-            ChoosenCourse = Id;
+            Id = _numberOfCreatedCourses +1;
         }
 
         public static int CourseCounter()
@@ -54,6 +53,8 @@ namespace CourseJournalMS
         public void SetCourseCreated()
         {
             _courseCreated = true;
+            ChoosenCourse = Id;
+            _numberOfCreatedCourses++;
         }
 
         public void ResetCourseCreated()

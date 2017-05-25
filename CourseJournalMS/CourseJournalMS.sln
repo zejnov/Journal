@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseJournalMS", "CourseJournalMS\CourseJournalMS.csproj", "{A25FFD97-0B80-41C7-975F-1006E48AC597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSJournal.aCLI", "CourseJournalMS\MSJournal.aCLI.csproj", "{A25FFD97-0B80-41C7-975F-1006E48AC597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSJournal.Business", "MSJournal_Business\MSJournal.Business.csproj", "{EE420CA8-1CF9-4FA6-AB38-D63AADB496FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSJournal.Data", "MSJournal_Data\MSJournal.Data.csproj", "{960348B0-1448-4377-87B1-90FC0552020F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{A25FFD97-0B80-41C7-975F-1006E48AC597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25FFD97-0B80-41C7-975F-1006E48AC597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25FFD97-0B80-41C7-975F-1006E48AC597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE420CA8-1CF9-4FA6-AB38-D63AADB496FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE420CA8-1CF9-4FA6-AB38-D63AADB496FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE420CA8-1CF9-4FA6-AB38-D63AADB496FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE420CA8-1CF9-4FA6-AB38-D63AADB496FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960348B0-1448-4377-87B1-90FC0552020F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960348B0-1448-4377-87B1-90FC0552020F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960348B0-1448-4377-87B1-90FC0552020F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960348B0-1448-4377-87B1-90FC0552020F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
