@@ -57,6 +57,10 @@
       <Project>{ee420ca8-1cf9-4fa6-ab38-d63aadb496fb}</Project>
       <Name>MSJournal.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MSJournal_Data\MSJournal.Data.csproj">
+      <Project>{960348B0-1448-4377-87B1-90FC0552020F}</Project>
+      <Name>MSJournal.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

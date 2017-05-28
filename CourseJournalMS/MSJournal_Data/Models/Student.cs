@@ -21,7 +21,8 @@ namespace MSJournal_Data.Models
         public int PresentDays;
         public double StudentAttendance, HomeworkPerformance;
         public int HomeworkPoints, HomeworkMaxPoints;
+        public bool AttendanceOk, HomeworksOk;
 
-        
+
     }
 }

@@ -43,8 +43,12 @@
     <Compile Include="Dtos\CourseDayDto.cs" />
     <Compile Include="Dtos\CourseDto.cs" />
     <Compile Include="Dtos\HomeworkDto.cs" />
+    <Compile Include="Dtos\JournalDataDto.cs" />
     <Compile Include="Dtos\StudentDto.cs" />
+    <Compile Include="JournalServices\CourseService.cs" />
     <Compile Include="JournalServices\Journal.cs" />
+    <Compile Include="Mappers\CheckingFunctions.cs" />
+    <Compile Include="Mappers\DtoToEntityMappers.cs" />
     <Compile Include="Mappers\EntityToDtoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
