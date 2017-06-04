@@ -5,6 +5,7 @@ namespace MSJournal_Data.Models
 {
     public class CourseDay
     {
-        public string Attendance = "";
+        public int StudentId { get; set; }
+        public string Attendance { get; set; }
     }
 }

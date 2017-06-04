@@ -30,7 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,14 +49,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dane.cs" />
+    <Compile Include="DbContexts\JournalDbContext.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseDay.cs" />
     <Compile Include="Models\Homework.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CourseRepository.cs" />
-    <Compile Include="Repositories\JournalRepository.cs" />
+    <Compile Include="Repository\Basic\BasicRepository.cs" />
+    <Compile Include="Repository\CourseDayRepository.cs" />
+    <Compile Include="Repository\CourseRepository.cs" />
+    <Compile Include="Repository\HomeworkRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICourseDayRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICourseRepository.cs" />
+    <Compile Include="Repository\Interfaces\IHomeworkRepository.cs" />
+    <Compile Include="Repository\Interfaces\IStudentRepository.cs" />
+    <Compile Include="Repository\StudentRepository.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

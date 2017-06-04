@@ -12,16 +12,16 @@ namespace MSJournal_Data.Models
             female,
         }
 
-        public int Id;
-        public string Name, Surname;
-        public DateTime BirthDate;
-        public GenderType Gender;
-        public List<CourseDay> AttendanceList = new List<CourseDay>();  //attendance list
-        public List<Homework> HomeworksList = new List<Homework>(); //homework list
-        public int PresentDays;
-        public double StudentAttendance, HomeworkPerformance;
-        public int HomeworkPoints, HomeworkMaxPoints;
-        public bool AttendanceOk, HomeworksOk;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public DateTime BirthDate { get; set; }
+        public GenderType Gender { get; set; }
+        public long Pesel { get; set; }
+
+        public List<CourseDay> AttendanceList { get; set; } = new List<CourseDay>();  //attendance list
+        public List<Homework> HomeworksList { get; set; } = new List<Homework>(); //homework list
+        
 
 
     }

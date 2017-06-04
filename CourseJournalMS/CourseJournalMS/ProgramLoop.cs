@@ -14,6 +14,7 @@ namespace CourseJournalMS
     class ProgramLoop
     {
         //Journal journal = new Journal();
+       // private CourseDto _choosenCourse;
 
         public void Run()
         {

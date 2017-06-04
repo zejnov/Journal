@@ -11,17 +11,19 @@ namespace MSJournal_Data.Models
         private static int _numberOfCreatedCourses = 0;
         public static int ChoosenCourse = 0;
 
-        public int Id;
-        public string Name;
-        public string LeaderName, LeaderSurname;
-        public DateTime StartDate;
-        public double HomeworkThreshold;
-        public double PresenceThreshold;
-        public int StudentsNumber;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string LeaderName { get; set; }
+        public string LeaderSurname { get; set; }
+        public DateTime StartDate { get; set; }
+        public double HomeworkThreshold { get; set; }
+        public double PresenceThreshold { get; set; }
+        public int StudentsNumber { get; set; }
 
-        public List<Student> CourseStudentsList = new List<Student>();
-        public bool CourseIsActive;
-        public bool CourseIsCreated;
+        public List<Student> CourseStudentsList { get; set; } = new List<Student>();
+
+        public bool CourseIsActive { get; set; }
+        public bool CourseIsCreated { get; set; }
 
         public static int CourseCounter()
         {
