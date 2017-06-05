@@ -56,6 +56,22 @@ namespace MSJournal_Data.Repository
             });
         }
 
+        public List<CourseDay> GetStudentAttendance(Course model, int id)
+        {
+            return ExecuteQuery(dbContext => dbContext.CourseDbSet
+                .First(p => p.Id == model.Id).AttendanceList
+                .FindAll(x => x.Student.Id == id)
+                .ToList());
+        }
+
+        public List<Homework> GetStudentHomework(Course model, int id)
+        {
+            return ExecuteQuery(dbContext => dbContext.CourseDbSet
+                .First(p => p.Id == model.Id).HomeworksList
+                .FindAll(x => x.Student.Id == id)
+                .ToList());
+        }
+
         //TODO  Delete student from list
     }
 }

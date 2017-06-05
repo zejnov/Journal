@@ -13,22 +13,41 @@ namespace MSJournal_Data.Repository
     {
         public override bool Add(CourseDay model)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext =>
+            {
+                model.Course = dbContext.CourseDbSet
+                    .First(p => p.Id == model.Course.Id);
+                model.Student = dbContext.StudentDbSet
+                    .First(p => p.Id == model.Student.Id);
+
+                dbContext.CoruseDayDbSet.Add(model);
+                model.Course.AttendanceList.Add(model);
+
+                return true;
+            });
         }
 
         public override CourseDay Get(int id)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext => dbContext.CoruseDayDbSet
+                .First(p => p.Id == id));
         }
 
         public override List<CourseDay> GetAll()
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext => dbContext.CoruseDayDbSet
+                .ToList());
         }
 
         public override bool Exist(CourseDay model)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext =>
+            {
+                var data = dbContext.CoruseDayDbSet
+                    .FirstOrDefault(p => p.Id == model.Id);
+
+                return data != null;
+            });
         }
     }
 }

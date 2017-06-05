@@ -8,7 +8,9 @@ namespace MSJournal_Data.Models
 {
     public class Homework
     {
-        public int StudentId { get; set; }
+        public int Id { get; set; }
+        public Course Course { get; set; }
+        public Student Student { get; set; }
         public int StudentPoints { get; set; }
         public int MaxPoints { get; set; }
     }

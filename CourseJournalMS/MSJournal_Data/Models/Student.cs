@@ -18,11 +18,5 @@ namespace MSJournal_Data.Models
         public DateTime BirthDate { get; set; }
         public GenderType Gender { get; set; }
         public long Pesel { get; set; }
-
-        public List<CourseDay> AttendanceList { get; set; } = new List<CourseDay>();  //attendance list
-        public List<Homework> HomeworksList { get; set; } = new List<Homework>(); //homework list
-        
-
-
     }
 }

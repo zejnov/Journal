@@ -13,22 +13,41 @@ namespace MSJournal_Data.Repository
     {
         public override bool Add(Homework model)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext =>
+            {
+                model.Course = dbContext.CourseDbSet
+                    .First(p => p.Id == model.Course.Id);
+                model.Student = dbContext.StudentDbSet
+                    .First(p => p.Id == model.Student.Id);
+
+                dbContext.HomeworkDbSet.Add(model);
+                model.Course.HomeworksList.Add(model);
+
+                return true;
+            });
         }
 
         public override Homework Get(int id)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext => dbContext.HomeworkDbSet
+            .First(p => p.Id == id));
         }
 
         public override List<Homework> GetAll()
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext => dbContext.HomeworkDbSet
+            .ToList());
         }
 
         public override bool Exist(Homework model)
         {
-            throw new NotImplementedException();
+            return ExecuteQuery(dbContext =>
+            {
+                var data = dbContext.HomeworkDbSet
+                    .FirstOrDefault(p => p.Id == model.Id);
+
+                return data != null;
+            });
         }
     }
 }
