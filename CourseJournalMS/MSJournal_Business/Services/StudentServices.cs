@@ -9,7 +9,7 @@ using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.Services
 {
-    class StudentServices
+    public class StudentServices
     {
         public static bool Add(StudentDto studentDto)
         {
@@ -41,6 +41,11 @@ namespace MSJournal_Business.Services
                 .ToList();
         }
 
+        public static int StudentsCount()
+        {
+            return new StudentRepository().StudentsCount();
+        }
+
         public bool UpdateStudentData(StudentDto oldStudent, StudentDto newStudent)
         {
             if (!Exist(oldStudent))
@@ -50,6 +55,11 @@ namespace MSJournal_Business.Services
                 .UpdateStudentData(
                     DtoToEntity.StudentDtoToEntity(oldStudent),
                     DtoToEntity.StudentDtoToEntity(newStudent));
+        }
+
+        public static bool CheckPesel(long pesel)
+        {
+            return pesel.ToString().Length == 11;
         }
     }
 }

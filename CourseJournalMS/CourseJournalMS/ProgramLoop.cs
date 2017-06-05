@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MSJournal_Business.JournalServices;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
+using MSJournal_Business.Services;
 using MSJournal_Data;
 
 namespace CourseJournalMS
@@ -57,6 +57,7 @@ namespace CourseJournalMS
                     commandOk = true;
                 }
             } while (!commandOk);
+
             return command;
         }
 
@@ -93,12 +94,12 @@ namespace CourseJournalMS
                         break;
                     case CommandTypes.add:
                     {
-                        AddStudentToList();
+                        AddStudent();
                     }
                         break;
                     case CommandTypes.create:
                     {
-                            AddCourse();
+                        AddCourse();
                     }
                         break;
                     case CommandTypes.sample:
@@ -151,69 +152,72 @@ namespace CourseJournalMS
             }
         }
 
-        private void AddStudentToList()
+        private void AddStudent()
         {
-            var journal = new Journal();
-            journal.AddStudentToList();
+            Console.Clear();
+            var studentDto = new StudentDto();
+            studentDto = ConsoleReadHelper.GetStudentData();
+
+            var success = StudentServices.Add(studentDto);
+
+            if (success)
+            {
+                Console.WriteLine("Student added to database successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Given student already exists in the database");
+            }
+        }
+
+        private void AddCourse()
+        {
+            Console.Clear();
+            var courseDto = new CourseDto();
+            courseDto = ConsoleReadHelper.GetCourseData();
+            var success = CourseServices.Add(courseDto);
+
+            if (success)
+            {
+                Console.WriteLine("Course added to database successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Given course already exists in the database");
+            }
+
         }
 
         private void ChangeActiveCourse()
         {
-            var journal = new Journal();
-            journal.ChangeActiveCourse();
+            Console.Clear();
+
+
         }
 
         private void SampleFullData()
         {
-            var journal = new Journal();
-            journal.SampleFullData(5);
+            Console.Clear();
+
         }
+
         
-        private void AddCourse()
-        {
-            var journal = new Journal();
-            journal.CreateNewCourse();
-        }
 
         private void AddDayOfCourse()
         {
-            ConsoleWriteHelper.NewCourseDay();
+            Console.Clear();
 
-            var courseService = new CourseService();
-            courseService.AddDayOfCourse();
         }
 
         private void AddHomeworkToCourse()
         {
-            Console.Write("Please provide the homework max points: ");
-            var max = ConsoleReadHelper.GetInt(0, 1000);
+            Console.Clear();
 
-            var courseService = new CourseService();
-            courseService.AddHomeworkToCourse(max);
         }
 
         private void PrintReport()  //
         {
-            var journal = new Journal();
-            
-            if (journal.GetAllCoursesList().Count != 0)
-            {
-                ConsoleWriteHelper.PrintCourseReport(journal.GetActiveCourse());
-            }
-            else
-            {
-                Console.WriteLine("There is no course in journal...");
-
-                if (journal.GetAllStudentsList().Count != 0)
-                {
-                    ConsoleWriteHelper.PrintAllStudentsList();   
-                }
-                else
-                {
-                Console.WriteLine("...and there is no students added :(");
-
-                }
-            }
+            Console.Clear();
 
         }
     }//class

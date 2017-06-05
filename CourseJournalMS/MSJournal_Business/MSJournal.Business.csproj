@@ -44,9 +44,6 @@
     <Compile Include="Dtos\CourseDto.cs" />
     <Compile Include="Dtos\HomeworkDto.cs" />
     <Compile Include="Dtos\StudentDto.cs" />
-    <Compile Include="JournalServices\CourseService.cs" />
-    <Compile Include="JournalServices\Journal.cs" />
-    <Compile Include="Services\CheckingFunctions.cs" />
     <Compile Include="Mappers\DtoToEntity.cs" />
     <Compile Include="Mappers\EntityToDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

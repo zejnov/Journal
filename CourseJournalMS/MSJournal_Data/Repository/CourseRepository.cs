@@ -35,7 +35,7 @@ namespace MSJournal_Data.Repository
             return ExecuteQuery(dbContext =>
             {
                 var data = dbContext.CourseDbSet
-                    .FirstOrDefault(p => p.Id == model.Id);
+                    .FirstOrDefault(p => p.Name == model.Name);
 
                 return data != null;
             });

@@ -31,6 +31,12 @@ namespace MSJournal_Data.Repository
             return ExecuteQuery(dbContext => dbContext.StudentDbSet.ToList());
         }
 
+        public int StudentsCount()
+        {
+            return ExecuteQuery(dbContext => dbContext.StudentDbSet.ToList().Count);
+        }
+
+
         public override bool Exist(Student model)
         {   
             return ExecuteQuery(dbContext =>
@@ -53,5 +59,6 @@ namespace MSJournal_Data.Repository
                 return true;
             });
         }
+
     }
 }

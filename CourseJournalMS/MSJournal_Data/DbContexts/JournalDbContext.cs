@@ -24,7 +24,7 @@ namespace MSJournal_Data.DbContexts
 
         public static string GetConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["JournalZejnovSql"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["ZejnovJournalSql"].ConnectionString;
         }
     }
 }
