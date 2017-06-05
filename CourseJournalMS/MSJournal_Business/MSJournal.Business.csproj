@@ -43,14 +43,17 @@
     <Compile Include="Dtos\CourseDayDto.cs" />
     <Compile Include="Dtos\CourseDto.cs" />
     <Compile Include="Dtos\HomeworkDto.cs" />
-    <Compile Include="Dtos\JournalDataDto.cs" />
     <Compile Include="Dtos\StudentDto.cs" />
     <Compile Include="JournalServices\CourseService.cs" />
     <Compile Include="JournalServices\Journal.cs" />
-    <Compile Include="Mappers\CheckingFunctions.cs" />
-    <Compile Include="Mappers\DtoToEntityMappers.cs" />
-    <Compile Include="Mappers\EntityToDtoMapper.cs" />
+    <Compile Include="Services\CheckingFunctions.cs" />
+    <Compile Include="Mappers\DtoToEntity.cs" />
+    <Compile Include="Mappers\EntityToDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CourseDayServices.cs" />
+    <Compile Include="Services\CourseServices.cs" />
+    <Compile Include="Services\HomeworkServices.cs" />
+    <Compile Include="Services\StudentServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MSJournal_Data\MSJournal.Data.csproj">

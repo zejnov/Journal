@@ -9,7 +9,7 @@ using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Data.Repository
 {
-    class HomeworkRepository : BasicRepository<Homework>, IHomeworkRepository
+    public class HomeworkRepository : BasicRepository<Homework>, IHomeworkRepository
     {
         public override bool Add(Homework model)
         {

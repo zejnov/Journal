@@ -8,9 +8,6 @@ namespace MSJournal_Data.Models
 {
     public class Course
     {
-        private static int _numberOfCreatedCourses = 0;
-        public static int ChoosenCourse = 0;
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string LeaderName { get; set; }
@@ -24,20 +21,8 @@ namespace MSJournal_Data.Models
         public List<CourseDay> AttendanceList { get; set; } = new List<CourseDay>();  //attendance list
         public List<Homework> HomeworksList { get; set; } = new List<Homework>(); //homework list
         
-        public bool CourseIsActive { get; set; }
-        public bool CourseIsCreated { get; set; }
-
-        public static int CourseCounter()
-        {
-            return _numberOfCreatedCourses;
-        }
-
-        public void SetCourseCreated()
-        {
-            Id = _numberOfCreatedCourses + 1;
-            CourseIsCreated = true;
-            ChoosenCourse = Id;
-            _numberOfCreatedCourses++;
-        }
+        //public bool CourseIsActive { get; set; }
+        //public bool CourseIsCreated { get; set; }
+        
     }
 }

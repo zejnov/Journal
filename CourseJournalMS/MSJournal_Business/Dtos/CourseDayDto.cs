@@ -7,17 +7,11 @@ using MSJournal_Data.Models;
 
 namespace MSJournal_Business.Dtos
 {
-    class CourseDayDto
+    public class CourseDayDto
     {
-        public enum AttendanceOnCourse
-        {
-            none,
-            p,      //for present
-            a,      //for absent
-            present,
-            absent,
-        }
-
-        public AttendanceOnCourse Attendance = AttendanceOnCourse.none;
+        public int Id { get; set; }
+        public CourseDto Course { get; set; }
+        public StudentDto Student { get; set; }
+        public string Attendance { get; set; }
     }
 }

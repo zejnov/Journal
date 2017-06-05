@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace MSJournal_Business.Dtos
 {
-    class HomeworkDto
+    public class HomeworkDto
     {
-        public int StudentHomeworkPoints;
-        public int MaxHomeworkPoints;
+        public int Id { get; set; }
+        public CourseDto Course { get; set; }
+        public StudentDto Student { get; set; }
+        public int StudentPoints { get; set; }
+        public int MaxPoints { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace MSJournal_Data.Repository
 
         public override Student Get(int id)
         {
-            return ExecuteQuery(dbContext => dbContext.StudentDbSet.First(p => p.Id == id));
+            return ExecuteQuery(dbContext => dbContext
+                .StudentDbSet.First(p => p.Id == id));
         }
 
         public override List<Student> GetAll()

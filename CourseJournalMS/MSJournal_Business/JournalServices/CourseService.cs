@@ -8,7 +8,7 @@ using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Data;
 using MSJournal_Data.Models;
-using MSJournal_Data.Repositories;
+using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.JournalServices
 {

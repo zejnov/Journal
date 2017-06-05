@@ -9,7 +9,7 @@ using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Data.Repository
 {
-    class CourseDayRepository : BasicRepository<CourseDay> , ICourseDayRepository
+    public class CourseDayRepository : BasicRepository<CourseDay> , ICourseDayRepository
     {
         public override bool Add(CourseDay model)
         {

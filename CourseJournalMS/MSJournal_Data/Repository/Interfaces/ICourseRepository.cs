@@ -15,10 +15,6 @@ namespace MSJournal_Data.Repository.Interfaces
         List<Course> GetAll();
         bool UpdateCourseData(Course oldModel, Course newModel);
         List<CourseDay> GetStudentAttendance(Course model, int id);
-        List<Homework> GetStudentHomework(Course model, int id)
-
-
-
-
+        List<Homework> GetStudentHomework(Course model, int id);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MSJournal_Data.Models;
-using MSJournal_Data.Repositories;
+using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.Mappers
 {

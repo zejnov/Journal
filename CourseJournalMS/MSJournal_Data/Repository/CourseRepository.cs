@@ -9,7 +9,7 @@ using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Data.Repository
 {
-    class CourseRepository : BasicRepository<Course>, ICourseRepository
+    public class CourseRepository : BasicRepository<Course>, ICourseRepository
     {
         public override bool Add(Course model)
         {
@@ -54,6 +54,13 @@ namespace MSJournal_Data.Repository
                 
                 return true;
             });
+        }
+
+        public List<Student> GetAllStudents(Course model)
+        {
+            return ExecuteQuery(dbContext => dbContext.CourseDbSet
+                .First(p => p.Id == model.Id).CourseStudentsList
+                .ToList());
         }
 
         public List<CourseDay> GetStudentAttendance(Course model, int id)
