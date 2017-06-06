@@ -19,13 +19,12 @@ namespace MSJournal_Business.Services
                 .Add(DtoToEntity.CourseDtoToEntity(courseDto));
         }
 
-        private static bool Exist(CourseDto courseDto)
+        public static bool Exist(CourseDto courseDto)
         {
             return new CourseRepository()
                 .Exist(DtoToEntity.CourseDtoToEntity(courseDto));
         }
-
-        private static CourseDto Get(int id)
+        public static CourseDto Get(int id)
         {
             if (!Exist(new CourseDto() { Id = id }))
                 return null;
@@ -42,28 +41,20 @@ namespace MSJournal_Business.Services
                 .ToList();
         }
 
-        public static List<StudentDto> GetAllStudents(CourseDto courseDto)
+        public static bool UpdateCourseData(CourseDto oldModel, CourseDto newModel)
         {
-            return new CourseRepository()
-                .GetAllStudents(DtoToEntity.CourseDtoToEntity(courseDto))
-                .Select(EntityToDto.StudentEntityToDto)
-                .ToList();
+            if (!Exist(oldModel))
+                return false;
+
+            return new CourseRepository().UpdateCourseData(
+                DtoToEntity.CourseDtoToEntity(oldModel),
+                DtoToEntity.CourseDtoToEntity(newModel));
         }
 
-        public static List<CourseDayDto> GetStudentAttendance(CourseDto courseDto, int id)
+        public static int GetCourseCount()
         {
-            return new CourseRepository()
-                .GetStudentAttendance(DtoToEntity.CourseDtoToEntity(courseDto), id)
-                .Select(EntityToDto.CourseDayEntityToDto)
-                .ToList();
+            return new CourseRepository().GetCourseCount();
         }
-
-        public static List<HomeworkDto> GetStudentHomework(CourseDto courseDto, int id)
-        {
-            return new CourseRepository()
-                .GetStudentHomework(DtoToEntity.CourseDtoToEntity(courseDto), id)
-                .Select(EntityToDto.HomeworkEntityToDto)
-                .ToList();
-        }
+       
     }
 }

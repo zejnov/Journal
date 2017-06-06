@@ -12,6 +12,11 @@ namespace MSJournal_Business.Mappers
     {
         public static StudentDto StudentEntityToDto(Student student)
         {
+            if (student == null)
+            {
+                return null;
+            }
+
             return new StudentDto
             {
                 Id = student.Id,
@@ -25,6 +30,11 @@ namespace MSJournal_Business.Mappers
 
         public static CourseDto CourseEntityToDto(Course course)
         {
+            if (course == null)
+            {
+                return null;
+            }
+
             return new CourseDto()
             {
                 Id = course.Id,
@@ -36,19 +46,64 @@ namespace MSJournal_Business.Mappers
                 PresenceThreshold = course.PresenceThreshold,
                 StudentsNumber = course.StudentsNumber,
 
-                CourseStudentsList = course.CourseStudentsList
-                    .Select(StudentEntityToDto)
-                    .ToList()
+                StudentOnCourse = course.StudentOnCourse
+                .Select(StudentOnCourseEntityToDto)
+                .ToList()
+
+            };
+        }
+
+        public static CourseDto CourseWithoutListEntityToDto(Course course)
+        {
+            if (course == null)
+            {
+                return null;
+            }
+
+            return new CourseDto()
+            {
+                Id = course.Id,
+                Name = course.Name,
+                LeaderName = course.LeaderName,
+                LeaderSurname = course.LeaderSurname,
+                StartDate = course.StartDate,
+                HomeworkThreshold = course.HomeworkThreshold,
+                PresenceThreshold = course.PresenceThreshold,
+                StudentsNumber = course.StudentsNumber,
+            };
+        }
+
+        public static StudentOnCourseDto StudentOnCourseEntityToDto(StudentOnCourse studentOnCourse)
+        {
+            if (studentOnCourse == null)
+            {
+                return null;
+            }
+
+            return new StudentOnCourseDto()
+            {
+                Id = studentOnCourse.Id,
+                Course = CourseWithoutListEntityToDto(studentOnCourse.Course),
+                Student = StudentEntityToDto(studentOnCourse.Student),
+                AttendanceList = studentOnCourse.AttendanceList
+                    .Select(CourseDayEntityToDto)
+                    .ToList(),
+                HomeworksList = studentOnCourse.HomeworksList
+                    .Select(HomeworkEntityToDto)
+                    .ToList(),
             };
         }
 
         public static HomeworkDto HomeworkEntityToDto(Homework homework)
         {
+            if (homework == null)
+            {
+                return null;
+            }
+
             return new HomeworkDto()
             {
                 Id = homework.Id,
-                Course = CourseEntityToDto(homework.Course),
-                Student = StudentEntityToDto(homework.Student),
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
             };
@@ -56,11 +111,14 @@ namespace MSJournal_Business.Mappers
 
         public static CourseDayDto CourseDayEntityToDto(CourseDay courseDay)
         {
+            if (courseDay == null)
+            {
+                return null;
+            }
+
             return new CourseDayDto()
             {
                 Id = courseDay.Id,
-                Course = CourseEntityToDto(courseDay.Course),
-                Student = StudentEntityToDto(courseDay.Student),
                 Attendance = courseDay.Attendance,
             };
 

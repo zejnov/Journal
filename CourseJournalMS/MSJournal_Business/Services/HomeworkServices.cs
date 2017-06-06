@@ -40,41 +40,5 @@ namespace MSJournal_Business.Services
                 .Select(EntityToDto.HomeworkEntityToDto)
                 .ToList();
         }
-
-        public bool CheckHomework(CourseDto courseDto)
-        {
-            foreach (var studentDto in courseDto.CourseStudentsList)
-            {
-                var studentHomeworkList = CourseServices
-                    .GetStudentHomework(courseDto, studentDto.Id);
-
-                studentDto.HomeworkPoints = 0;
-                studentDto.HomeworkMaxPoints = 0;
-
-                if (studentHomeworkList.Count != 0)
-                {
-                    foreach (var homework in studentHomeworkList)
-                    {
-                        studentDto.HomeworkPoints += homework.StudentPoints;
-                        studentDto.HomeworkMaxPoints += homework.MaxPoints;
-                    }
-                    studentDto.HomeworkPerformance = 100.0d
-                        * studentDto.HomeworkPoints / studentHomeworkList.Count;
-                }
-
-                if (studentDto.HomeworkPerformance >= courseDto.HomeworkThreshold)
-                {
-                    studentDto.HomeworkOk = true;
-                }
-                else
-                {
-                    studentDto.HomeworkOk = false;
-                }
-            }
-            
-            return true;
-        }
-
-
     }
 }

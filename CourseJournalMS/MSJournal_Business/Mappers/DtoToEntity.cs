@@ -12,7 +12,11 @@ namespace MSJournal_Business.Mappers
     {
         public static Student StudentDtoToEntity(StudentDto student)
         {
-            
+            if (student == null)
+            {
+                return null;
+            }
+
             return new Student
             {
                 Id = student.Id,
@@ -26,6 +30,11 @@ namespace MSJournal_Business.Mappers
 
         public static Course CourseDtoToEntity(CourseDto course)
         {
+            if (course == null)
+            {
+                return null;
+            }
+
             return new Course()
             {
                 Id = course.Id,
@@ -39,13 +48,31 @@ namespace MSJournal_Business.Mappers
             };
         }
 
+        public static StudentOnCourse StudentOnCourseEntityToDto(StudentOnCourseDto studentOnCourse)
+        {
+            if (studentOnCourse == null)
+            {
+                return null;
+            }
+
+            return new StudentOnCourse()
+            {
+                Id = studentOnCourse.Id,
+                Course = CourseDtoToEntity(studentOnCourse.Course),
+                Student = StudentDtoToEntity(studentOnCourse.Student),
+            };
+        }
+
         public static Homework HomeworkDtoToEntity(HomeworkDto homework)
         {
+            if (homework == null)
+            {
+                return null;
+            }
+
             return new Homework()
             {
                 Id = homework.Id,
-                Course = CourseDtoToEntity(homework.Course),
-                Student = StudentDtoToEntity(homework.Student),
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
             };
@@ -53,11 +80,14 @@ namespace MSJournal_Business.Mappers
 
         public static CourseDay CourseDayDtoToEntity(CourseDayDto courseDay)
         {
+            if (courseDay == null)
+            {
+                return null;
+            }
+
             return new CourseDay()
             {
                 Id = courseDay.Id,
-                Course = CourseDtoToEntity(courseDay.Course),
-                Student = StudentDtoToEntity(courseDay.Student),
                 Attendance = courseDay.Attendance,
             };
         }

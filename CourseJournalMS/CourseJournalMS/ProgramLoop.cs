@@ -173,6 +173,7 @@ namespace CourseJournalMS
         private void AddCourse()
         {
             Console.Clear();
+
             var courseDto = new CourseDto();
             courseDto = ConsoleReadHelper.GetCourseData();
             var success = CourseServices.Add(courseDto);
@@ -198,6 +199,31 @@ namespace CourseJournalMS
         private void SampleFullData()
         {
             Console.Clear();
+            
+              var student = StudentServices.GetAll();
+
+            foreach (var name in student)
+            {
+            Console.WriteLine($"{name.Name} {name.Surname} found!");
+
+            }
+
+
+            //var course = CourseServices.Get(3);
+            //var sOnC = new StudentOnCourseDto();
+            //sOnC.Student = student;
+            //sOnC.Course = course;
+
+            //var success = StudentOnCourseServices.AddStudentToCourse(sOnC);
+
+            //if (success)
+            //{
+            //    Console.WriteLine("Student added to course successfully.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Nope");
+            //}
 
         }
 

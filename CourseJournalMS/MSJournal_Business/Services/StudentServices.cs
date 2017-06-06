@@ -18,13 +18,13 @@ namespace MSJournal_Business.Services
             return new StudentRepository().Add(DtoToEntity.StudentDtoToEntity(studentDto));
         }
 
-        private static bool Exist(StudentDto studentDto)
+        public static bool Exist(StudentDto studentDto)
         {
            return new StudentRepository()
                 .Exist(DtoToEntity.StudentDtoToEntity(studentDto));
         }
 
-        private static StudentDto Get(int id)
+        public static StudentDto Get(int id)
         {
             if (!Exist(new StudentDto() {Id = id}))
                 return null;
@@ -51,10 +51,9 @@ namespace MSJournal_Business.Services
             if (!Exist(oldStudent))
                 return false;
 
-            return new StudentRepository()
-                .UpdateStudentData(
-                    DtoToEntity.StudentDtoToEntity(oldStudent),
-                    DtoToEntity.StudentDtoToEntity(newStudent));
+            return new StudentRepository().UpdateStudentData(
+                DtoToEntity.StudentDtoToEntity(oldStudent),
+                DtoToEntity.StudentDtoToEntity(newStudent));
         }
 
         public static bool CheckPesel(long pesel)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace MSJournal_Data.Repository
             return ExecuteQuery(dbContext =>
             {
                 var data = dbContext.CourseDbSet
-                    .FirstOrDefault(p => p.Name == model.Name);
+                    .FirstOrDefault(p => p.Id == model.Id);
 
                 return data != null;
             });
@@ -56,29 +57,11 @@ namespace MSJournal_Data.Repository
             });
         }
 
-        public List<Student> GetAllStudents(Course model)
+        public int GetCourseCount()
         {
-            return ExecuteQuery(dbContext => dbContext.CourseDbSet
-                .First(p => p.Id == model.Id).CourseStudentsList
-                .ToList());
+            return ExecuteQuery(dbContext => dbContext.CourseDbSet.ToList().Count);
         }
-
-        public List<CourseDay> GetStudentAttendance(Course model, int id)
-        {
-            return ExecuteQuery(dbContext => dbContext.CourseDbSet
-                .First(p => p.Id == model.Id).AttendanceList
-                .FindAll(x => x.Student.Id == id)
-                .ToList());
-        }
-
-        public List<Homework> GetStudentHomework(Course model, int id)
-        {
-            return ExecuteQuery(dbContext => dbContext.CourseDbSet
-                .First(p => p.Id == model.Id).HomeworksList
-                .FindAll(x => x.Student.Id == id)
-                .ToList());
-        }
-
+        
         //TODO  Delete student from list
     }
 }

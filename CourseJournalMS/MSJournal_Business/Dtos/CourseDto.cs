@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MSJournal_Data.Models;
 
 namespace MSJournal_Business.Dtos
 {
@@ -17,12 +18,8 @@ namespace MSJournal_Business.Dtos
         public double PresenceThreshold { get; set; }
         public int StudentsNumber { get; set; }
 
-        public List<StudentDto> CourseStudentsList { get; set; } = new List<StudentDto>();
-        public List<CourseDayDto> AttendanceList { get; set; } = new List<CourseDayDto>();  //attendance list
-        public List<HomeworkDto> HomeworksList { get; set; } = new List<HomeworkDto>(); //homework list
-
-        //public bool CourseIsActive { get; set; }
-        //public bool CourseIsCreated { get; set; }
+        public List<StudentOnCourseDto> StudentOnCourse { get; set; } = new List<StudentOnCourseDto>();
+        
 
     }
 }

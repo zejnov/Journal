@@ -15,14 +15,8 @@ namespace MSJournal_Data.Repository
         {
             return ExecuteQuery(dbContext =>
             {
-                model.Course = dbContext.CourseDbSet
-                    .First(p => p.Id == model.Course.Id);
-                model.Student = dbContext.StudentDbSet
-                    .First(p => p.Id == model.Student.Id);
-
                 dbContext.HomeworkDbSet.Add(model);
-                model.Course.HomeworksList.Add(model);
-
+                
                 return true;
             });
         }

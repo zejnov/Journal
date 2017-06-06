@@ -17,12 +17,7 @@ namespace MSJournal_Data.Models
         public double PresenceThreshold { get; set; }
         public int StudentsNumber { get; set; }
 
-        public List<Student> CourseStudentsList { get; set; } = new List<Student>();
-        public List<CourseDay> AttendanceList { get; set; } = new List<CourseDay>();  //attendance list
-        public List<Homework> HomeworksList { get; set; } = new List<Homework>(); //homework list
-        
-        //public bool CourseIsActive { get; set; }
-        //public bool CourseIsCreated { get; set; }
+        public List<StudentOnCourse> StudentOnCourse { get; set; } 
         
     }
 }

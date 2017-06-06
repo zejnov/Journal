@@ -10,8 +10,6 @@ namespace MSJournal_Business.Dtos
     public class CourseDayDto
     {
         public int Id { get; set; }
-        public CourseDto Course { get; set; }
-        public StudentDto Student { get; set; }
         public string Attendance { get; set; }
     }
 }

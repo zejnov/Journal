@@ -44,12 +44,14 @@
     <Compile Include="Dtos\CourseDto.cs" />
     <Compile Include="Dtos\HomeworkDto.cs" />
     <Compile Include="Dtos\StudentDto.cs" />
+    <Compile Include="Dtos\StudentOnCourseDto.cs" />
     <Compile Include="Mappers\DtoToEntity.cs" />
     <Compile Include="Mappers\EntityToDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CourseDayServices.cs" />
     <Compile Include="Services\CourseServices.cs" />
     <Compile Include="Services\HomeworkServices.cs" />
+    <Compile Include="Services\StudentOnCourseServices.cs" />
     <Compile Include="Services\StudentServices.cs" />
   </ItemGroup>
   <ItemGroup>

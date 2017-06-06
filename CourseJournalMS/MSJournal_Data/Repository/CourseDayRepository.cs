@@ -15,18 +15,11 @@ namespace MSJournal_Data.Repository
         {
             return ExecuteQuery(dbContext =>
             {
-                model.Course = dbContext.CourseDbSet
-                    .First(p => p.Id == model.Course.Id);
-                model.Student = dbContext.StudentDbSet
-                    .First(p => p.Id == model.Student.Id);
-
                 dbContext.CoruseDayDbSet.Add(model);
-                model.Course.AttendanceList.Add(model);
-
                 return true;
             });
         }
-
+        
         public override CourseDay Get(int id)
         {
             return ExecuteQuery(dbContext => dbContext.CoruseDayDbSet

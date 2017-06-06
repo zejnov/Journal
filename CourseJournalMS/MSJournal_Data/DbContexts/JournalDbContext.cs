@@ -15,13 +15,14 @@ namespace MSJournal_Data.DbContexts
 
         public DbSet<Student> StudentDbSet { get; set; }
 
+        public DbSet<Course> CourseDbSet { get; set; }
+
+        public DbSet<StudentOnCourse> StudentOnCourseDbSet { get; set; }
+        
         public DbSet<Homework> HomeworkDbSet { get; set; }
 
         public DbSet<CourseDay> CoruseDayDbSet { get; set; }
-
-        public DbSet<Course> CourseDbSet { get; set; }
         
-
         public static string GetConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["ZejnovJournalSql"].ConnectionString;

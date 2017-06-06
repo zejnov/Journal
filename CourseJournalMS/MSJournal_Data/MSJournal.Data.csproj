@@ -54,6 +54,7 @@
     <Compile Include="Models\CourseDay.cs" />
     <Compile Include="Models\Homework.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentOnCourse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Basic\BasicRepository.cs" />
     <Compile Include="Repository\CourseDayRepository.cs" />
@@ -62,7 +63,9 @@
     <Compile Include="Repository\Interfaces\ICourseDayRepository.cs" />
     <Compile Include="Repository\Interfaces\ICourseRepository.cs" />
     <Compile Include="Repository\Interfaces\IHomeworkRepository.cs" />
+    <Compile Include="Repository\Interfaces\IStudentOnCourseRepository.cs" />
     <Compile Include="Repository\Interfaces\IStudentRepository.cs" />
+    <Compile Include="Repository\StudentOnCourseRepository.cs" />
     <Compile Include="Repository\StudentRepository.cs" />
   </ItemGroup>
   <ItemGroup />

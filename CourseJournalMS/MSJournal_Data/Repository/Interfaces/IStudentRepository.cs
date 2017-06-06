@@ -13,6 +13,7 @@ namespace MSJournal_Data.Repository.Interfaces
         bool Exist(Student model);
         Student Get(int id);
         List<Student> GetAll();
+        int StudentsCount();
         bool UpdateStudentData(Student oldModel, Student newModel);
     }
 }
