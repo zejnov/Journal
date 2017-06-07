@@ -54,6 +54,7 @@ namespace MSJournal_Data.Repository
                 dbContext.StudentDbSet.Attach(oldModel);
                 oldModel.Name = newModel.Name;
                 oldModel.Surname = newModel.Surname;
+                oldModel.BirthDate = newModel.BirthDate;
 
                 return true;
             });

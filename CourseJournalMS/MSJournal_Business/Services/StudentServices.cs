@@ -46,7 +46,7 @@ namespace MSJournal_Business.Services
             return new StudentRepository().StudentsCount();
         }
 
-        public bool UpdateStudentData(StudentDto oldStudent, StudentDto newStudent)
+        public static bool UpdateStudentData(StudentDto oldStudent, StudentDto newStudent)
         {
             if (!Exist(oldStudent))
                 return false;
