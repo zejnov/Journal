@@ -7,5 +7,6 @@ namespace MSJournal_Data.Models
     {
         public int Id { get; set; }
         public string Attendance { get; set; }
+        public StudentOnCourse StudentOnCourse { get; set; }
     }
 }

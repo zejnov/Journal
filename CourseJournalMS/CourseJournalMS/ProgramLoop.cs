@@ -226,6 +226,7 @@ namespace CourseJournalMS
             if (success)
             {
                 Console.WriteLine("Course data updated successfully.");
+                //_choosenCourse = course;  //todo: test it;
             }
             else
             {
@@ -343,10 +344,32 @@ namespace CourseJournalMS
 
         }
 
-        private void AddDayOfCourse()
+        private bool AddDayOfCourse()
         {
             Console.Clear();
+            
+            if (_choosenCourse == null)
+            {
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
+            }
+
             //todo
+            var studentOnCourse = new StudentOnCourseDto();
+            studentOnCourse.Course = _choosenCourse;
+
+            var studentOnCourseList = StudentOnCourseServices
+                .GetCourseDataForReport(studentOnCourse.Course);
+
+            foreach (var student in studentOnCourseList)
+            {
+                
+                    Console.WriteLine($"{student.Student.Pesel} {student.Student.Name}");
+                
+            }
+
+
+            return true;
         }
 
         private void AddHomeworkToCourse()
@@ -360,13 +383,27 @@ namespace CourseJournalMS
             Console.Clear();
 
             var studentOnCourse = new StudentOnCourseDto();
-            
             studentOnCourse.Course = _choosenCourse;
+
             if (_choosenCourse == null)
             {
                 Console.WriteLine("There is no active course! Try 'change' ");
+
+                if (StudentServices.StudentsCount() != 0) 
+                {
+                    Console.WriteLine("\nPrinting just avaible students list");
+
+                    var studentsList = StudentServices.GetAll();
+                    foreach (var student in studentsList)
+                    {
+                        Console.WriteLine($"{student.Name} {student.Surname} PESEL:{student.Pesel}");
+                    }
+                }
+                
                 return false;
             }
+
+            //TODO
 
             Console.WriteLine($"On {studentOnCourse.Course.Name} attends:");
 
@@ -375,10 +412,7 @@ namespace CourseJournalMS
             
             foreach (var student in studentOnCourseList)
             {
-                if (student.Course.Id == _choosenCourse.Id)
-                {
-                    Console.WriteLine($"{student.Student.Pesel}");
-                }
+                Console.WriteLine($"{student.Student.Pesel}");
             }
 
             return true;

@@ -85,12 +85,13 @@ namespace MSJournal_Business.Mappers
                 Id = studentOnCourse.Id,
                 Course = CourseWithoutListEntityToDto(studentOnCourse.Course),
                 Student = StudentEntityToDto(studentOnCourse.Student),
-                AttendanceList = studentOnCourse.AttendanceList
-                    .Select(CourseDayEntityToDto)
-                    .ToList(),
-                HomeworksList = studentOnCourse.HomeworksList
-                    .Select(HomeworkEntityToDto)
-                    .ToList(),
+
+                //AttendanceList = studentOnCourse.AttendanceList
+                //    .Select(CourseDayEntityToDto)
+                //    .ToList(),
+                //HomeworksList = studentOnCourse.HomeworksList
+                //    .Select(HomeworkEntityToDto)
+                //    .ToList(),
             };
         }
 
@@ -106,6 +107,7 @@ namespace MSJournal_Business.Mappers
                 Id = homework.Id,
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
+                StudentOnCourse = StudentOnCourseEntityToDto(homework.StudentOnCourse),
             };
         }
 
@@ -120,6 +122,7 @@ namespace MSJournal_Business.Mappers
             {
                 Id = courseDay.Id,
                 Attendance = courseDay.Attendance,
+                StudentOnCourse = StudentOnCourseEntityToDto(courseDay.StudentOnCourse)
             };
 
         }

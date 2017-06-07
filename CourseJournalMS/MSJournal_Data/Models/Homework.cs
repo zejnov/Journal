@@ -11,5 +11,6 @@ namespace MSJournal_Data.Models
         public int Id { get; set; }
         public int StudentPoints { get; set; }
         public int MaxPoints { get; set; }
+        public StudentOnCourse StudentOnCourse { get; set; }
     }
 }
