@@ -33,7 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IoConsole\ChooseFromList.cs" />
     <Compile Include="IoConsole\ConsoleReadHelper.cs" />
     <Compile Include="IoConsole\ConsoleWriteHelper.cs" />
     <Compile Include="Program.cs" />
@@ -51,11 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MSJournal_Business\MSJournal.Business.csproj">
       <Project>{ee420ca8-1cf9-4fa6-ab38-d63aadb496fb}</Project>
       <Name>MSJournal.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSJournal_Data\MSJournal.Data.csproj">
+      <Project>{960348B0-1448-4377-87B1-90FC0552020F}</Project>
+      <Name>MSJournal.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
