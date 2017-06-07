@@ -26,8 +26,10 @@ namespace CourseJournalMS
             none,
             add,        //student
             create,     //course
+            update,
             signin,     //student on course
             signout,    //student from ourse
+            updatestudent,
             change,     //switch active course
             addday,
             addhome,
@@ -103,6 +105,11 @@ namespace CourseJournalMS
                         AddCourse();
                     }
                         break;
+                    case CommandTypes.update:
+                    {
+                        UpdateCourse();
+                    }
+                        break;
                     case CommandTypes.signin:
                     {
                         SignInStudentOnCourse();
@@ -111,6 +118,11 @@ namespace CourseJournalMS
                     case CommandTypes.signout:
                     {
                         SignOutStudentFromCourse();
+                    }
+                        break;
+                    case CommandTypes.updatestudent:
+                    {
+                        UpdateStudent();
                     }
                         break;
                     case CommandTypes.change:
@@ -196,6 +208,33 @@ namespace CourseJournalMS
 
         }
 
+        private bool UpdateCourse()
+        {
+            Console.Clear();
+
+            if (_choosenCourse == null)
+            {
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
+            }
+
+            var course = new CourseDto();
+            Console.WriteLine("Please provide new course data:\n");
+            course = ConsoleReadHelper.UpdateCourseData();
+            var success = CourseServices.UpdateCourseData(_choosenCourse, course);
+
+            if (success)
+            {
+                Console.WriteLine("Course data updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Something goes wrong.");
+            }
+            
+            return true;
+        }
+
         private void ChangeActiveCourse()
         {
             Console.Clear();
@@ -271,20 +310,55 @@ namespace CourseJournalMS
             return true;
         }
 
-        private void AddDayOfCourse()
+        private bool UpdateStudent()
         {
             Console.Clear();
 
+            var student = new StudentDto();
+            Console.WriteLine("Please student you want update: \n");
+            student = ChooseFromList.StudentFromList(StudentServices.GetAll());
+            
+            if (student == null)
+            {
+                Console.WriteLine("Something goes wrong...");
+                return false;
+            }
+
+            
+            Console.WriteLine("Please provide new student data:\n");
+            var newStudent = new StudentDto();
+            newStudent = ConsoleReadHelper.UpdateStudentData();
+            var success = StudentServices.UpdateStudentData(student, newStudent);
+
+            if (success)
+            {
+                Console.WriteLine("Student data updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Something goes wrong.");
+            }
+
+            return true;
+
+        }
+
+        private void AddDayOfCourse()
+        {
+            Console.Clear();
+            //todo
         }
 
         private void AddHomeworkToCourse()
         {
             Console.Clear();
-
+            //todo
         }
 
         private bool PrintReport()  //
         {
+            Console.Clear();
+
             var studentOnCourse = new StudentOnCourseDto();
             
             studentOnCourse.Course = _choosenCourse;
@@ -294,12 +368,11 @@ namespace CourseJournalMS
                 return false;
             }
 
-            Console.Clear();
             Console.WriteLine($"On {studentOnCourse.Course.Name} attends:");
 
             var studentOnCourseList = StudentOnCourseServices
                 .GetCourseDataForReport(studentOnCourse.Course);
-
+            
             foreach (var student in studentOnCourseList)
             {
                 if (student.Course.Id == _choosenCourse.Id)

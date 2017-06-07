@@ -101,6 +101,19 @@ namespace CourseJournalMS.IoConsole
             return courseDto;
         }
 
+        public static CourseDto UpdateCourseData()
+        {
+            var courseDto = new CourseDto();
+
+            courseDto.Name = GetData<string>("Provide course name");
+            courseDto.LeaderName = GetData<string>("Provide course leader name");
+            courseDto.LeaderSurname = GetData<string>("Provide course leader surname");
+            courseDto.PresenceThreshold = GetIntInRange("Provide presence threshold", 0, 100);
+            courseDto.HomeworkThreshold = GetIntInRange("Provide homework threshold", 0, 100);
+            
+            return courseDto;
+        }
+
         public static StudentDto GetStudentData()
         {
             var studentDto = new StudentDto();
@@ -110,6 +123,17 @@ namespace CourseJournalMS.IoConsole
             studentDto.BirthDate = GetData<DateTime>("Provide student birth date");
             studentDto.Pesel = GetStudentPesel();
             studentDto.Gender = GetStudentGender();
+            
+            return studentDto;
+        }
+
+        public static StudentDto UpdateStudentData()
+        {
+            var studentDto = new StudentDto();
+
+            studentDto.Name = GetData<string>("Provide student name");
+            studentDto.Surname = GetData<string>("Provide student surname");
+            studentDto.BirthDate = GetData<DateTime>("Provide student birth date");
             
             return studentDto;
         }
