@@ -151,10 +151,20 @@ namespace CourseJournalMS.IoConsole
 
 
 
+        public static void PrintOrderedList(StudentDto student, int ordinal)
+        {
+            Console.WriteLine($"{ordinal}. {student.Name} {student.Surname} {student.Pesel}");
+        }
 
+        public static void PrintOrderedList(CourseDto course, int ordinal)
+        {
+            Console.WriteLine($"{ordinal}. {course.Name} lead by {course.LeaderName} {course.LeaderSurname}");
+        }
 
-
-
+        public static void PrintOrderedList(StudentOnCourseDto student, int ordinal)
+        {
+            Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} {student.Student.Pesel}");
+        }
 
     }
 

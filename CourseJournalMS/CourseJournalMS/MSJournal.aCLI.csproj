@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IoConsole\ChooseFromList.cs" />
     <Compile Include="IoConsole\ConsoleReadHelper.cs" />
     <Compile Include="IoConsole\ConsoleWriteHelper.cs" />
     <Compile Include="Program.cs" />

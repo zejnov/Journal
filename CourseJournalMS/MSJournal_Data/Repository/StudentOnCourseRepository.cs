@@ -67,10 +67,7 @@ namespace MSJournal_Data.Repository
         {
             return ExecuteQuery(dbContext =>
             {
-                model.Student = dbContext.StudentDbSet
-                    .First((p => p.Pesel == model.Student.Pesel));
-                model.Course = dbContext.CourseDbSet
-                    .First(p => p.Id == model.Course.Id);
+                dbContext.StudentOnCourseDbSet.Attach(model);
 
                 dbContext.StudentOnCourseDbSet.Remove(model);
 
@@ -92,15 +89,15 @@ namespace MSJournal_Data.Repository
                 .Count(p => p.Id == model.Id));
         }
 
-        public List<StudentOnCourse> GetCourseDataForRaport(Course model)
+        public List<StudentOnCourse> GetCourseDataForReport(Course model)
         {
             return ExecuteQuery(dbContext => dbContext.StudentOnCourseDbSet
-            .Include(p => p.Course.Id == model.Id)
-            .Include(p => p.AttendanceList)
-            .Include(p => p.HomeworksList)
-            .ToList());
+                 .Include(p => p.Student)
+                 .Include(p => p.Course)
+                 .Where(p => p.Course.Id == model.Id)
+                 .ToList());
         }
-        
+
         //Standard repo
 
         public override bool Add(StudentOnCourse model)
@@ -130,7 +127,7 @@ namespace MSJournal_Data.Repository
             return ExecuteQuery(dbContext =>
             {
                 var data = dbContext.StudentOnCourseDbSet
-                    .FirstOrDefault(p => p.Id == model.Id);
+                    .FirstOrDefault(p => p.Student.Pesel == model.Student.Pesel && p.Course.Name == model.Course.Name);
 
                 return data != null;
             });

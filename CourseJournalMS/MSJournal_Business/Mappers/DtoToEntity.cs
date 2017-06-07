@@ -48,7 +48,7 @@ namespace MSJournal_Business.Mappers
             };
         }
 
-        public static StudentOnCourse StudentOnCourseEntityToDto(StudentOnCourseDto studentOnCourse)
+        public static StudentOnCourse StudentOnCourseDtoToEntity(StudentOnCourseDto studentOnCourse)
         {
             if (studentOnCourse == null)
             {

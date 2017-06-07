@@ -21,7 +21,24 @@ namespace MSJournal_Business.Services
                 return false;
 
             return new StudentOnCourseRepository().AddStudentToCourse(
-                DtoToEntity.StudentOnCourseEntityToDto(studentOnCourseDto));
+                DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto));
+        }
+
+        public static bool RemoveStudentFromCourse(StudentOnCourseDto studentOnCourseDto)
+        {
+            return new StudentOnCourseRepository()
+               .RemoveStudentFromCourse(DtoToEntity
+               .StudentOnCourseDtoToEntity(studentOnCourseDto));
+
+        }
+
+        public static List<StudentOnCourseDto> GetCourseDataForReport(CourseDto course)
+        {
+            return new StudentOnCourseRepository()
+                .GetCourseDataForReport(DtoToEntity.CourseDtoToEntity(course))
+                .Select(EntityToDto.StudentOnCourseEntityToDto)
+                .ToList();
+
         }
 
         public static bool CheckAttendance(StudentOnCourseDto studentOnCourseDto)
@@ -58,9 +75,7 @@ namespace MSJournal_Business.Services
 
             return true;
         }
-
-
-
+        
         public bool CheckHomework(StudentOnCourseDto studentOnCourseDto)
         {
             //foreach (var studentDto in courseDto.CourseStudentsList)
@@ -95,6 +110,11 @@ namespace MSJournal_Business.Services
             return true;
         }
 
+        public static bool Exist(StudentOnCourseDto studentOnCourseDto)
+        {
+            return new StudentOnCourseRepository()
+                .Exist(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto));
+        }
 
     }
 }

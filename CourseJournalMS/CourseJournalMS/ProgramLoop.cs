@@ -14,7 +14,7 @@ namespace CourseJournalMS
     class ProgramLoop
     {
         //Journal journal = new Journal();
-       // private CourseDto _choosenCourse;
+        private CourseDto _choosenCourse;
 
         public void Run()
         {
@@ -24,10 +24,11 @@ namespace CourseJournalMS
         public enum CommandTypes
         {
             none,
-            add,
-            sample,
-            create,
-            change,
+            add,        //student
+            create,     //course
+            signin,     //student on course
+            signout,    //student from ourse
+            change,     //switch active course
             addday,
             addhome,
             print,
@@ -102,9 +103,14 @@ namespace CourseJournalMS
                         AddCourse();
                     }
                         break;
-                    case CommandTypes.sample:
+                    case CommandTypes.signin:
                     {
-                        SampleFullData();
+                        SignInStudentOnCourse();
+                    }
+                        break;
+                    case CommandTypes.signout:
+                    {
+                        SignOutStudentFromCourse();
                     }
                         break;
                     case CommandTypes.change:
@@ -181,6 +187,7 @@ namespace CourseJournalMS
             if (success)
             {
                 Console.WriteLine("Course added to database successfully.");
+                _choosenCourse = courseDto;
             }
             else
             {
@@ -192,42 +199,77 @@ namespace CourseJournalMS
         private void ChangeActiveCourse()
         {
             Console.Clear();
-
+            _choosenCourse = ChooseFromList.CourseFromList(CourseServices.GetAll());
 
         }
 
-        private void SampleFullData()
+        private bool SignInStudentOnCourse()
+        {
+            Console.Clear();
+
+            if (_choosenCourse == null)
+            {
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
+            }
+
+            var studentOnCourse = new StudentOnCourseDto();
+
+            studentOnCourse.Course = _choosenCourse;
+            studentOnCourse.Student = ChooseFromList.StudentFromList(StudentServices.GetAll());
+
+            if (!StudentOnCourseServices.Exist(studentOnCourse))
+            {
+                var success = StudentOnCourseServices.AddStudentToCourse(studentOnCourse);
+
+                if (success)
+                {
+                    Console.WriteLine("Student sign in to course successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Something goes wrong...");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Choosen student already attend to this course.");
+            }
+
+            Console.WriteLine($"\n{studentOnCourse.Student.Pesel} attend on {studentOnCourse.Course.Name}");  //temp
+
+            return true;
+        }
+
+        private bool SignOutStudentFromCourse()
         {
             Console.Clear();
             
-              var student = StudentServices.GetAll();
-
-            foreach (var name in student)
+            if (_choosenCourse == null)
             {
-            Console.WriteLine($"{name.Name} {name.Surname} found!");
-
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
             }
 
+            var studentOnCourse = new StudentOnCourseDto();
 
-            //var course = CourseServices.Get(3);
-            //var sOnC = new StudentOnCourseDto();
-            //sOnC.Student = student;
-            //sOnC.Course = course;
+            studentOnCourse.Course = _choosenCourse;
+            studentOnCourse = ChooseFromList.StudentOnCourseList(StudentOnCourseServices
+                .GetCourseDataForReport(studentOnCourse.Course));
 
-            //var success = StudentOnCourseServices.AddStudentToCourse(sOnC);
+            var success = StudentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
+            
+            if (success)
+            {
+                Console.WriteLine("Student sign out from course successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Something goes wrong...");
+            }
 
-            //if (success)
-            //{
-            //    Console.WriteLine("Student added to course successfully.");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Nope");
-            //}
-
+            return true;
         }
-
-        
 
         private void AddDayOfCourse()
         {
@@ -241,10 +283,32 @@ namespace CourseJournalMS
 
         }
 
-        private void PrintReport()  //
+        private bool PrintReport()  //
         {
-            Console.Clear();
+            var studentOnCourse = new StudentOnCourseDto();
+            
+            studentOnCourse.Course = _choosenCourse;
+            if (_choosenCourse == null)
+            {
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
+            }
 
+            Console.Clear();
+            Console.WriteLine($"On {studentOnCourse.Course.Name} attends:");
+
+            var studentOnCourseList = StudentOnCourseServices
+                .GetCourseDataForReport(studentOnCourse.Course);
+
+            foreach (var student in studentOnCourseList)
+            {
+                if (student.Course.Id == _choosenCourse.Id)
+                {
+                    Console.WriteLine($"{student.Student.Pesel}");
+                }
+            }
+
+            return true;
         }
     }//class
 }

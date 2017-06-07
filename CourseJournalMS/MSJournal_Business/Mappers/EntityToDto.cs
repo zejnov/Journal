@@ -46,9 +46,9 @@ namespace MSJournal_Business.Mappers
                 PresenceThreshold = course.PresenceThreshold,
                 StudentsNumber = course.StudentsNumber,
 
-                StudentOnCourse = course.StudentOnCourse
-                .Select(StudentOnCourseEntityToDto)
-                .ToList()
+                //StudentOnCourse = course.StudentOnCourse
+                //.Select(StudentOnCourseEntityToDto)
+                //.ToList()
 
             };
         }
