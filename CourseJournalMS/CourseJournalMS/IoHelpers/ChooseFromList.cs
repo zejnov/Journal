@@ -8,7 +8,7 @@ using MSJournal_Business.Dtos;
 
 namespace CourseJournalMS.IoConsole
 {
-    class ChooseFromList
+    public class ChooseFromList
     {
         public static StudentDto StudentFromList(List<StudentDto> studentList)
         {
@@ -27,15 +27,16 @@ namespace CourseJournalMS.IoConsole
             }
 
             Console.WriteLine();
-            Console.Write("Please, choose student number:");
+            Console.Write("Please, choose student number");
 
             while (!isAnswerCorrect)
             {
-                answer = Int32.Parse(Console.ReadLine());
+                answer = ConsoleReadHelper.GetData<int>("");
+                   
                 isAnswerCorrect = answer > 0 && answer <= studentList.Count;
 
                 if (!isAnswerCorrect)
-                    Console.Write("Incorrect answer. Try again: ");
+                    Console.Write("Bad entry, try again");
             }
 
             return studentList[answer - 1];
@@ -58,15 +59,15 @@ namespace CourseJournalMS.IoConsole
             }
 
             Console.WriteLine();
-            Console.Write("Please, choose course number:");
+            Console.Write("Please, choose course number");
 
             while (!isAnswerCorrect)
             {
-                answer = Int32.Parse(Console.ReadLine());
+                answer = ConsoleReadHelper.GetData<int>("");
                 isAnswerCorrect = answer > 0 && answer <= courseList.Count;
 
                 if (!isAnswerCorrect)
-                    Console.Write("Incorrect answer. Try again: ");
+                    Console.Write("Bad entry, try again");
             }
 
             return courseList[answer - 1];

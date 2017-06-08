@@ -55,6 +55,13 @@ namespace MSJournal_Business.Services
         {
             return new CourseRepository().GetCourseCount();
         }
-       
+
+        public static CourseDto RefreshCourse(CourseDto course)
+        {
+            return EntityToDto.CourseEntityToDto(
+                new CourseRepository().RefreshCourse
+                    (DtoToEntity.CourseDtoToEntity(course)));
+
+        }
     }
 }

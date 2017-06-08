@@ -14,6 +14,12 @@ namespace CourseJournalMS
 
         public static bool GetAttendanceReport(List<StudentOnCourseDto> studentOnCourseList)
         {
+            if (studentOnCourseList.Count == 0)
+            {
+                Console.WriteLine("\nThere where no attendance checks on this course.");
+                return false;
+            }
+
             Console.WriteLine("\nAttendance on course results:\n");
 
             var ordinal = 1;
@@ -29,6 +35,12 @@ namespace CourseJournalMS
 
         public static bool GetHomeworkReport(List<StudentOnCourseDto> studentOnCourseList)
         {
+            if (studentOnCourseList.Count == 0)
+            {
+                Console.WriteLine("\nThere where no homeworks on this course.");
+                return false;
+            }
+
             Console.WriteLine("\nHomework results:\n");
 
             var ordinal = 1;
@@ -46,7 +58,6 @@ namespace CourseJournalMS
         {
             Console.WriteLine("COURSE REPORT \n");
             ConsoleWriteHelper.PrintCourseData(course);
-
             return true;
         }
 

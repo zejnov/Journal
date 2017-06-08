@@ -10,34 +10,6 @@ namespace CourseJournalMS.IoConsole
 {
     internal class ConsoleReadHelper
     {
-        //public static int GetInt(int minValue, int maxValue)
-        //{
-        //    bool parameterOk = false;
-        //    int result = 0;
-
-        //    do
-        //    {
-        //        try
-        //        {
-        //            result = Int32.Parse(Console.ReadLine());
-        //            if (result >= minValue && result <= maxValue)
-        //            {
-        //                parameterOk = true;
-        //            }
-        //            else
-        //            {
-        //                Console.Write("Please provide number between <{0},{1}>: ", minValue, maxValue);
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.Write("Bad data format, try again: ");
-        //        }
-        //    } while (!parameterOk);
-
-        //    return result;
-        //}
-
         public static T GetData<T>(string message)
         {
             while (true)
@@ -49,13 +21,11 @@ namespace CourseJournalMS.IoConsole
                 }
                 catch (ArgumentNullException)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("ERROR! You didnt gave anything, ty again");
+                    Console.WriteLine("\nYou didnt gave anything, try again:");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("ERROR! Something went wrong, try again");
+                    Console.Write("\nSomething went wrong, try again:");
                 }
             }
         }
@@ -101,13 +71,19 @@ namespace CourseJournalMS.IoConsole
             return courseDto;
         }
 
-        public static CourseDto UpdateCourseData()
+        public static CourseDto UpdateCourseData(CourseDto oldCourseDto)
         {
             var courseDto = new CourseDto();
 
-            courseDto.Name = GetData<string>("Provide course name");
-            courseDto.LeaderName = GetData<string>("Provide course leader name");
-            courseDto.LeaderSurname = GetData<string>("Provide course leader surname");
+            var newName = GetData<string>("Provide course name");
+            courseDto.Name = newName == "" ? oldCourseDto.Name : newName;
+
+            var newLeaderName = GetData<string>("Provide course leader name");
+            courseDto.LeaderName = newLeaderName == "" ? oldCourseDto.LeaderName : newLeaderName;
+
+            var newLeaderSurname = GetData<string>("Provide course leader surname");
+            courseDto.LeaderSurname = newLeaderSurname == "" ? oldCourseDto.LeaderSurname : newLeaderSurname;
+
             courseDto.PresenceThreshold = GetIntInRange("Provide presence threshold", 0, 100);
             courseDto.HomeworkThreshold = GetIntInRange("Provide homework threshold", 0, 100);
             
@@ -127,12 +103,16 @@ namespace CourseJournalMS.IoConsole
             return studentDto;
         }
 
-        public static StudentDto UpdateStudentData()
+        public static StudentDto UpdateStudentData(StudentDto oldStudentDto)
         {
             var studentDto = new StudentDto();
 
-            studentDto.Name = GetData<string>("Provide student name");
-            studentDto.Surname = GetData<string>("Provide student surname");
+            var newName = GetData<string>("Provide student name");
+            studentDto.Name = newName == "" ? oldStudentDto.Name : newName;
+            
+            var newSurname = GetData<string>("Provide student surname");
+            studentDto.Surname = newSurname == "" ? oldStudentDto.Surname : newSurname;
+
             studentDto.BirthDate = GetData<DateTime>("Provide student birth date");
             
             return studentDto;
@@ -184,8 +164,7 @@ namespace CourseJournalMS.IoConsole
 
             return AttendanceResult(enumResult);
         }
-
-
+        
         private enum GenderType 
         {
             none,
@@ -216,7 +195,5 @@ namespace CourseJournalMS.IoConsole
             }
             return "";
         }
-
-        
     }
 }

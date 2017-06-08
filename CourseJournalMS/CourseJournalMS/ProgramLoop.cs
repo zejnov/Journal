@@ -161,7 +161,7 @@ namespace CourseJournalMS
                         break;
                     case CommandTypes.help:
                     {
-                        ConsoleWriteHelper.PrintHelp();
+                        Action(ConsoleWriteHelper.PrintHelp());
                     }
                         break;
                     default:            //almost useless
@@ -201,7 +201,7 @@ namespace CourseJournalMS
             if (success)
             {
                 Console.WriteLine("Course added to database successfully.");
-                _choosenCourse = courseDto;
+                ReloadCourse(courseDto);
             }
             else
             {
@@ -222,13 +222,13 @@ namespace CourseJournalMS
 
             var course = new CourseDto();
             Console.WriteLine("Please provide new course data:\n");
-            course = ConsoleReadHelper.UpdateCourseData();
+            course = ConsoleReadHelper.UpdateCourseData(_choosenCourse);
             var success = CourseServices.UpdateCourseData(_choosenCourse, course);
 
             if (success)
             {
                 Console.WriteLine("Course data updated successfully.");
-                //_choosenCourse = course;  //todo: test it;
+                ReloadCourse(course);
             }
             else
             {
@@ -244,7 +244,7 @@ namespace CourseJournalMS
             if (CourseServices.GetCourseCount() == 0)
             {
                 Console.WriteLine("You need to create course first!");
-                return false;
+                return true;
             }
 
             _choosenCourse = ChooseFromList.CourseFromList(CourseServices.GetAll());
@@ -283,9 +283,7 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Choosen student already attend to this course.");
             }
-
-            Console.WriteLine($"\n{studentOnCourse.Student.Pesel} attend on {studentOnCourse.Course.Name}");  //temp
-
+            
             return true;
         }
 
@@ -324,7 +322,7 @@ namespace CourseJournalMS
             Console.Clear();
 
             var student = new StudentDto();
-            Console.WriteLine("Please student you want update: \n");
+            Console.WriteLine("Please choose student you want update: \n");
             student = ChooseFromList.StudentFromList(StudentServices.GetAll());
             
             if (student == null)
@@ -332,11 +330,10 @@ namespace CourseJournalMS
                 Console.WriteLine("Something goes wrong...");
                 return false;
             }
-
             
             Console.WriteLine("Please provide new student data:\n");
             var newStudent = new StudentDto();
-            newStudent = ConsoleReadHelper.UpdateStudentData();
+            newStudent = ConsoleReadHelper.UpdateStudentData(student);
             var success = StudentServices.UpdateStudentData(student, newStudent);
 
             if (success)
@@ -392,7 +389,7 @@ namespace CourseJournalMS
                 Console.WriteLine("Something goes wrong...");
             }
 
-
+            Console.ReadKey();
             return true;
         }
 
@@ -412,7 +409,7 @@ namespace CourseJournalMS
             var studentOnCourseList = StudentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
 
-            var maxHomeworkPoints = ConsoleReadHelper.GetIntInRange("Please provide homework max points", 0, 1000);
+            var maxHomeworkPoints = ConsoleReadHelper.GetIntInRange("Please provide max homework points", 0, 1000);
 
             var success = true;
 
@@ -439,16 +436,13 @@ namespace CourseJournalMS
                 Console.WriteLine("Something goes wrong...");
             }
 
-
+            Console.ReadKey();
             return true;
         }
 
-        private bool PrintReport()  //
+        private bool PrintReport()
         {
             Console.Clear();
-
-            var studentOnCourse = new StudentOnCourseDto();
-            studentOnCourse.Course = _choosenCourse;
 
             if (_choosenCourse == null)
             {
@@ -457,18 +451,19 @@ namespace CourseJournalMS
             }
 
             //*******************Drukowanie raportu**********************
-            
-            ReportHelper.GetCourseReport(studentOnCourse.Course);
+            var printOk = true;
+            printOk &= ReportHelper.GetCourseReport(_choosenCourse);
 
             var studentOnCourseList = StudentOnCourseServices
-                .StudentsListOnCourse(studentOnCourse.Course);
+                .StudentsListOnCourse(_choosenCourse);
 
             //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
             
-            ReportHelper.GetHomeworkReport(studentOnCourseList);
-            ReportHelper.GetAttendanceReport(studentOnCourseList);
+            printOk &= ReportHelper.GetHomeworkReport(studentOnCourseList);
+            printOk &= ReportHelper.GetAttendanceReport(studentOnCourseList);
 
-            
+            Console.WriteLine(printOk ? "\nReport generated and printed successfully!" : "Something goes wrong...");
+            Console.ReadKey();
 
             return true;
         }
@@ -481,14 +476,24 @@ namespace CourseJournalMS
 
         private void Exit()
         {
-            Console.WriteLine($"\n\nYou used {_zjv} commands :) ");
-            Console.WriteLine("Bye, bye!");
+            Console.WriteLine($"\n\nYou used {++_zjv} commands :)");
+            Console.WriteLine($"Bye, bye {Environment.UserName}");
             Console.ReadKey();
         }
 
         private void Action(bool zjv)
         {
             _zjv++;
+        }
+
+        private void ReloadCourse()
+        {
+            _choosenCourse = CourseServices.RefreshCourse(_choosenCourse);
+        }
+
+        private void ReloadCourse(CourseDto course)
+        {
+            _choosenCourse = CourseServices.RefreshCourse(course);
         }
     }//class
 }

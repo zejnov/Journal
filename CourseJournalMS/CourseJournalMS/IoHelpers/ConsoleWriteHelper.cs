@@ -14,140 +14,44 @@ namespace CourseJournalMS.IoConsole
 
         public static void PrintMenu()
         {
-            Console.WriteLine("\nadd / sample / create / change / addday / addhome / print / clear / exit / help");
+            Console.Clear();
+            Console.WriteLine("Avaible commands:");
+            Console.WriteLine("/add     /create     /update     /signin     /signout    /updatestudent " +
+                            "\n/change  /addday     /addhome    /print      /clear      /exit   /help");
             Console.Write("Please enter the name of the action: ");
         }
-
-        public static void PrintHelp()
+        
+        public static bool PrintHelp()
         {
+            int i = 1;
+            
             Console.Clear();
-
-            Console.WriteLine("\nWELCOME TO HELP!");
-            Console.WriteLine("\nadd     - add new student to list" +
-                              "\nsample  - loading some sample journal & students to print report" +
-                              "\nchange  - jump to other course" +
-                              "\ncreate  - creating a new journal" +
-                              "\naddday  - adding a day of classes to course" +
-                              "\naddhome - adding homework to course" +
-                              "\nprint   - printing course report" +
-                              "\nclear   - clearing the console" +
-                              "\nexit    - exit console" +
-                              "\nhelp    - is exactly where you are :)");
+            Console.WriteLine("WELCOME TO HELP!");
+            Console.WriteLine($"\n{i++}. /add           - Add new student" +
+                              $"\n{i++}. /create        - Create new course" +
+                              $"\n{i++}. /update        - Update course data" +
+                              $"\n{i++}. /signin        - Sign in student to course" +
+                              $"\n{i++}. /signout       - Sign out student from course" +
+                              $"\n{i++}. /updatestudent - Update student data" +
+                              $"\n{i++}. /change        - Change active course" +
+                              $"\n{i++}. /addday        - Check attendance for active course " +
+                              $"\n{i++}. /addhome       - Add homework to active course" +
+                              $"\n{i++}. /print         - PRINTING COURSE REPORT" +
+                              $"\n{i++}. /clear         - clear your console" +
+                              $"\n{i++}. /exit          - exit program" +
+                              $"\n{i++}. /help          - prints this menu");
+            
+            Console.WriteLine("\n^Tip^ You can use numbers instead of commands as follows");
             Console.WriteLine("\n\nzejnov/2017\n");
+            Console.ReadKey();
+            Console.Clear();
+            return true;
         }
 
         public static void PrintIdError()
         {
             Console.WriteLine("The given ID does not exist in courses collection");
         }
-
-        //    public static void PrintCourseReport(CourseDto course)
-        //    {
-        //        Console.Clear();
-
-        //        PrintCourseInfo(course);
-
-
-        //        PrintAttendance(course);
-        //        PrintHomework(course);
-
-        //        if (course.NumberOfHomeworks == 0 && course.ClassesDays == 0)
-        //        {
-        //            PrintStudentsOnCourseList(course);
-        //        }
-        //        Console.WriteLine("\n\n");
-        //    }
-
-        //    public static void PrintCourseInfo(CourseDto course)
-        //    {
-        //        Console.WriteLine("COURSE REPORT \n\nCourse name: {0}", course.Name);
-        //        Console.WriteLine("Course start date: {0}.", course.StartDate);
-        //        Console.WriteLine("Course leader: {0} {1}", course.LeaderName, course.LeaderSurname);
-        //        Console.WriteLine("Course presence threshold: {0}%", course.PresenceThreshold);
-        //        Console.WriteLine("Course homework threshold: {0}%", course.HomeworkThreshold);
-        //    }
-
-
-        //    public static void PrintAttendance(CourseDto course)
-        //    {
-        //        Console.WriteLine("\nDuring the course, there were {0} classes.", course.ClassesDays);
-
-        //        if (course.ClassesDays != 0)
-        //        {
-        //            foreach (var student in course.CourseStudentsListDto)
-        //            {
-        //                string result;
-        //                if (student.AttendanceOk)
-        //                {
-        //                    result = "passed";
-        //                }
-        //                else
-        //                {
-        //                    result = "not passed";
-        //                }
-
-        //                Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - " + result,
-        //                    student.Name, student.Surname, student.PresentDays, course.ClassesDays,
-        //                    Convert.ToInt32(student.StudentAttendance));
-        //            }
-        //        }
-        //    }
-
-        //    public static void PrintHomework(CourseDto course)
-        //    {
-        //        Console.WriteLine("\nDuring the course, there were {0} homeworks.", course.NumberOfHomeworks);
-
-        //        if (course.NumberOfHomeworks != 0)
-        //        {
-        //            foreach (var student in course.CourseStudentsListDto)
-        //            {
-        //                string result;
-        //                if (student.HomeworkOk)
-        //                {
-        //                    result = "passed";
-        //                }
-        //                else
-        //                {
-        //                    result = "not passed";
-        //                }
-
-        //                Console.WriteLine("Student {0} {1} gets {2}/{3} ({4}%) - " + result,
-        //                    student.Name, student.Surname, student.HomeworkPoints, student.HomeworkMaxPoints,
-        //                    Convert.ToInt32(student.HomeworkPerformance));
-        //            }
-        //        }
-        //    }
-
-        //    public static void PrintAllStudentsList()  //TODO: drukowanie z EntityToDto
-        //    {
-        //        var studentListDto = Dane.StudentsList; //Poddałem się z tym... :( na skróty.
-
-        //        Console.WriteLine("\nPrinting just student list:");
-        //        foreach (var student in studentListDto.Values)
-        //        {
-        //            Console.WriteLine("{0}. {1} {2}",
-        //                student.Id, student.Name, student.Surname);
-        //        }
-        //    }
-
-        //    public static void PrintStudentsOnCourseList(CourseDto course)
-        //    {
-        //        //var journal = new Journal();
-        //        //var course = journal.GetActiveCourse();
-
-        //        Console.WriteLine("\n{0} students attend to this course:\n", course.CourseStudentsListDto.Count);
-        //        foreach (var student in course.CourseStudentsListDto)
-        //        {
-        //            Console.WriteLine("{0}. {1} {2}",
-        //                student.Id, student.Name, student.Surname);
-        //        }
-        //    }
-
-        //    public static void NewCourseDay()
-        //    {
-        //        Console.WriteLine("For each student please enter p(present) or a(absent):");
-        //    }
-
 
         public static void PrintCourseData(CourseDto course)
         {
@@ -209,6 +113,12 @@ namespace CourseJournalMS.IoConsole
             Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} result:" +
                               $" {student.Student.HomeworkPoints}/{student.Student.HomeworkMaxPoints} =" +
                               $" {Convert.ToInt32(student.Student.HomeworkPerformance)}% - {result}");
+        }
+
+        public static void HelloWorld()
+        {
+            Console.WriteLine($"Hello {Environment.UserName} in course journal :) \n\n\nPress any key to start");
+            Console.ReadKey();
         }
     }
 
