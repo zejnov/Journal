@@ -40,71 +40,71 @@ namespace MSJournal_Business.Services
                 .ToList();
         }
 
-        public static bool CheckAttendance(StudentOnCourseDto studentOnCourseDto)
+        public static bool CheckAttendance(StudentOnCourseDto studentOnCourseDto, List<CourseDayDto> attendanceList)
         {
-                //var student = courseDto.Student;
-                //var attendanceList = courseDto.AttendanceList;
+            if (attendanceList.Count == 0)
+            {
+                return false;
+            }
 
-                //student.PresentDays = 0;
-                //student.AttendanceOk = false;
-                //student.StudentAttendance = 0;
+            studentOnCourseDto.Student.PresentDays = 0;
+            studentOnCourseDto.Student.CourseDays = 0;
+            studentOnCourseDto.Student.AttendanceOk = false;
+            studentOnCourseDto.Student.StudentAttendance = 0;
 
-                //if (attendanceList.Count != 0)
-                //{
-                //    foreach (var day in attendanceList)
-                //    {
-                //        if (day.Attendance == "present")
-                //        {
-                //            student.PresentDays++;
-                //        }
-                //    }
-                //    student.StudentAttendance = 100.0d
-                //                                   * student.PresentDays / studentAttendanceList.Count;
-                //}
+            foreach (var entry in attendanceList)
+            {
+                if (entry.Attendance == "present")
+                {
+                    studentOnCourseDto.Student.PresentDays++;
+                }
+                studentOnCourseDto.Student.CourseDays++;
+            }
 
-                //if (student.StudentAttendance >= courseDto.PresenceThreshold)
-                //{
-                //    student.AttendanceOk = true;
-                //}
-                //else
-                //{
-                //    student.AttendanceOk = false;
-                //}
-            
+            studentOnCourseDto.Student.StudentAttendance = 100.0d
+                * studentOnCourseDto.Student.PresentDays 
+                    / attendanceList.Count;
 
+            if (studentOnCourseDto.Student.StudentAttendance 
+                    >= studentOnCourseDto.Course.PresenceThreshold)
+            {
+                studentOnCourseDto.Student.AttendanceOk = true;
+            }
+            else
+            {
+                studentOnCourseDto.Student.AttendanceOk = false;
+            }
             return true;
         }
         
-        public bool CheckHomework(StudentOnCourseDto studentOnCourseDto)
+        public static bool CheckHomework(StudentOnCourseDto studentOnCourseDto, List<HomeworkDto> homeworkList)
         {
-            //foreach (var studentDto in courseDto.CourseStudentsList)
-            //{
-            //    var studentHomeworkList = CourseServices
-            //        .GetStudentHomework(courseDto, studentDto.Id);
+            if (homeworkList.Count == 0)
+            {
+                return false;
+            }
 
-            //    studentDto.HomeworkPoints = 0;
-            //    studentDto.HomeworkMaxPoints = 0;
+            studentOnCourseDto.Student.HomeworkPoints = 0;
+            studentOnCourseDto.Student.HomeworkMaxPoints = 0;
+            
+            foreach (var homework in homeworkList)
+            {
+                studentOnCourseDto.Student.HomeworkPoints += homework.StudentPoints;
+                studentOnCourseDto.Student.HomeworkMaxPoints += homework.MaxPoints;
+            }
 
-            //    if (studentHomeworkList.Count != 0)
-            //    {
-            //        foreach (var homework in studentHomeworkList)
-            //        {
-            //            studentDto.HomeworkPoints += homework.StudentPoints;
-            //            studentDto.HomeworkMaxPoints += homework.MaxPoints;
-            //        }
-            //        studentDto.HomeworkPerformance = 100.0d
-            //                                         * studentDto.HomeworkPoints / studentHomeworkList.Count;
-            //    }
-
-            //    if (studentDto.HomeworkPerformance >= courseDto.HomeworkThreshold)
-            //    {
-            //        studentDto.HomeworkOk = true;
-            //    }
-            //    else
-            //    {
-            //        studentDto.HomeworkOk = false;
-            //    }
-            //}
+            studentOnCourseDto.Student.HomeworkPerformance = 100.0d
+                * studentOnCourseDto.Student.HomeworkPoints 
+                    / studentOnCourseDto.Student.HomeworkMaxPoints;
+               
+            if (studentOnCourseDto.Student.HomeworkPerformance >= studentOnCourseDto.Course.HomeworkThreshold)
+            {
+                studentOnCourseDto.Student.HomeworkOk = true;
+            }
+            else
+            {
+                studentOnCourseDto.Student.HomeworkOk = false;
+            }
 
             return true;
         }

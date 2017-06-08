@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,7 @@ namespace CourseJournalMS
 {
     class ProgramLoop
     {
-        //Journal journal = new Journal();
+        private int _zjv = 0;
         private CourseDto _choosenCourse;
 
         public void Run()
@@ -75,7 +76,7 @@ namespace CourseJournalMS
                 ConsoleWriteHelper.PrintMenu();
 
                 var command = GetCommandFromUser();
-
+                
                 switch (command)
                 {
                     #region         Command types on short list   
@@ -98,65 +99,64 @@ namespace CourseJournalMS
                         break;
                     case CommandTypes.add:
                     {
-                        AddStudent();
+                        Action(AddStudent());
                     }
                         break;
                     case CommandTypes.create:
                     {
-                        AddCourse();
+                        Action(AddCourse());
                     }
                         break;
                     case CommandTypes.update:
                     {
-                        UpdateCourse();
+                        Action(UpdateCourse());
                     }
                         break;
                     case CommandTypes.signin:
                     {
-                        SignInStudentOnCourse();
+                        Action(SignInStudentOnCourse());
                     }
                         break;
                     case CommandTypes.signout:
                     {
-                        SignOutStudentFromCourse();
+                        Action(SignOutStudentFromCourse());
                     }
                         break;
                     case CommandTypes.updatestudent:
                     {
-                        UpdateStudent();
+                        Action(UpdateStudent());
                     }
                         break;
                     case CommandTypes.change:
                     {
-                        ChangeActiveCourse();
+                        Action(ChangeActiveCourse());
                     }
                         break;
 
                     case CommandTypes.addday:
                     {
-                         AddDayOfCourse();
+                         Action(AddDayOfCourse());
                     }
                         break;
                     case CommandTypes.addhome:
                     {
-                         AddHomeworkToCourse();
+                         Action(AddHomeworkToCourse());
                     }
                         break;
                     case CommandTypes.print:
                     {
-                        PrintReport();
+                        Action(PrintReport());
                     }
                         break;
                     case CommandTypes.clear:
                     {
-                        Console.Clear();
+                        Action(Clear());
                     }
                         break;
                     case CommandTypes.exit:
                     {
                         exit = true;
-                        Console.WriteLine("Bye, bye!");
-                        Console.ReadKey();
+                        Exit();
                     }
                         break;
                     case CommandTypes.help:
@@ -171,7 +171,7 @@ namespace CourseJournalMS
             }
         }
 
-        private void AddStudent()
+        private bool AddStudent()
         {
             Console.Clear();
             var studentDto = new StudentDto();
@@ -187,9 +187,10 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given student already exists in the database");
             }
+            return true;
         }
 
-        private void AddCourse()
+        private bool AddCourse()
         {
             Console.Clear();
 
@@ -206,7 +207,7 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given course already exists in the database");
             }
-
+            return true;
         }
 
         private bool UpdateCourse()
@@ -361,7 +362,6 @@ namespace CourseJournalMS
                 return false;
             }
 
-            //todo
             var studentOnCourse = new StudentOnCourseDto();
             studentOnCourse.Course = _choosenCourse;
 
@@ -378,7 +378,6 @@ namespace CourseJournalMS
                     StudentOnCourse = student,
                 };
                 
-
                 courseDay.Attendance = ConsoleReadHelper.GetStudentAttendance(student.Student);
 
                 success &= CourseDayServices.Add(courseDay);
@@ -386,7 +385,7 @@ namespace CourseJournalMS
 
             if (success)
             {
-                Console.WriteLine("Checking attendance of all students completed succesfully!");
+                Console.WriteLine("\nChecking attendance of all students completed succesfully!");
             }
             else
             {
@@ -397,10 +396,51 @@ namespace CourseJournalMS
             return true;
         }
 
-        private void AddHomeworkToCourse()
+        private bool AddHomeworkToCourse()
         {
             Console.Clear();
-            //todo
+
+            if (_choosenCourse == null)
+            {
+                Console.WriteLine("There is no active course! Try 'change' ");
+                return false;
+            }
+
+            var studentOnCourse = new StudentOnCourseDto();
+            studentOnCourse.Course = _choosenCourse;
+
+            var studentOnCourseList = StudentOnCourseServices
+                .StudentsListOnCourse(studentOnCourse.Course);
+
+            var maxHomeworkPoints = ConsoleReadHelper.GetIntInRange("Please provide homework max points", 0, 1000);
+
+            var success = true;
+
+            foreach (var student in studentOnCourseList)
+            {
+
+                var homework = new HomeworkDto()
+                {
+                    StudentOnCourse = student,
+                };
+
+                homework.MaxPoints = maxHomeworkPoints;
+                homework.StudentPoints = ConsoleReadHelper.GetStudentHomework(student.Student,maxHomeworkPoints);
+
+                success &= HomeworkServices.Add(homework);
+            }
+
+            if (success)
+            {
+                Console.WriteLine("\nChecking homework of all students completed succesfully!");
+            }
+            else
+            {
+                Console.WriteLine("Something goes wrong...");
+            }
+
+
+            return true;
         }
 
         private bool PrintReport()  //
@@ -416,7 +456,7 @@ namespace CourseJournalMS
 
                 if (StudentServices.StudentsCount() != 0) 
                 {
-                    Console.WriteLine("\nPrinting just avaible students list");
+                    Console.WriteLine("\nPrinting just avaible students list:\n");
 
                     var studentsList = StudentServices.GetAll();
                     foreach (var student in studentsList)
@@ -424,23 +464,42 @@ namespace CourseJournalMS
                         Console.WriteLine($"{student.Name} {student.Surname} PESEL:{student.Pesel}");
                     }
                 }
-                
                 return false;
             }
 
-            //TODO
-
-            Console.WriteLine($"On {studentOnCourse.Course.Name} attends:");
+            //*******************Drukowanie raportu**********************
+            
+            ReportHelper.GetCourseReport(studentOnCourse.Course);
 
             var studentOnCourseList = StudentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
+
+            //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
             
-            foreach (var student in studentOnCourseList)
-            {
-                Console.WriteLine($"{student.Student.Pesel}");
-            }
+            ReportHelper.GetHomeworkReport(studentOnCourseList);
+            ReportHelper.GetAttendanceReport(studentOnCourseList);
+
+            
 
             return true;
+        }
+
+        private bool Clear()
+        {
+            Console.Clear();
+            return true;
+        }
+
+        private void Exit()
+        {
+            Console.WriteLine($"\n\nYou used {_zjv} commands :) ");
+            Console.WriteLine("Bye, bye!");
+            Console.ReadKey();
+        }
+
+        private void Action(bool zjv)
+        {
+            _zjv++;
         }
     }//class
 }

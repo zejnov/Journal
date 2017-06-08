@@ -149,7 +149,14 @@ namespace CourseJournalMS.IoConsole
         //    }
 
 
-
+        public static void PrintCourseData(CourseDto course)
+        {
+            Console.WriteLine($"Course name: {course.Name}");
+            Console.WriteLine($"Leader: {course.LeaderName} {course.LeaderSurname}");
+            Console.WriteLine($"Start date: {course.StartDate.Day}/{course.StartDate.Month}/{course.StartDate.Year}.");
+            Console.WriteLine($"Presence threshold: {course.PresenceThreshold}%");
+            Console.WriteLine($"Homework threshold: {course.HomeworkThreshold}%");
+        }
 
         public static void PrintOrderedList(StudentDto student, int ordinal)
         {
@@ -166,6 +173,43 @@ namespace CourseJournalMS.IoConsole
             Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} {student.Student.Pesel}");
         }
 
+        public static void PrintOrderedList(List<StudentOnCourseDto> studentOnCourseList)
+        {
+            var ordinal = 1;
+
+            foreach (var student in studentOnCourseList)
+            {
+                Console.WriteLine($"{ordinal++}. {student.Student.Name} {student.Student.Surname}, PESEL: {student.Student.Pesel}");
+            }
+        }
+
+        public static void PrintHomeworkList(List<StudentOnCourseDto> studentOnCourseList)
+        {
+            var ordinal = 1;
+
+            foreach (var student in studentOnCourseList)
+            {
+                Console.WriteLine($"{ordinal++}. {student.Student.Name} {student.Student.Surname}, PESEL: {student.Student.Pesel}");
+            }
+        }
+
+        public static void PrintStudentAttendanceResult(StudentOnCourseDto student, int ordinal)
+        {
+            var result = student.Student.AttendanceOk ? "passed" : "not passed";
+
+            Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} result:" +
+                              $" {student.Student.PresentDays}/{student.Student.CourseDays} =" +
+                              $" {Convert.ToInt32(student.Student.StudentAttendance)}% - {result}");
+        }
+
+        public static void PrintStudentHomeworkResult(StudentOnCourseDto student, int ordinal)
+        {
+            var result = student.Student.HomeworkOk ? "passed" : "not passed";
+
+            Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} result:" +
+                              $" {student.Student.HomeworkPoints}/{student.Student.HomeworkMaxPoints} =" +
+                              $" {Convert.ToInt32(student.Student.HomeworkPerformance)}% - {result}");
+        }
     }
 
 

@@ -41,6 +41,14 @@ namespace MSJournal_Business.Services
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();
         }
-        
+
+        public static List<CourseDayDto> GetAttendance(StudentOnCourseDto studentOnCourseDto)
+        {
+            return new CourseDayRepository()
+                .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
+                .Select(EntityToDto.CourseDayEntityToDto)
+                .ToList();
+        }
+
     }
 }

@@ -159,6 +159,11 @@ namespace CourseJournalMS.IoConsole
             return enumResult.ToString();
         }
 
+        public static int GetStudentHomework(StudentDto student, int maxPoints)
+        {
+            return GetIntInRange($"Student {student.Name} {student.Surname} gets",0,maxPoints);
+        }
+
         public static string GetStudentAttendance(StudentDto student)
         {
             var enumResult = AttendanceType.none;
@@ -211,5 +216,7 @@ namespace CourseJournalMS.IoConsole
             }
             return "";
         }
+
+        
     }
 }

@@ -13,5 +13,6 @@ namespace MSJournal_Data.Repository.Interfaces
         bool Exist(Homework model);
         Homework Get(int id);
         List<Homework> GetAll();
+        List<Homework> GetHomework(StudentOnCourse model);
     }
 }

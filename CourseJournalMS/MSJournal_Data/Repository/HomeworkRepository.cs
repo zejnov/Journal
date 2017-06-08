@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,22 @@ namespace MSJournal_Data.Repository
                     .FirstOrDefault(p => p.Id == model.Id);
 
                 return data != null;
+            });
+        }
+
+        public List<Homework> GetHomework(StudentOnCourse model)
+        {
+            return ExecuteQuery(dbContext =>
+            {
+                return dbContext.HomeworkDbSet
+
+                    .Where(p => p.StudentOnCourse.Course.Name == model.Course.Name
+                                && p.StudentOnCourse.Student.Pesel == model.Student.Pesel)
+                    .Where(p => p.StudentOnCourse.Id == model.Id)
+                    .Include(p => p.StudentOnCourse)
+                    .Include(p => p.StudentOnCourse.Student)
+                    .Include(p => p.StudentOnCourse.Course)
+                    .ToList();
             });
         }
     }

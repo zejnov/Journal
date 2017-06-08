@@ -9,7 +9,7 @@ using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.Services
 {
-    class HomeworkServices
+    public class HomeworkServices
     {
         public static bool Add(HomeworkDto homeworkDto)
         {
@@ -37,6 +37,14 @@ namespace MSJournal_Business.Services
         {
             return new HomeworkRepository()
                 .GetAll()
+                .Select(EntityToDto.HomeworkEntityToDto)
+                .ToList();
+        }
+
+        public static List<HomeworkDto> GetHomework(StudentOnCourseDto studentOnCourseDto)
+        {
+            return new HomeworkRepository()
+                .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
                 .Select(EntityToDto.HomeworkEntityToDto)
                 .ToList();
         }

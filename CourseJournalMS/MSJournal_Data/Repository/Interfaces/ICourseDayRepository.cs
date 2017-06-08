@@ -13,5 +13,6 @@ namespace MSJournal_Data.Repository.Interfaces
         bool Exist(CourseDay model);
         CourseDay Get(int id);
         List<CourseDay> GetAll();
+        List<CourseDay> GetAttendance(StudentOnCourse model);
     }
 }
