@@ -9,7 +9,7 @@ using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.Services
 {
-    class CourseDayServices
+    public class CourseDayServices
     {
         public static bool Add(CourseDayDto courseDayDto)
         {
@@ -41,6 +41,14 @@ namespace MSJournal_Business.Services
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();
         }
-        
+
+        public static List<CourseDayDto> GetAttendance(StudentOnCourseDto studentOnCourseDto)
+        {
+            return new CourseDayRepository()
+                .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
+                .Select(EntityToDto.CourseDayEntityToDto)
+                .ToList();
+        }
+
     }
 }

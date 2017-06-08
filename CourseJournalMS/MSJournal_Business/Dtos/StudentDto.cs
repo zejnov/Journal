@@ -16,6 +16,7 @@ namespace MSJournal_Business.Dtos
         public long Pesel { get; set; }
 
         public int PresentDays { get; set; }
+        public int CourseDays { get; set; }
         public double StudentAttendance { get; set; }
         public double HomeworkPerformance { get; set; }
         public int HomeworkPoints { get; set; }

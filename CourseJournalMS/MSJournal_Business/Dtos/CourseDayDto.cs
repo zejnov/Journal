@@ -11,5 +11,6 @@ namespace MSJournal_Business.Dtos
     {
         public int Id { get; set; }
         public string Attendance { get; set; }
+        public StudentOnCourseDto StudentOnCourse { get; set; }
     }
 }

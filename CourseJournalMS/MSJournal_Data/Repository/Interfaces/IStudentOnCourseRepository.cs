@@ -21,7 +21,7 @@ namespace MSJournal_Data.Repository.Interfaces
 
         int StudentsOnCourseCount(Course model);
 
-        List<StudentOnCourse> GetCourseDataForReport(Course model);
+        List<StudentOnCourse> StudentsListOnCourse(Course model);
 
         bool Add(StudentOnCourse model);
 

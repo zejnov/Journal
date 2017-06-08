@@ -75,6 +75,8 @@ namespace MSJournal_Business.Mappers
                 Id = homework.Id,
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
+                StudentOnCourse = StudentOnCourseDtoToEntity(homework.StudentOnCourse),
+
             };
         }
 
@@ -89,6 +91,7 @@ namespace MSJournal_Business.Mappers
             {
                 Id = courseDay.Id,
                 Attendance = courseDay.Attendance,
+                StudentOnCourse = StudentOnCourseDtoToEntity(courseDay.StudentOnCourse),
             };
         }
     }
