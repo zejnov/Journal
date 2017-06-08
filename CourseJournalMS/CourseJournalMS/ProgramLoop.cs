@@ -452,18 +452,7 @@ namespace CourseJournalMS
 
             if (_choosenCourse == null)
             {
-                Console.WriteLine("There is no active course! Try 'change' ");
-
-                if (StudentServices.StudentsCount() != 0) 
-                {
-                    Console.WriteLine("\nPrinting just avaible students list:\n");
-
-                    var studentsList = StudentServices.GetAll();
-                    foreach (var student in studentsList)
-                    {
-                        Console.WriteLine($"{student.Name} {student.Surname} PESEL:{student.Pesel}");
-                    }
-                }
+                ReportHelper.IfNoCourse();
                 return false;
             }
 

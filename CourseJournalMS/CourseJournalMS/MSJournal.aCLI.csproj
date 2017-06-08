@@ -50,13 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IoConsole\ChooseFromList.cs" />
-    <Compile Include="IoConsole\ConsoleReadHelper.cs" />
-    <Compile Include="IoConsole\ConsoleWriteHelper.cs" />
+    <Compile Include="IoHelpers\ChooseFromList.cs" />
+    <Compile Include="IoHelpers\ConsoleReadHelper.cs" />
+    <Compile Include="IoHelpers\ConsoleWriteHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramLoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportHelper.cs" />
+    <Compile Include="IoHelpers\ReportHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

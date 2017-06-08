@@ -46,9 +46,25 @@ namespace CourseJournalMS
         {
             Console.WriteLine("COURSE REPORT \n");
             ConsoleWriteHelper.PrintCourseData(course);
-            
+
             return true;
         }
 
+        public static bool IfNoCourse()
+        {
+            Console.WriteLine("There is no active course! Try 'change' ");
+
+            if (StudentServices.StudentsCount() != 0)
+            {
+                Console.WriteLine("\nPrinting just avaible students list:\n");
+
+                var studentsList = StudentServices.GetAll();
+                foreach (var student in studentsList)
+                {
+                    Console.WriteLine($"{student.Name} {student.Surname} PESEL:{student.Pesel}");
+                }
+            }
+            return true;
+        }
     }
 }
