@@ -89,7 +89,7 @@ namespace MSJournal_Data.Repository
                 .Count(p => p.Id == model.Id));
         }
 
-        public List<StudentOnCourse> GetCourseDataForReport(Course model)
+        public List<StudentOnCourse> StudentsListOnCourse(Course model)
         {
             return ExecuteQuery(dbContext => dbContext.StudentOnCourseDbSet
                  .Include(p => p.Student)

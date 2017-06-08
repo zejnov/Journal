@@ -15,6 +15,10 @@ namespace MSJournal_Data.Repository
         {
             return ExecuteQuery(dbContext =>
             {
+                model.StudentOnCourse = dbContext.StudentOnCourseDbSet
+                    .First((p => p.Course.Name == model.StudentOnCourse.Course.Name 
+                         && p.Student.Pesel == model.StudentOnCourse.Student.Pesel));
+
                 dbContext.CoruseDayDbSet.Add(model);
                 return true;
             });

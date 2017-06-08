@@ -9,7 +9,7 @@ using MSJournal_Data.Repository;
 
 namespace MSJournal_Business.Services
 {
-    class CourseDayServices
+    public class CourseDayServices
     {
         public static bool Add(CourseDayDto courseDayDto)
         {

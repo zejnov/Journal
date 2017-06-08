@@ -32,13 +32,12 @@ namespace MSJournal_Business.Services
 
         }
 
-        public static List<StudentOnCourseDto> GetCourseDataForReport(CourseDto course)
+        public static List<StudentOnCourseDto> StudentsListOnCourse(CourseDto course)
         {
             return new StudentOnCourseRepository()
-                .GetCourseDataForReport(DtoToEntity.CourseDtoToEntity(course))
+                .StudentsListOnCourse(DtoToEntity.CourseDtoToEntity(course))
                 .Select(EntityToDto.StudentOnCourseEntityToDto)
                 .ToList();
-
         }
 
         public static bool CheckAttendance(StudentOnCourseDto studentOnCourseDto)

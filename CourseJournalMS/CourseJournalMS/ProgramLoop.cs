@@ -8,6 +8,7 @@ using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Services;
 using MSJournal_Data;
+using MSJournal_Data.Models;
 
 namespace CourseJournalMS
 {
@@ -236,11 +237,17 @@ namespace CourseJournalMS
             return true;
         }
 
-        private void ChangeActiveCourse()
+        private bool ChangeActiveCourse()
         {
             Console.Clear();
-            _choosenCourse = ChooseFromList.CourseFromList(CourseServices.GetAll());
+            if (CourseServices.GetCourseCount() == 0)
+            {
+                Console.WriteLine("You need to create course first!");
+                return false;
+            }
 
+            _choosenCourse = ChooseFromList.CourseFromList(CourseServices.GetAll());
+            return true;
         }
 
         private bool SignInStudentOnCourse()
@@ -295,7 +302,7 @@ namespace CourseJournalMS
 
             studentOnCourse.Course = _choosenCourse;
             studentOnCourse = ChooseFromList.StudentOnCourseList(StudentOnCourseServices
-                .GetCourseDataForReport(studentOnCourse.Course));
+                .StudentsListOnCourse(studentOnCourse.Course));
 
             var success = StudentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
             
@@ -359,13 +366,31 @@ namespace CourseJournalMS
             studentOnCourse.Course = _choosenCourse;
 
             var studentOnCourseList = StudentOnCourseServices
-                .GetCourseDataForReport(studentOnCourse.Course);
+                .StudentsListOnCourse(studentOnCourse.Course);
+
+            var success = true;
 
             foreach (var student in studentOnCourseList)
             {
                 
-                    Console.WriteLine($"{student.Student.Pesel} {student.Student.Name}");
+                var courseDay = new CourseDayDto()
+                {
+                    StudentOnCourse = student,
+                };
                 
+
+                courseDay.Attendance = ConsoleReadHelper.GetStudentAttendance(student.Student);
+
+                success &= CourseDayServices.Add(courseDay);
+            }
+
+            if (success)
+            {
+                Console.WriteLine("Checking attendance of all students completed succesfully!");
+            }
+            else
+            {
+                Console.WriteLine("Something goes wrong...");
             }
 
 
@@ -408,7 +433,7 @@ namespace CourseJournalMS
             Console.WriteLine($"On {studentOnCourse.Course.Name} attends:");
 
             var studentOnCourseList = StudentOnCourseServices
-                .GetCourseDataForReport(studentOnCourse.Course);
+                .StudentsListOnCourse(studentOnCourse.Course);
             
             foreach (var student in studentOnCourseList)
             {

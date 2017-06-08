@@ -159,6 +159,28 @@ namespace CourseJournalMS.IoConsole
             return enumResult.ToString();
         }
 
+        public static string GetStudentAttendance(StudentDto student)
+        {
+            var enumResult = AttendanceType.none;
+
+            do
+            {
+                try
+                {
+                    enumResult = (AttendanceType)Enum.Parse(typeof(AttendanceType),
+                        GetData<string>($"Student {student.Name} {student.Surname} is"));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Bad entry, try present/absent.");
+                }
+
+            } while (enumResult == AttendanceType.none);
+
+            return AttendanceResult(enumResult);
+        }
+
+
         private enum GenderType 
         {
             none,
@@ -166,6 +188,28 @@ namespace CourseJournalMS.IoConsole
             female,
             m,
             f,
+        }
+
+        private enum AttendanceType
+        {
+            none,
+            present,
+            absent,
+            p,
+            a,
+        }
+
+        private static string AttendanceResult(AttendanceType type)
+        {
+            if (type == AttendanceType.p || type == AttendanceType.present)
+            {
+                return "present";
+            }
+            if (type == AttendanceType.a || type == AttendanceType.absent)
+            {
+                return "absent";
+            }
+            return "";
         }
     }
 }
