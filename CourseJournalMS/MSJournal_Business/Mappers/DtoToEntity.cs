@@ -76,7 +76,6 @@ namespace MSJournal_Business.Mappers
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
                 StudentOnCourse = StudentOnCourseDtoToEntity(homework.StudentOnCourse),
-
             };
         }
 
