@@ -8,7 +8,7 @@ using MSJournal_Data.Models;
 
 namespace MSJournal_Business.Mappers
 {
-    class EntityToDto
+    public class EntityToDto
     {
         public static StudentDto StudentEntityToDto(Student student)
         {
