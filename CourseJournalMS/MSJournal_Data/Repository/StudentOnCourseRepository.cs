@@ -12,39 +12,7 @@ namespace MSJournal_Data.Repository
 {
     public class StudentOnCourseRepository : BasicRepository<StudentOnCourse>, IStudentOnCourseRepository
     {
-        public bool AddHomework(StudentOnCourse model, Homework homework)
-        {
-            return ExecuteQuery(dbContext =>
-            {
-               dbContext.HomeworkDbSet.Add(homework);
-
-               dbContext.StudentOnCourseDbSet
-                    .First(p => p.Student.Pesel == model.Student.Pesel 
-                        && p.Course.Id == model.Course.Id)
-                    .HomeworksList.Add(homework);
-
-                model.HomeworksList.Add(homework); //>??
-                return true;
-            });
-        }
-
-        public bool AddCourseDay(StudentOnCourse model, CourseDay day)
-        {
-            return ExecuteQuery(dbContext =>
-            {
-                dbContext.CoruseDayDbSet.Add(day);
-
-                dbContext.StudentOnCourseDbSet
-                    .First(p => p.Student.Pesel == model.Student.Pesel
-                        && p.Course.Id == model.Course.Id)
-                    .AttendanceList.Add(day);
-
-                model.AttendanceList.Add(day);  //>??
-                return true;
-            });
-        }
-        
-        public bool AddStudentToCourse(StudentOnCourse model)
+       public bool AddStudentToCourse(StudentOnCourse model)
         {
             return ExecuteQuery(dbContext =>
             {
@@ -67,7 +35,11 @@ namespace MSJournal_Data.Repository
         {
             return ExecuteQuery(dbContext =>
             {
-                dbContext.StudentOnCourseDbSet.Attach(model);
+                model = dbContext.StudentOnCourseDbSet
+                    .First((p => p.Course.Name == model.Course.Name
+                                 && p.Student.Pesel == model.Student.Pesel));
+                
+                //dbContext.StudentOnCourseDbSet.Attach(model);
 
                 dbContext.StudentOnCourseDbSet.Remove(model);
 

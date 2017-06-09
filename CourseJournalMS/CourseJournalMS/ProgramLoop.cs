@@ -187,6 +187,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given student already exists in the database");
             }
+
+            Console.ReadKey();
             return true;
         }
 
@@ -207,6 +209,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given course already exists in the database");
             }
+
+            Console.ReadKey();
             return true;
         }
 
@@ -234,7 +238,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Something goes wrong.");
             }
-            
+
+            Console.ReadKey();
             return true;
         }
 
@@ -283,7 +288,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Choosen student already attend to this course.");
             }
-            
+
+            Console.ReadKey();
             return true;
         }
 
@@ -314,6 +320,7 @@ namespace CourseJournalMS
                 Console.WriteLine("Something goes wrong...");
             }
 
+            Console.ReadKey();
             return true;
         }
 

@@ -9,9 +9,9 @@ namespace MSJournal_Data.Repository.Interfaces
 {
     interface IStudentOnCourseRepository
     {
-        bool AddHomework(StudentOnCourse model, Homework homework);
+        //bool AddHomework(StudentOnCourse model, Homework homework);
 
-        bool AddCourseDay(StudentOnCourse model, CourseDay day);
+        //bool AddCourseDay(StudentOnCourse model, CourseDay day);
 
         bool AddStudentToCourse(StudentOnCourse model);
 

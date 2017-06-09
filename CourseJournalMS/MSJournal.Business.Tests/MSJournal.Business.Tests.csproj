@@ -62,6 +62,9 @@
     <Compile Include="MapperTests\StudentOnCourseTests.cs" />
     <Compile Include="MapperTests\HomeworkTests.cs" />
     <Compile Include="MapperTests\CourseDayTests.cs" />
+    <Compile Include="ReportServicesTests\Attendance.cs" />
+    <Compile Include="ReportServicesTests\Homework.cs" />
+    <Compile Include="ReportServicesTests\OtherReportServices.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -29,7 +29,6 @@ namespace MSJournal_Business.Services
             return new StudentOnCourseRepository()
                .RemoveStudentFromCourse(DtoToEntity
                .StudentOnCourseDtoToEntity(studentOnCourseDto));
-
         }
 
         public static List<StudentOnCourseDto> StudentsListOnCourse(CourseDto course)
