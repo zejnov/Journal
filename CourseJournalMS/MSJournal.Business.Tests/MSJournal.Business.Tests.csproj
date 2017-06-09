@@ -56,7 +56,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapperTests\StudentTests - Temp.cs" />
     <Compile Include="MapperTests\StudentTests.cs" />
+    <Compile Include="MapperTests\CourseTests.cs" />
+    <Compile Include="MapperTests\StudentOnCourseTests.cs" />
+    <Compile Include="MapperTests\HomeworkTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
