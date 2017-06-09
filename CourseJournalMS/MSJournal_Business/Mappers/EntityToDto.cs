@@ -45,35 +45,10 @@ namespace MSJournal_Business.Mappers
                 HomeworkThreshold = course.HomeworkThreshold,
                 PresenceThreshold = course.PresenceThreshold,
                 StudentsNumber = course.StudentsNumber,
-
-                //StudentOnCourse = course.StudentOnCourse
-                //.Select(StudentOnCourseEntityToDto)
-                //.ToList()
-
             };
         }
 
-        public static CourseDto CourseWithoutListEntityToDto(Course course)
-        {
-            if (course == null)
-            {
-                return null;
-            }
-
-            return new CourseDto()
-            {
-                Id = course.Id,
-                Name = course.Name,
-                LeaderName = course.LeaderName,
-                LeaderSurname = course.LeaderSurname,
-                StartDate = course.StartDate,
-                HomeworkThreshold = course.HomeworkThreshold,
-                PresenceThreshold = course.PresenceThreshold,
-                StudentsNumber = course.StudentsNumber,
-            };
-        }
-
-        public static StudentOnCourseDto StudentOnCourseEntityToDto(StudentOnCourse studentOnCourse)
+       public static StudentOnCourseDto StudentOnCourseEntityToDto(StudentOnCourse studentOnCourse)
         {
             if (studentOnCourse == null)
             {
@@ -83,15 +58,8 @@ namespace MSJournal_Business.Mappers
             return new StudentOnCourseDto()
             {
                 Id = studentOnCourse.Id,
-                Course = CourseWithoutListEntityToDto(studentOnCourse.Course),
+                Course = CourseEntityToDto(studentOnCourse.Course),
                 Student = StudentEntityToDto(studentOnCourse.Student),
-
-                //AttendanceList = studentOnCourse.AttendanceList
-                //    .Select(CourseDayEntityToDto)
-                //    .ToList(),
-                //HomeworksList = studentOnCourse.HomeworksList
-                //    .Select(HomeworkEntityToDto)
-                //    .ToList(),
             };
         }
 
@@ -124,7 +92,6 @@ namespace MSJournal_Business.Mappers
                 Attendance = courseDay.Attendance,
                 StudentOnCourse = StudentOnCourseEntityToDto(courseDay.StudentOnCourse)
             };
-
         }
     }//
 }

@@ -214,8 +214,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var expectedHomework = new HomeworkDto();
             expectedHomework = null;
-            ////////////////////////////
-
+            
             var resultOfMapping = EntityToDto.HomeworkEntityToDto(homeworkToMap);
 
             Assert.AreEqual(expectedHomework, resultOfMapping);
