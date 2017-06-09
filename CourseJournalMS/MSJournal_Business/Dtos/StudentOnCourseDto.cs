@@ -14,5 +14,20 @@ namespace MSJournal_Business.Dtos
         public StudentDto Student { get; set; }
         public List<CourseDayDto> AttendanceList { get; set; } = new List<CourseDayDto>();    //attendance list
         public List<HomeworkDto> HomeworksList { get; set; } = new List<HomeworkDto>();       //homework list
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var studentOnCourse = obj as StudentOnCourseDto;
+            bool equal = true;
+
+            equal &= studentOnCourse.Id == Id;
+            equal &= studentOnCourse.Course.Equals(Course);
+            equal &= studentOnCourse.Student.Equals(Student);
+
+            return equal;
+        }
     }
 }

@@ -23,5 +23,24 @@ namespace MSJournal_Business.Dtos
         public int HomeworkMaxPoints { get; set; }
         public bool AttendanceOk { get; set; }
         public bool HomeworkOk{ get; set; }
-}
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var student = obj as StudentDto;
+            bool equal = true;
+
+            equal &= student.Id == Id;
+            equal &= student.Name == Name;
+            equal &= student.Surname == Surname;
+            equal &= student.BirthDate == BirthDate;
+            equal &= student.Gender == Gender;
+            equal &= student.Pesel == Pesel;
+
+            return equal;
+        }
+    }
 }

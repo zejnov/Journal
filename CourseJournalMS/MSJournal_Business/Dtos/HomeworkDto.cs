@@ -13,5 +13,21 @@ namespace MSJournal_Business.Dtos
         public int StudentPoints { get; set; }
         public int MaxPoints { get; set; }
         public StudentOnCourseDto StudentOnCourse { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var homework = obj as Homework;
+            bool equal = true;
+
+            equal &= homework.Id == Id;
+            equal &= homework.StudentPoints == StudentPoints;
+            equal &= homework.MaxPoints == MaxPoints;
+            equal &= homework.StudentOnCourse.Equals(StudentOnCourse);
+
+            return equal;
+        }
     }
 }

@@ -17,7 +17,28 @@ namespace MSJournal_Data.Models
         public double PresenceThreshold { get; set; }
         public int StudentsNumber { get; set; }
 
-        public List<StudentOnCourse> StudentOnCourse { get; set; } 
+        public List<StudentOnCourse> StudentOnCourse { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var course = obj as Course;
+            bool equal = true;
+
+            equal &= course.Id == Id;
+            equal &= course.Name == Name;
+            equal &= course.LeaderName == LeaderName;
+            equal &= course.LeaderSurname == LeaderSurname;
+            equal &= course.HomeworkThreshold == HomeworkThreshold;
+            equal &= course.PresenceThreshold == PresenceThreshold;
+            equal &= course.StartDate == StartDate;
+
+            return equal;
+        }
+
         
     }
 }

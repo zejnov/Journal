@@ -19,7 +19,24 @@ namespace MSJournal_Business.Dtos
         public int StudentsNumber { get; set; }
 
         public List<StudentOnCourseDto> StudentOnCourse { get; set; } = new List<StudentOnCourseDto>();
-        
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var course = obj as CourseDto;
+            bool equal = true;
+
+            equal &= course.Id == Id;
+            equal &= course.Name == Name;
+            equal &= course.LeaderName == LeaderName;
+            equal &= course.LeaderSurname == LeaderSurname;
+            equal &= course.HomeworkThreshold == HomeworkThreshold;
+            equal &= course.PresenceThreshold == PresenceThreshold;
+            equal &= course.StartDate == StartDate;
+
+            return equal;
+        }
     }
 }

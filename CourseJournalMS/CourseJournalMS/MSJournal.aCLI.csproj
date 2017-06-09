@@ -57,6 +57,7 @@
     <Compile Include="ProgramLoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IoHelpers\ReportHelper.cs" />
+    <Compile Include="TEMP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
