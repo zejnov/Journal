@@ -24,8 +24,7 @@ namespace MSJournal_Business.Services
         {
             _courseDayRepository = courseDayRepository;
         }
-
-
+        
         public static bool Add(CourseDayDto courseDayDto)
         {
             if (Exist(courseDayDto))
