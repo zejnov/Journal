@@ -1,35 +1,55 @@
-# Journal #
-                              create  - creating a new journal
-                              sample  - loading some sample journal to print report
-                              addday  - adding a day of classes to course
-                              ddhome - adding homework to course
-                              print   - printing course report
-                              clear   - clearing the console
-                              exit    - exit console
-                              help    - help
+#Journal on MsSql by ZejnoV®
+Console application to keep a journal
 
-### What is this repository for? ###
+### What is this journal for? ###
 
-* Journal for course, where you can create a list of students, add day of classes, add homeworks and print report
-* Version 1.01
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Journal for course, giving you ability to:
+* Add student to list in journal
+* Add course to journal
+* Modify student and course data in any time
+* Sign student in and out of the course
+* Switch between created courses
+* Check attendnace in selected course
+* Check homework in selected course
+* Print active course report
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+* Download 
+* NuGet EntityFramework need to be installed
+* MsSql Server Required
+* and F5 :)
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* zejnov@gmail.com
+* https://www.linkedin.com/in/mati-zejnov-b39845119/
+
+
+### Avaible commands ###
+
+/add           - Add new student
+
+/create        - Create new course
+
+/update        - Update course data
+
+/signin        - Sign in student to course
+
+/signout       - Sign out student from course
+
+/updatestudent - Update student data
+
+/change        - Change active course
+
+/addday        - Check attendance for active course
+
+/addhome       - Add homework to active course
+
+/print         - PRINTING COURSE REPORT
+
+/clear         - clear your console
+
+/exit          - exit program
+
+/help          - prints help menu :)
