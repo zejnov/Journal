@@ -65,18 +65,19 @@ namespace MSJournal_Business.Services
                 .ToList();
         }
 
+        public static bool RemoveDay(CourseDayDto courseDay)
+        {
+            return new CourseDayRepository()
+                .RemoveDay(DtoToEntity.CourseDayDtoToEntity(courseDay));
+        }
+        
+        //********* do Moq'a **********
         public List<CourseDayDto> GetAttendanceTest(StudentOnCourseDto studentOnCourseDto)
         {
             return _courseDayRepository
                 .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();
-        }
-
-        public static bool RemoveDay(CourseDayDto courseDay)
-        {
-            return new CourseDayRepository()
-                .RemoveDay(DtoToEntity.CourseDayDtoToEntity(courseDay));
         }
     }
 }

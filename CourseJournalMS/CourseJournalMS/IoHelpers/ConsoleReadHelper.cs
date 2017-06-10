@@ -21,11 +21,11 @@ namespace CourseJournalMS.IoConsole
                 }
                 catch (ArgumentNullException)
                 {
-                    Console.WriteLine("\nYou didnt gave anything, try again:");
+                    Console.WriteLine("\nYou didnt gave anything, try again");
                 }
                 catch (Exception)
                 {
-                    Console.Write("\nSomething went wrong, try again:");
+                    Console.Write("\nSomething went wrong, try again");
                 }
             }
         }

@@ -6,11 +6,25 @@ using System.Threading.Tasks;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Data.Repository;
+using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Business.Services
 {
     public class HomeworkServices
     {
+        private IHomeworkRepository _homeworkRepository;
+
+        public HomeworkServices()
+        {
+            _homeworkRepository = new HomeworkRepository();
+        }
+
+        public HomeworkServices(IHomeworkRepository homeworkRepository)
+        {
+            _homeworkRepository = homeworkRepository;
+        }
+
+
         public static bool Add(HomeworkDto homeworkDto)
         {
             if (Exist(homeworkDto))
@@ -54,6 +68,15 @@ namespace MSJournal_Business.Services
             return new HomeworkRepository()
                 .RemoveHomework(DtoToEntity.HomeworkDtoToEntity(homework));
 
+        }
+        
+        //********* do Moq'a **********
+        public List<HomeworkDto> GetHomeworkTest(StudentOnCourseDto studentOnCourseDto)
+        {
+            return _homeworkRepository
+                .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
+                .Select(EntityToDto.HomeworkEntityToDto)
+                .ToList();
         }
     }
 }
