@@ -25,7 +25,7 @@ namespace CourseJournalMS.IoConsole
                 }
                 catch (Exception)
                 {
-                    Console.Write("\nSomething went wrong, try again");
+                    Console.Write("\nSomething went wrong, try again\n");
                 }
             }
         }
