@@ -8,7 +8,7 @@ using MSJournal_Data.Models;
 
 namespace MSJournal_Business.Mappers
 {
-    class DtoToEntity
+    public class DtoToEntity
     {
         public static Student StudentDtoToEntity(StudentDto student)
         {
@@ -76,7 +76,6 @@ namespace MSJournal_Business.Mappers
                 StudentPoints = homework.StudentPoints,
                 MaxPoints = homework.MaxPoints,
                 StudentOnCourse = StudentOnCourseDtoToEntity(homework.StudentOnCourse),
-
             };
         }
 

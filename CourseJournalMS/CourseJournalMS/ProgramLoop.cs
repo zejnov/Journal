@@ -187,6 +187,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given student already exists in the database");
             }
+
+            Console.ReadKey();
             return true;
         }
 
@@ -207,6 +209,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Given course already exists in the database");
             }
+
+            Console.ReadKey();
             return true;
         }
 
@@ -234,7 +238,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Something goes wrong.");
             }
-            
+
+            Console.ReadKey();
             return true;
         }
 
@@ -283,7 +288,8 @@ namespace CourseJournalMS
             {
                 Console.WriteLine("Choosen student already attend to this course.");
             }
-            
+
+            Console.ReadKey();
             return true;
         }
 
@@ -303,7 +309,29 @@ namespace CourseJournalMS
             studentOnCourse = ChooseFromList.StudentOnCourseList(StudentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course));
 
-            var success = StudentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
+            //************deleting all 'references'***********
+            var success = true;
+            var homeworkList = HomeworkServices.GetHomework(studentOnCourse);
+            var attendanceList = CourseDayServices.GetAttendance(studentOnCourse);
+
+            if (homeworkList.Count != 0)
+            {
+                foreach (var homework in homeworkList)
+                {
+                    success &= HomeworkServices.RemoveHomework(homework);
+                }
+            }
+
+            if (attendanceList.Count != 0)
+            {
+                foreach (var day in attendanceList)
+                {
+                    success &= CourseDayServices.RemoveDay(day);
+                }
+            }
+
+            //deleting literally 'student on course'
+            success &= StudentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
             
             if (success)
             {
@@ -314,6 +342,7 @@ namespace CourseJournalMS
                 Console.WriteLine("Something goes wrong...");
             }
 
+            Console.ReadKey();
             return true;
         }
 

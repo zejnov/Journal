@@ -70,11 +70,13 @@ namespace CourseJournalMS
                 Console.WriteLine("\nPrinting just avaible students list:\n");
 
                 var studentsList = StudentServices.GetAll();
+                var ordinal = 1;
                 foreach (var student in studentsList)
                 {
-                    Console.WriteLine($"{student.Name} {student.Surname} PESEL:{student.Pesel}");
+                    Console.WriteLine($"{ordinal++}. {student.Name} {student.Surname} PESEL:{student.Pesel}");
                 }
             }
+            Console.ReadKey();
             return true;
         }
     }

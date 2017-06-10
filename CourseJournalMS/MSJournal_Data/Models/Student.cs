@@ -11,5 +11,23 @@ namespace MSJournal_Data.Models
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
         public long Pesel { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var student = obj as Student;
+            bool equal = true;
+
+            equal &= student.Id == Id;
+            equal &= student.Name == Name;
+            equal &= student.Surname == Surname;
+            equal &= student.BirthDate == BirthDate;
+            equal &= student.Gender == Gender;
+            equal &= student.Pesel == Pesel;
+
+            return equal;
+        }
     }
 }

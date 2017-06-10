@@ -7,7 +7,7 @@ using MSJournal_Data.Models;
 
 namespace MSJournal_Data.Repository.Interfaces
 {
-    interface ICourseRepository
+    public interface ICourseRepository
     {
         bool Add(Course model);
         bool Exist(Course model);
@@ -15,5 +15,6 @@ namespace MSJournal_Data.Repository.Interfaces
         List<Course> GetAll();
         bool UpdateCourseData(Course oldModel, Course newModel);
         int GetCourseCount();
+        Course RefreshCourse(Course model);
     }
 }
