@@ -64,5 +64,19 @@ namespace MSJournal_Data.Repository
                     .ToList();
             });
         }
+
+        public bool RemoveHomework(Homework model)
+        {
+            return ExecuteQuery(dbContext =>
+            {
+                model = dbContext.HomeworkDbSet
+                    .First((p => p.StudentOnCourse.Course.Name == model.StudentOnCourse.Course.Name
+                                 && p.StudentOnCourse.Student.Pesel == model.StudentOnCourse.Student.Pesel));
+                
+                dbContext.HomeworkDbSet.Remove(model);
+
+                return true;
+            });
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace MSJournal_Data.Repository.Interfaces
         List<Course> GetAll();
         bool UpdateCourseData(Course oldModel, Course newModel);
         int GetCourseCount();
+        Course RefreshCourse(Course model);
     }
 }

@@ -62,7 +62,6 @@ namespace MSJournal_Data.Repository
             return ExecuteQuery(dbContext => dbContext.CourseDbSet.ToList().Count);
         }
         
-        //TODO  Delete student from list
         public Course RefreshCourse(Course model)
         {
             return ExecuteQuery(dbContext => dbContext.CourseDbSet

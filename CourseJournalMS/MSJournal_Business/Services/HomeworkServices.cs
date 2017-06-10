@@ -48,5 +48,12 @@ namespace MSJournal_Business.Services
                 .Select(EntityToDto.HomeworkEntityToDto)
                 .ToList();
         }
+
+        public static bool RemoveHomework(HomeworkDto homework)
+        {
+            return new HomeworkRepository()
+                .RemoveHomework(DtoToEntity.HomeworkDtoToEntity(homework));
+
+        }
     }
 }

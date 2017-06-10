@@ -63,5 +63,20 @@ namespace MSJournal_Data.Repository
                     .ToList();
             });
         }
+
+        public bool RemoveDay(CourseDay model)
+        {
+            return ExecuteQuery(dbContext =>
+            {
+                model = dbContext.CoruseDayDbSet
+                    .First((p => p.StudentOnCourse.Course.Name == model.StudentOnCourse.Course.Name
+                                 && p.StudentOnCourse.Student.Pesel == model.StudentOnCourse.Student.Pesel));
+
+                dbContext.CoruseDayDbSet.Remove(model);
+
+                return true;
+            });
+
+        }
     }
 }
