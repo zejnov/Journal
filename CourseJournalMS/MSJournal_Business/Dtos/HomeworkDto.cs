@@ -19,7 +19,7 @@ namespace MSJournal_Business.Dtos
             if (obj == null)
                 return false;
 
-            var homework = obj as Homework;
+            var homework = obj as HomeworkDto;
             bool equal = true;
 
             equal &= homework.Id == Id;
