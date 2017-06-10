@@ -83,7 +83,31 @@ namespace MSJournal.Business.Tests.ReportServicesTests
             courseDayRepositoryMock.Setup(x => x.GetAttendance(It.IsAny<StudentOnCourse>()))
                 .Returns(new List<CourseDay>());
 
-            var studentOnCourseDto = new StudentOnCourseDto();
+            var studentOnCourseDto = new StudentOnCourseDto()
+            {
+                Id = 44,
+                Student = new StudentDto()
+                {
+                    Id = 4,
+                    Name = "Mateusz",
+                    Surname = "Szwaba",
+                    BirthDate = DateTime.Parse("05/01/1989"),
+                    Gender = "male",
+                    Pesel = 89050102345,
+                },
+                Course = new CourseDto()
+                {
+                    Id = 7,
+                    Name = "Codementors",
+                    LeaderName = "Jakub",
+                    LeaderSurname = "Bulczak",
+                    StartDate = DateTime.Parse("04/24/2017"),
+                    HomeworkThreshold = 80,
+                    PresenceThreshold = 90,
+                    StudentsNumber = 12,
+                },
+            };
+
             var courseDayService = new CourseDayServices(courseDayRepositoryMock.Object);
             var result = courseDayService.GetAttendanceTest(studentOnCourseDto);
 
