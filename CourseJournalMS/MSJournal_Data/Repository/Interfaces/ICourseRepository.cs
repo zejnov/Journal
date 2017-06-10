@@ -7,7 +7,7 @@ using MSJournal_Data.Models;
 
 namespace MSJournal_Data.Repository.Interfaces
 {
-    interface ICourseRepository
+    public interface ICourseRepository
     {
         bool Add(Course model);
         bool Exist(Course model);
