@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Moq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSJournal_Business.Dtos;
-using MSJournal_Business.Mappers;
 using MSJournal_Business.Services;
-using MSJournal_Data.Models;
-using MSJournal_Data.Repository.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace MSJournal.Business.Tests.ReportServicesTests
 {
