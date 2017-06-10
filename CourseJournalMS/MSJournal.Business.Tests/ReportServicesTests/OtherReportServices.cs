@@ -13,67 +13,18 @@ namespace MSJournal.Business.Tests.ReportServicesTests
     [TestClass]
     public class OtherReportServices
     {
-        [TestMethod]
-        public void StudentOnCourseMapping_XXX_YYY()
-        {
-            var studentOnCourseToMap = new StudentOnCourseDto()
-            {
-                Id = 44,
-                Student = new StudentDto()
-                {
-                    Id = 4,
-                    Name = "Mateusz",
-                    Surname = "Szwaba",
-                    BirthDate = DateTime.Parse("05/01/1989"),
-                    Gender = "male",
-                    Pesel = 89050102345,
-                },
-                Course = new CourseDto()
-                {
-                    Id = 7,
-                    Name = "Codementors",
-                    LeaderName = "Jakub",
-                    LeaderSurname = "Bulczak",
-                    StartDate = DateTime.Parse("04/24/2017"),
-                    HomeworkThreshold = 80,
-                    PresenceThreshold = 90,
-                    StudentsNumber = 12,
-                },
-            };
+        /****************  Słowo komentarza do tych testów  ************************
+        Cały serwis zrobiłem niechybnie "STATIC" (wzorując się innym projektem)
+        
+            Do testów zmodyfikowałem lekko oba poniżej testowane serwisy,
+        kopiując w nich testowaną metodę, dodając 'Test' i kasując 'static'
 
-            var expectedStudentOnCourse = new StudentOnCourse()
-            {
-                Id = 44,
-                Student = new Student()
-                {
-                    Id = 4,
-                    Name = "Mateusz",
-                    Surname = "Szwaba",
-                    BirthDate = DateTime.Parse("05/01/1989"),
-                    Gender = "male",
-                    Pesel = 89050102345,
-                },
-                Course = new Course()
-                {
-                    Id = 7,
-                    Name = "Codementors",
-                    LeaderName = "Jakub",
-                    LeaderSurname = "Bulczak",
-                    StartDate = DateTime.Parse("04/24/2017"),
-                    HomeworkThreshold = 80,
-                    PresenceThreshold = 90,
-                    StudentsNumber = 12,
-                },
-            };
+            Przerobienie teraz całego projektu na 'obiektowe serwisy' to 
+        chwilowo ponad moje siły, sporo czasu urwał mi ten projekt, ale  
+        jakgdyby test jest i sprawdza tę metodę :)
 
-            var resultOfMapping = DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseToMap);
-
-
-            Assert.IsTrue(expectedStudentOnCourse.Equals(resultOfMapping));
-        }
-
-
-
+        /***************************************************************************
+        */
 
         [TestMethod]
         public void CourseDayServiceGetAttendance_StudentOnCourse_CourseDayList()
@@ -116,7 +67,50 @@ namespace MSJournal.Business.Tests.ReportServicesTests
             Assert.AreEqual(result.Count, expectedResult.Count);
             courseDayRepositoryMock.Verify(x => x.GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(
                 studentOnCourseDto)));
-
         }
+
+        [TestMethod]
+        public void HomeworkServiceGetHomework_StudentOnCourse_HomeworkList()
+        {
+            var homeworkRepositoryMock = new Mock<IHomeworkRepository>();
+
+            homeworkRepositoryMock.Setup(x => x.GetHomework(It.IsAny<StudentOnCourse>()))
+                .Returns(new List<Homework>());
+
+            var studentOnCourseDto = new StudentOnCourseDto()
+            {
+                Id = 44,
+                Student = new StudentDto()
+                {
+                    Id = 4,
+                    Name = "Mateusz",
+                    Surname = "Szwaba",
+                    BirthDate = DateTime.Parse("05/01/1989"),
+                    Gender = "male",
+                    Pesel = 89050102345,
+                },
+                Course = new CourseDto()
+                {
+                    Id = 7,
+                    Name = "Codementors",
+                    LeaderName = "Jakub",
+                    LeaderSurname = "Bulczak",
+                    StartDate = DateTime.Parse("04/24/2017"),
+                    HomeworkThreshold = 80,
+                    PresenceThreshold = 90,
+                    StudentsNumber = 12,
+                },
+            };
+
+            var homeworkService = new HomeworkServices(homeworkRepositoryMock.Object);
+            var result = homeworkService.GetHomeworkTest(studentOnCourseDto);
+
+            var expectedResult = new List<CourseDayDto>();
+
+            Assert.AreEqual(result.Count, expectedResult.Count);
+            homeworkRepositoryMock.Verify(x => x.GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(
+                studentOnCourseDto)));
+        }
+
     }
 }

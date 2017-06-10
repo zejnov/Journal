@@ -181,11 +181,11 @@ namespace CourseJournalMS
 
             if (success)
             {
-                Console.WriteLine("Student added to database successfully.");
+                Console.WriteLine("\nStudent added to database successfully.");
             }
             else
             {
-                Console.WriteLine("Given student already exists in the database");
+                Console.WriteLine("\nGiven student already exists in the database");
             }
 
             Console.ReadKey();
@@ -202,12 +202,12 @@ namespace CourseJournalMS
 
             if (success)
             {
-                Console.WriteLine("Course added to database successfully.");
+                Console.WriteLine("\nCourse added to database successfully.");
                 ReloadCourse(courseDto);
             }
             else
             {
-                Console.WriteLine("Given course already exists in the database");
+                Console.WriteLine("\nGiven course already exists in the database");
             }
 
             Console.ReadKey();
@@ -231,12 +231,12 @@ namespace CourseJournalMS
 
             if (success)
             {
-                Console.WriteLine("Course data updated successfully.");
+                Console.WriteLine("\nCourse data updated successfully");
                 ReloadCourse(course);
             }
             else
             {
-                Console.WriteLine("Something goes wrong.");
+                Console.WriteLine("\nSomething goes wrong...");
             }
 
             Console.ReadKey();
@@ -277,16 +277,16 @@ namespace CourseJournalMS
 
                 if (success)
                 {
-                    Console.WriteLine("Student sign in to course successfully.");
+                    Console.WriteLine("\nStudent sign in to course successfully.");
                 }
                 else
                 {
-                    Console.WriteLine("Something goes wrong...");
+                    Console.WriteLine("\nSomething goes wrong...");
                 }
             }
             else
             {
-                Console.WriteLine("Choosen student already attend to this course.");
+                Console.WriteLine("\nChoosen student already attend to this course.");
             }
 
             Console.ReadKey();
@@ -367,13 +367,14 @@ namespace CourseJournalMS
 
             if (success)
             {
-                Console.WriteLine("Student data updated successfully.");
+                Console.WriteLine("\nStudent data updated successfully.");
             }
             else
             {
-                Console.WriteLine("Something goes wrong.");
+                Console.WriteLine("\nSomething goes wrong.");
             }
 
+            Console.ReadKey();
             return true;
 
         }
@@ -415,7 +416,7 @@ namespace CourseJournalMS
             }
             else
             {
-                Console.WriteLine("Something goes wrong...");
+                Console.WriteLine("\nSomething goes wrong...");
             }
 
             Console.ReadKey();
@@ -462,7 +463,7 @@ namespace CourseJournalMS
             }
             else
             {
-                Console.WriteLine("Something goes wrong...");
+                Console.WriteLine("\nSomething goes wrong...");
             }
 
             Console.ReadKey();
@@ -487,11 +488,17 @@ namespace CourseJournalMS
                 .StudentsListOnCourse(_choosenCourse);
 
             //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
-            
-            printOk &= ReportHelper.GetHomeworkReport(studentOnCourseList);
-            printOk &= ReportHelper.GetAttendanceReport(studentOnCourseList);
+            if (studentOnCourseList.Count != 0)
+            {
+                printOk &= ReportHelper.GetHomeworkReport(studentOnCourseList);
+                printOk &= ReportHelper.GetAttendanceReport(studentOnCourseList);
+            }
+            else
+            {
+                Console.WriteLine("\nThere are no students on this course");
+            }
 
-            Console.WriteLine(printOk ? "\nReport generated and printed successfully!" : "Something goes wrong...");
+            Console.WriteLine(printOk ? "\nReport generated and printed successfully!" : "\nSomething goes wrong...");
             Console.ReadKey();
 
             return true;

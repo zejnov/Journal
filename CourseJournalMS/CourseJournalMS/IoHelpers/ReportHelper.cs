@@ -16,7 +16,7 @@ namespace CourseJournalMS
         {
             if (studentOnCourseList.Count == 0)
             {
-                Console.WriteLine("\nThere where no attendance checks on this course.");
+                Console.WriteLine("\nThere where no attendance checks on this course.\n");
                 return false;
             }
 
@@ -37,7 +37,7 @@ namespace CourseJournalMS
         {
             if (studentOnCourseList.Count == 0)
             {
-                Console.WriteLine("\nThere where no homeworks on this course.");
+                Console.WriteLine("\nThere where no homeworks on this course.\n");
                 return false;
             }
 
