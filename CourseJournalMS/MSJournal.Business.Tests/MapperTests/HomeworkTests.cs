@@ -82,7 +82,7 @@ namespace MSJournal.Business.Tests.MapperTests
         }
 
         [TestMethod]
-        public void HomeworkMapping_ProvideValidModel_ReceiveProperlyMappedModeDto()
+        public void HomeworkMapping_ProvideValidModel_ReceiveProperlyMappedModelDto()
         {
             var homeworkToMap = new Homework()
             {

@@ -7,7 +7,7 @@ using MSJournal_Business.Services;
 namespace MSJournal.Business.Tests.ReportServicesTests
 {
     [TestClass]
-    public class Homework
+    public class HomeworkForReport
     {
         [TestMethod]
         public void StudentOnCourseServicesCheckHomework_StudentOnCourseHomeworkList_HomeworkOk()

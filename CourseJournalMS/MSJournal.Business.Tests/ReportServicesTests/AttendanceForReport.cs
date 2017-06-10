@@ -11,7 +11,7 @@ using MSJournal_Data.Repository.Interfaces;
 namespace MSJournal.Business.Tests.ReportServicesTests
 {
     [TestClass]
-    public class Attendance
+    public class AttendanceForReport
     {
 
         [TestMethod]
