@@ -1,16 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Data.Repository;
+using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Business.Services
 {
     public class CourseDayServices
     {
+        private ICourseDayRepository _courseDayRepository;
+
+        public CourseDayServices()
+        {
+            _courseDayRepository = new CourseDayRepository();
+        }
+
+        public CourseDayServices(ICourseDayRepository courseDayRepository)
+        {
+            _courseDayRepository = courseDayRepository;
+        }
+
+
         public static bool Add(CourseDayDto courseDayDto)
         {
             if (Exist(courseDayDto))
@@ -45,6 +60,14 @@ namespace MSJournal_Business.Services
         public static List<CourseDayDto> GetAttendance(StudentOnCourseDto studentOnCourseDto)
         {
             return new CourseDayRepository()
+                .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
+                .Select(EntityToDto.CourseDayEntityToDto)
+                .ToList();
+        }
+
+        public List<CourseDayDto> GetAttendanceTest(StudentOnCourseDto studentOnCourseDto)
+        {
+            return _courseDayRepository
                 .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();

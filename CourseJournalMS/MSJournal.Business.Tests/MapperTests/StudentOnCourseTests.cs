@@ -66,24 +66,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseToMap);
 
-
-            Assert.AreEqual(expectedStudentOnCourse.Id, resultOfMapping.Id);
-
-            Assert.AreEqual(expectedStudentOnCourse.Course.Id, resultOfMapping.Course.Id);
-            Assert.AreEqual(expectedStudentOnCourse.Course.Name, resultOfMapping.Course.Name);
-            Assert.AreEqual(expectedStudentOnCourse.Course.LeaderName, resultOfMapping.Course.LeaderName);
-            Assert.AreEqual(expectedStudentOnCourse.Course.LeaderSurname, resultOfMapping.Course.LeaderSurname);
-            Assert.AreEqual(expectedStudentOnCourse.Course.HomeworkThreshold, resultOfMapping.Course.HomeworkThreshold);
-            Assert.AreEqual(expectedStudentOnCourse.Course.PresenceThreshold, resultOfMapping.Course.PresenceThreshold);
-            Assert.AreEqual(expectedStudentOnCourse.Course.StartDate, resultOfMapping.Course.StartDate);
-            Assert.AreEqual(expectedStudentOnCourse.Course.StudentsNumber, resultOfMapping.Course.StudentsNumber);
-
-            Assert.AreEqual(expectedStudentOnCourse.Student.Id, resultOfMapping.Student.Id);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Name, resultOfMapping.Student.Name);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Surname, resultOfMapping.Student.Surname);
-            Assert.AreEqual(expectedStudentOnCourse.Student.BirthDate, resultOfMapping.Student.BirthDate);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Gender, resultOfMapping.Student.Gender);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Pesel, resultOfMapping.Student.Pesel);
+            Assert.IsTrue(resultOfMapping.Equals(expectedStudentOnCourse));
         }
 
         [TestMethod]
@@ -141,24 +124,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = EntityToDto.StudentOnCourseEntityToDto(studentOnCourseToMap);
 
-
-            Assert.AreEqual(expectedStudentOnCourse.Id, resultOfMapping.Id);
-
-            Assert.AreEqual(expectedStudentOnCourse.Course.Id, resultOfMapping.Course.Id);
-            Assert.AreEqual(expectedStudentOnCourse.Course.Name, resultOfMapping.Course.Name);
-            Assert.AreEqual(expectedStudentOnCourse.Course.LeaderName, resultOfMapping.Course.LeaderName);
-            Assert.AreEqual(expectedStudentOnCourse.Course.LeaderSurname, resultOfMapping.Course.LeaderSurname);
-            Assert.AreEqual(expectedStudentOnCourse.Course.HomeworkThreshold, resultOfMapping.Course.HomeworkThreshold);
-            Assert.AreEqual(expectedStudentOnCourse.Course.PresenceThreshold, resultOfMapping.Course.PresenceThreshold);
-            Assert.AreEqual(expectedStudentOnCourse.Course.StartDate, resultOfMapping.Course.StartDate);
-            Assert.AreEqual(expectedStudentOnCourse.Course.StudentsNumber, resultOfMapping.Course.StudentsNumber);
-
-            Assert.AreEqual(expectedStudentOnCourse.Student.Id, resultOfMapping.Student.Id);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Name, resultOfMapping.Student.Name);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Surname, resultOfMapping.Student.Surname);
-            Assert.AreEqual(expectedStudentOnCourse.Student.BirthDate, resultOfMapping.Student.BirthDate);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Gender, resultOfMapping.Student.Gender);
-            Assert.AreEqual(expectedStudentOnCourse.Student.Pesel, resultOfMapping.Student.Pesel);
+            Assert.IsTrue(resultOfMapping.Equals(expectedStudentOnCourse));
         }
 
         [TestMethod]

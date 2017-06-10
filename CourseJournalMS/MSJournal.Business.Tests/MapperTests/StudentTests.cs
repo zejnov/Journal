@@ -38,13 +38,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = DtoToEntity.StudentDtoToEntity(studentToMap);
 
-            Assert.AreEqual(expectedStudent.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedStudent.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedStudent.Surname, resultOfMapping.Surname);
-            Assert.AreEqual(expectedStudent.BirthDate, resultOfMapping.BirthDate);
-            Assert.AreEqual(expectedStudent.Gender, resultOfMapping.Gender);
-            Assert.AreEqual(expectedStudent.Pesel, resultOfMapping.Pesel);
-
+            Assert.IsTrue(resultOfMapping.Equals(expectedStudent));
         }
     
         [TestMethod]
@@ -72,15 +66,9 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = EntityToDto.StudentEntityToDto(studentToMap);
 
-            Assert.AreEqual(expectedStudent.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedStudent.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedStudent.Surname, resultOfMapping.Surname);
-            Assert.AreEqual(expectedStudent.BirthDate, resultOfMapping.BirthDate);
-            Assert.AreEqual(expectedStudent.Gender, resultOfMapping.Gender);
-            Assert.AreEqual(expectedStudent.Pesel, resultOfMapping.Pesel);
-
+            Assert.IsTrue(resultOfMapping.Equals(expectedStudent));
         }
-        
+
         //for null
         [TestMethod]
         public void StudentMapping_ProvideNullStudent_ReceiveNullStudentDto()
@@ -93,7 +81,6 @@ namespace MSJournal.Business.Tests.MapperTests
             var resultOfMapping = EntityToDto.StudentEntityToDto(studentToMap);
 
             Assert.AreEqual(expectedStudent, resultOfMapping);
-
         }
 
         [TestMethod]

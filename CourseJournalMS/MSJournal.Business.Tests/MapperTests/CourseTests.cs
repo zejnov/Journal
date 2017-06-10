@@ -40,14 +40,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = DtoToEntity.CourseDtoToEntity(courseToMap);
 
-            Assert.AreEqual(expectedCourse.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedCourse.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedCourse.LeaderName, resultOfMapping.LeaderName);
-            Assert.AreEqual(expectedCourse.LeaderSurname, resultOfMapping.LeaderSurname);
-            Assert.AreEqual(expectedCourse.StartDate, resultOfMapping.StartDate);
-            Assert.AreEqual(expectedCourse.HomeworkThreshold, resultOfMapping.HomeworkThreshold);
-            Assert.AreEqual(expectedCourse.PresenceThreshold, resultOfMapping.PresenceThreshold);
-            Assert.AreEqual(expectedCourse.StudentsNumber, resultOfMapping.StudentsNumber);
+            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
         }
 
         [TestMethod]
@@ -58,14 +51,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = DtoToEntity.CourseDtoToEntity(courseToMap);
 
-            Assert.AreEqual(expectedCourse.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedCourse.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedCourse.LeaderName, resultOfMapping.LeaderName);
-            Assert.AreEqual(expectedCourse.LeaderSurname, resultOfMapping.LeaderSurname);
-            Assert.AreEqual(expectedCourse.StartDate, resultOfMapping.StartDate);
-            Assert.AreEqual(expectedCourse.HomeworkThreshold, resultOfMapping.HomeworkThreshold);
-            Assert.AreEqual(expectedCourse.PresenceThreshold, resultOfMapping.PresenceThreshold);
-            Assert.AreEqual(expectedCourse.StudentsNumber, resultOfMapping.StudentsNumber);
+            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
         }
 
         [TestMethod]
@@ -97,14 +83,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = EntityToDto.CourseEntityToDto(courseToMap);
 
-            Assert.AreEqual(expectedCourse.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedCourse.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedCourse.LeaderName, resultOfMapping.LeaderName);
-            Assert.AreEqual(expectedCourse.LeaderSurname, resultOfMapping.LeaderSurname);
-            Assert.AreEqual(expectedCourse.StartDate, resultOfMapping.StartDate);
-            Assert.AreEqual(expectedCourse.HomeworkThreshold, resultOfMapping.HomeworkThreshold);
-            Assert.AreEqual(expectedCourse.PresenceThreshold, resultOfMapping.PresenceThreshold);
-            Assert.AreEqual(expectedCourse.StudentsNumber, resultOfMapping.StudentsNumber);
+            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
         }
 
         [TestMethod]
@@ -115,14 +94,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = EntityToDto.CourseEntityToDto(courseToMap);
 
-            Assert.AreEqual(expectedCourse.Id, resultOfMapping.Id);
-            Assert.AreEqual(expectedCourse.Name, resultOfMapping.Name);
-            Assert.AreEqual(expectedCourse.LeaderName, resultOfMapping.LeaderName);
-            Assert.AreEqual(expectedCourse.LeaderSurname, resultOfMapping.LeaderSurname);
-            Assert.AreEqual(expectedCourse.StartDate, resultOfMapping.StartDate);
-            Assert.AreEqual(expectedCourse.HomeworkThreshold, resultOfMapping.HomeworkThreshold);
-            Assert.AreEqual(expectedCourse.PresenceThreshold, resultOfMapping.PresenceThreshold);
-            Assert.AreEqual(expectedCourse.StudentsNumber, resultOfMapping.StudentsNumber);
+            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
         }
 
     }
