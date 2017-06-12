@@ -47,7 +47,10 @@ namespace MSJournal.Business.Tests.MapperTests
         public void CourseMapping_ProvideNullCourseDto_ReceiveNullCourse()
         {
             var courseToMap = new CourseDto();
+            courseToMap = null;
+
             var expectedCourse = new Course();
+            expectedCourse = null;
 
             var resultOfMapping = DtoToEntity.CourseDtoToEntity(courseToMap);
 
@@ -90,7 +93,9 @@ namespace MSJournal.Business.Tests.MapperTests
         public void CourseMapping_ProvideNullCourse_ReceiveNullCourseDto()
         {
             var courseToMap = new Course();
+            courseToMap = null;
             var expectedCourse = new CourseDto();
+            expectedCourse = null;
 
             var resultOfMapping = EntityToDto.CourseEntityToDto(courseToMap);
 
