@@ -54,7 +54,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = DtoToEntity.CourseDtoToEntity(courseToMap);
 
-            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
+            Assert.AreEqual(resultOfMapping,expectedCourse);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace MSJournal.Business.Tests.MapperTests
 
             var resultOfMapping = EntityToDto.CourseEntityToDto(courseToMap);
 
-            Assert.IsTrue(resultOfMapping.Equals(expectedCourse));
+            Assert.AreEqual(resultOfMapping,expectedCourse);
         }
 
     }
