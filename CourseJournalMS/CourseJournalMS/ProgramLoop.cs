@@ -175,9 +175,11 @@ namespace CourseJournalMS
         {
             Console.Clear();
             var studentDto = new StudentDto();
+            var studentServices = new StudentServices();
+
             studentDto = ConsoleReadHelper.GetStudentData();
 
-            var success = StudentServices.Add(studentDto);
+            var success = studentServices.Add(studentDto);
 
             if (success)
             {
@@ -197,8 +199,10 @@ namespace CourseJournalMS
             Console.Clear();
 
             var courseDto = new CourseDto();
+            var courseServices = new CourseServices();
+
             courseDto = ConsoleReadHelper.GetCourseData();
-            var success = CourseServices.Add(courseDto);
+            var success = courseServices.Add(courseDto);
 
             if (success)
             {
@@ -225,9 +229,11 @@ namespace CourseJournalMS
             }
 
             var course = new CourseDto();
+            var courseServices = new CourseServices();
+
             Console.WriteLine("Please provide new course data:\n");
             course = ConsoleReadHelper.UpdateCourseData(_choosenCourse);
-            var success = CourseServices.UpdateCourseData(_choosenCourse, course);
+            var success = courseServices.UpdateCourseData(_choosenCourse, course);
 
             if (success)
             {
@@ -246,13 +252,15 @@ namespace CourseJournalMS
         private bool ChangeActiveCourse()
         {
             Console.Clear();
-            if (CourseServices.GetCourseCount() == 0)
+            var courseServices = new CourseServices();
+
+            if (courseServices.GetCourseCount() == 0)
             {
                 Console.WriteLine("You need to create course first!");
                 return true;
             }
 
-            _choosenCourse = ChooseFromList.CourseFromList(CourseServices.GetAll());
+            _choosenCourse = ChooseFromList.CourseFromList(courseServices.GetAll());
             return true;
         }
 
@@ -267,13 +275,15 @@ namespace CourseJournalMS
             }
 
             var studentOnCourse = new StudentOnCourseDto();
+            var studentServices = new StudentServices();
+            var studentOnCourseServices = new StudentOnCourseServices();
 
             studentOnCourse.Course = _choosenCourse;
-            studentOnCourse.Student = ChooseFromList.StudentFromList(StudentServices.GetAll());
+            studentOnCourse.Student = ChooseFromList.StudentFromList(studentServices.GetAll());
 
-            if (!StudentOnCourseServices.Exist(studentOnCourse))
+            if (!studentOnCourseServices.Exist(studentOnCourse))
             {
-                var success = StudentOnCourseServices.AddStudentToCourse(studentOnCourse);
+                var success = studentOnCourseServices.AddStudentToCourse(studentOnCourse);
 
                 if (success)
                 {
@@ -304,21 +314,25 @@ namespace CourseJournalMS
             }
 
             var studentOnCourse = new StudentOnCourseDto();
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var homeworkServices = new HomeworkServices();
+            var courseDayServices = new CourseDayServices();
+
 
             studentOnCourse.Course = _choosenCourse;
-            studentOnCourse = ChooseFromList.StudentOnCourseList(StudentOnCourseServices
+            studentOnCourse = ChooseFromList.StudentOnCourseList(studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course));
 
             //************deleting all 'references'***********
             var success = true;
-            var homeworkList = HomeworkServices.GetHomework(studentOnCourse);
-            var attendanceList = CourseDayServices.GetAttendance(studentOnCourse);
+            var homeworkList = homeworkServices.GetHomework(studentOnCourse);
+            var attendanceList = courseDayServices.GetAttendance(studentOnCourse);
 
             if (homeworkList.Count != 0)
             {
                 foreach (var homework in homeworkList)
                 {
-                    success &= HomeworkServices.RemoveHomework(homework);
+                    success &= homeworkServices.RemoveHomework(homework);
                 }
             }
 
@@ -326,12 +340,12 @@ namespace CourseJournalMS
             {
                 foreach (var day in attendanceList)
                 {
-                    success &= CourseDayServices.RemoveDay(day);
+                    success &= courseDayServices.RemoveDay(day);
                 }
             }
 
             //deleting literally 'student on course'
-            success &= StudentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
+            success &= studentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
             
             if (success)
             {
@@ -351,8 +365,10 @@ namespace CourseJournalMS
             Console.Clear();
 
             var student = new StudentDto();
+            var studentServices = new StudentServices();
+
             Console.WriteLine("Please choose student you want update: \n");
-            student = ChooseFromList.StudentFromList(StudentServices.GetAll());
+            student = ChooseFromList.StudentFromList(studentServices.GetAll());
             
             if (student == null)
             {
@@ -363,7 +379,7 @@ namespace CourseJournalMS
             Console.WriteLine("Please provide new student data:\n");
             var newStudent = new StudentDto();
             newStudent = ConsoleReadHelper.UpdateStudentData(student);
-            var success = StudentServices.UpdateStudentData(student, newStudent);
+            var success = studentServices.UpdateStudentData(student, newStudent);
 
             if (success)
             {
@@ -392,10 +408,12 @@ namespace CourseJournalMS
             var studentOnCourse = new StudentOnCourseDto();
             studentOnCourse.Course = _choosenCourse;
 
-            var studentOnCourseList = StudentOnCourseServices
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var studentOnCourseList = studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
 
             var success = true;
+            var courseDayServices = new CourseDayServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -407,7 +425,7 @@ namespace CourseJournalMS
                 
                 courseDay.Attendance = ConsoleReadHelper.GetStudentAttendance(student.Student);
 
-                success &= CourseDayServices.Add(courseDay);
+                success &= courseDayServices.Add(courseDay);
             }
 
             if (success)
@@ -436,12 +454,14 @@ namespace CourseJournalMS
             var studentOnCourse = new StudentOnCourseDto();
             studentOnCourse.Course = _choosenCourse;
 
-            var studentOnCourseList = StudentOnCourseServices
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var studentOnCourseList = studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
 
             var maxHomeworkPoints = ConsoleReadHelper.GetIntInRange("Please provide max homework points", 0, 1000);
 
             var success = true;
+            var homeworkServices = new HomeworkServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -454,7 +474,7 @@ namespace CourseJournalMS
                 homework.MaxPoints = maxHomeworkPoints;
                 homework.StudentPoints = ConsoleReadHelper.GetStudentHomework(student.Student,maxHomeworkPoints);
 
-                success &= HomeworkServices.Add(homework);
+                success &= homeworkServices.Add(homework);
             }
 
             if (success)
@@ -484,7 +504,8 @@ namespace CourseJournalMS
             var printOk = true;
             printOk &= ReportHelper.GetCourseReport(_choosenCourse);
 
-            var studentOnCourseList = StudentOnCourseServices
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var studentOnCourseList = studentOnCourseServices
                 .StudentsListOnCourse(_choosenCourse);
 
             //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
@@ -524,12 +545,14 @@ namespace CourseJournalMS
 
         private void ReloadCourse()
         {
-            _choosenCourse = CourseServices.RefreshCourse(_choosenCourse);
+            var courseServices = new CourseServices();
+            _choosenCourse = courseServices.RefreshCourse(_choosenCourse);
         }
 
         private void ReloadCourse(CourseDto course)
         {
-            _choosenCourse = CourseServices.RefreshCourse(course);
+            var courseServices = new CourseServices();
+            _choosenCourse = courseServices.RefreshCourse(course);
         }
     }//class
 }

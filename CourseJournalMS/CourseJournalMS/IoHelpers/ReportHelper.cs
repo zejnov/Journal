@@ -23,10 +23,13 @@ namespace CourseJournalMS
             Console.WriteLine("\nAttendance on course results:\n");
 
             var ordinal = 1;
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var courseDayServices = new CourseDayServices();
+
             foreach (var student in studentOnCourseList)
             {
-                StudentOnCourseServices.CheckAttendance
-                    (student, CourseDayServices.GetAttendance(student));
+                studentOnCourseServices.CheckAttendance
+                    (student, courseDayServices.GetAttendance(student));
 
                 ConsoleWriteHelper.PrintStudentAttendanceResult(student, ordinal++);
             }
@@ -44,10 +47,13 @@ namespace CourseJournalMS
             Console.WriteLine("\nHomework results:\n");
 
             var ordinal = 1;
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var homeworkServices = new HomeworkServices();
+
             foreach (var student in studentOnCourseList)
             {
-                StudentOnCourseServices.CheckHomework
-                    (student, HomeworkServices.GetHomework(student));
+                studentOnCourseServices.CheckHomework
+                    (student, homeworkServices.GetHomework(student));
 
                 ConsoleWriteHelper.PrintStudentHomeworkResult(student, ordinal++);
             }
@@ -64,12 +70,13 @@ namespace CourseJournalMS
         public static bool IfNoCourse()
         {
             Console.WriteLine("There is no active course! Try 'change' ");
+            var studentServices = new StudentServices();
 
-            if (StudentServices.StudentsCount() != 0)
+            if (studentServices.StudentsCount() != 0)
             {
                 Console.WriteLine("\nPrinting just avaible students list:\n");
 
-                var studentsList = StudentServices.GetAll();
+                var studentsList = studentServices.GetAll();
                 var ordinal = 1;
                 foreach (var student in studentsList)
                 {

@@ -25,58 +25,49 @@ namespace MSJournal_Business.Services
             _courseDayRepository = courseDayRepository;
         }
         
-        public static bool Add(CourseDayDto courseDayDto)
+        public bool Add(CourseDayDto courseDayDto)
         {
             if (Exist(courseDayDto))
                 return false;
-            return new CourseDayRepository()
+            return _courseDayRepository
                 .Add(DtoToEntity.CourseDayDtoToEntity(courseDayDto));
         }
 
-        private static bool Exist(CourseDayDto courseDayDto)
+        private bool Exist(CourseDayDto courseDayDto)
         {
-            return new CourseDayRepository()
+            return _courseDayRepository
                 .Exist(DtoToEntity.CourseDayDtoToEntity(courseDayDto));
         }
 
-        private static CourseDayDto Get(int id)
+        private CourseDayDto Get(int id)
         {
             if (!Exist(new CourseDayDto() { Id = id }))
                 return null;
 
             return EntityToDto.CourseDayEntityToDto
-                (new CourseDayRepository().Get(id));
+                (_courseDayRepository.Get(id));
         }
 
-        public static List<CourseDayDto> GetAll()
+        public List<CourseDayDto> GetAll()
         {
-            return new CourseDayRepository()
+            return _courseDayRepository
                 .GetAll()
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();
         }
 
-        public static List<CourseDayDto> GetAttendance(StudentOnCourseDto studentOnCourseDto)
-        {
-            return new CourseDayRepository()
-                .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
-                .Select(EntityToDto.CourseDayEntityToDto)
-                .ToList();
-        }
-
-        public static bool RemoveDay(CourseDayDto courseDay)
-        {
-            return new CourseDayRepository()
-                .RemoveDay(DtoToEntity.CourseDayDtoToEntity(courseDay));
-        }
-        
-        //********* do Moq'a **********
-        public List<CourseDayDto> GetAttendanceTest(StudentOnCourseDto studentOnCourseDto)
+        public List<CourseDayDto> GetAttendance(StudentOnCourseDto studentOnCourseDto)
         {
             return _courseDayRepository
                 .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
                 .Select(EntityToDto.CourseDayEntityToDto)
                 .ToList();
+        }
+
+        public bool RemoveDay(CourseDayDto courseDay)
+        {
+            return _courseDayRepository
+                .RemoveDay(DtoToEntity.CourseDayDtoToEntity(courseDay));
         }
     }
 }

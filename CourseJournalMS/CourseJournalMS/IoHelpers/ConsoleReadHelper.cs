@@ -33,7 +33,10 @@ namespace CourseJournalMS.IoConsole
         public static long GetStudentPesel()
         {
             var pesel = GetData<long>("Provide student PESEL: ");
-            while (!StudentServices.CheckPesel(pesel))
+
+            var studentServices = new StudentServices();
+
+            while (!studentServices.CheckPesel(pesel))
             {
                 Console.WriteLine("You provide wrong PESEL, try again.");
                 pesel = GetData<long>("Provide PESEL: ");
@@ -57,6 +60,7 @@ namespace CourseJournalMS.IoConsole
         public static CourseDto GetCourseData()
         {
             var courseDto = new CourseDto();
+            var studentServices = new StudentServices();
 
             courseDto.Name = GetData<string>("Provide course name");
             courseDto.LeaderName = GetData<string>("Provide course leader name");
@@ -65,7 +69,7 @@ namespace CourseJournalMS.IoConsole
             courseDto.PresenceThreshold = GetIntInRange("Provide presence threshold", 0, 100);
             courseDto.HomeworkThreshold = GetIntInRange("Provide homework threshold", 0, 100);
 
-            var maxStudentsNumber = StudentServices.StudentsCount();
+            var maxStudentsNumber = studentServices.StudentsCount();
             courseDto.StudentsNumber = GetIntInRange("Privide students number", 0, maxStudentsNumber);
             
             return courseDto;

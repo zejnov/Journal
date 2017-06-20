@@ -60,7 +60,7 @@ namespace MSJournal.Business.Tests.ReportServicesTests
             };
 
             var courseDayService = new CourseDayServices(courseDayRepositoryMock.Object);
-            var result = courseDayService.GetAttendanceTest(studentOnCourseDto);
+            var result = courseDayService.GetAttendance(studentOnCourseDto);
 
             var expectedResult = new List<CourseDayDto>();
 
@@ -103,7 +103,7 @@ namespace MSJournal.Business.Tests.ReportServicesTests
             };
 
             var homeworkService = new HomeworkServices(homeworkRepositoryMock.Object);
-            var result = homeworkService.GetHomeworkTest(studentOnCourseDto);
+            var result = homeworkService.GetHomework(studentOnCourseDto);
 
             var expectedResult = new List<CourseDayDto>();
 

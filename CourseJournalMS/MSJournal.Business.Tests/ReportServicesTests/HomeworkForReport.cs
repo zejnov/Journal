@@ -80,8 +80,9 @@ namespace MSJournal.Business.Tests.ReportServicesTests
                     StudentsNumber = 12,
                 },
             };
-
-            StudentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
+            var studentOnCourseServices = new StudentOnCourseServices();
+            
+            studentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
 
             Assert.AreEqual(studentOnCourseToCheck, expectedCheckedStudent);
         }
@@ -158,7 +159,9 @@ namespace MSJournal.Business.Tests.ReportServicesTests
                 },
             };
 
-            StudentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
+            var studentOnCourseServices = new StudentOnCourseServices();
+
+            studentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
 
             Assert.AreEqual(studentOnCourseToCheck, expectedCheckedStudent);
         }
@@ -193,7 +196,8 @@ namespace MSJournal.Business.Tests.ReportServicesTests
 
             var homeworkList = new List<HomeworkDto>();
             
-            var result = StudentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var result = studentOnCourseServices.CheckHomework(studentOnCourseToCheck, homeworkList);
 
             Assert.IsFalse(result);
         }
