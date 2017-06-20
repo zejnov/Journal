@@ -13,19 +13,6 @@ namespace MSJournal.Business.Tests.ReportServicesTests
     [TestClass]
     public class OtherReportServices
     {
-        /****************  Słowo komentarza do tych testów  ************************
-        Cały serwis zrobiłem niechybnie "STATIC" (wzorując się innym projektem)
-        
-            Do testów zmodyfikowałem lekko oba poniżej testowane serwisy,
-        kopiując w nich testowaną metodę, dodając 'Test' i kasując 'static'
-
-            Przerobienie teraz całego projektu na 'obiektowe serwisy' to 
-        chwilowo ponad moje siły, sporo czasu urwał mi ten projekt, ale  
-        jakgdyby test jest i sprawdza tę metodę :)
-
-        /***************************************************************************
-        */
-
         [TestMethod]
         public void CourseDayServiceGetAttendance_StudentOnCourse_CourseDayList()
         {

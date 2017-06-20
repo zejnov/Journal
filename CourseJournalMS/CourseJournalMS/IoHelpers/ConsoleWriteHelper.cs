@@ -11,7 +11,9 @@ namespace CourseJournalMS.IoConsole
 {
     internal class ConsoleWriteHelper
     {
-
+        /// <summary>
+        /// printing app avaible commands
+        /// </summary>
         public static void PrintMenu()
         {
             Console.Clear();
@@ -21,6 +23,9 @@ namespace CourseJournalMS.IoConsole
             Console.Write("Please enter the name of the action: ");
         }
         
+        /// <summary>
+        /// printing help - list of commands and their operations
+        /// </summary>
         public static bool PrintHelp()
         {
             int i = 1;
@@ -48,11 +53,17 @@ namespace CourseJournalMS.IoConsole
             return true;
         }
 
+        /// <summary>
+        /// printing ID error message
+        /// </summary>
         public static void PrintIdError()
         {
             Console.WriteLine("The given ID does not exist in courses collection");
         }
 
+        /// <summary>
+        /// printing given course data
+        /// </summary>
         public static void PrintCourseData(CourseDto course)
         {
             Console.WriteLine($"Course name: {course.Name}");
@@ -62,21 +73,37 @@ namespace CourseJournalMS.IoConsole
             Console.WriteLine($"Homework threshold: {course.HomeworkThreshold}%");
         }
 
+        /// <summary>
+        /// Printing ordered list
+        /// </summary>
+        /// <param name="student">StudentDto</param>
         public static void PrintOrderedList(StudentDto student, int ordinal)
         {
             Console.WriteLine($"{ordinal}. {student.Name} {student.Surname} {student.Pesel}");
         }
 
+        /// <summary>
+        /// Printing ordered list
+        /// </summary>
+        /// <param name="course">CourseDto</param>
         public static void PrintOrderedList(CourseDto course, int ordinal)
         {
             Console.WriteLine($"{ordinal}. {course.Name} lead by {course.LeaderName} {course.LeaderSurname}");
         }
 
+        /// <summary>
+        /// Printing ordered list
+        /// </summary>
+        /// <param name="student">StudentOnCourseDto</param>
         public static void PrintOrderedList(StudentOnCourseDto student, int ordinal)
         {
             Console.WriteLine($"{ordinal}. {student.Student.Name} {student.Student.Surname} {student.Student.Pesel}");
         }
 
+        /// <summary>
+        /// Printing ordered list
+        /// </summary>
+        /// <param name="studentOnCourseList">List of StudentOnCourseDto</param>
         public static void PrintOrderedList(List<StudentOnCourseDto> studentOnCourseList)
         {
             var ordinal = 1;
@@ -87,16 +114,9 @@ namespace CourseJournalMS.IoConsole
             }
         }
 
-        public static void PrintHomeworkList(List<StudentOnCourseDto> studentOnCourseList)
-        {
-            var ordinal = 1;
-
-            foreach (var student in studentOnCourseList)
-            {
-                Console.WriteLine($"{ordinal++}. {student.Student.Name} {student.Student.Surname}, PESEL: {student.Student.Pesel}");
-            }
-        }
-
+        /// <summary>
+        /// Printing ordered list with attendance results
+        /// </summary>
         public static void PrintStudentAttendanceResult(StudentOnCourseDto student, int ordinal)
         {
             var result = student.Student.AttendanceOk ? "passed" : "not passed";
@@ -106,6 +126,9 @@ namespace CourseJournalMS.IoConsole
                               $" {Convert.ToInt32(student.Student.StudentAttendance)}% - {result}");
         }
 
+        /// <summary>
+        /// Printing ordered list with homework result
+        /// </summary>
         public static void PrintStudentHomeworkResult(StudentOnCourseDto student, int ordinal)
         {
             var result = student.Student.HomeworkOk ? "passed" : "not passed";
@@ -115,6 +138,9 @@ namespace CourseJournalMS.IoConsole
                               $" {Convert.ToInt32(student.Student.HomeworkPerformance)}% - {result}");
         }
 
+        /// <summary>
+        /// printing Hello to User :)
+        /// </summary>
         public static void HelloWorld()
         {
             Console.WriteLine($"Hello {Environment.UserName} in course journal :) \n\n\nPress any key to start");

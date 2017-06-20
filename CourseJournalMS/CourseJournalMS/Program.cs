@@ -10,6 +10,10 @@ namespace CourseJournalMS
 {
     public class Program
     {
+        /// <summary>
+        /// main program method
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             new ProgramLoop().Run();

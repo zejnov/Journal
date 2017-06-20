@@ -11,7 +11,11 @@ namespace CourseJournalMS
 {
     public class ReportHelper
     {
-
+        /// <summary>
+        /// printing students attendance report
+        /// </summary>
+        /// <param name="studentOnCourseList">student list with checked attendance</param>
+        /// <returns></returns>
         public static bool GetAttendanceReport(List<StudentOnCourseDto> studentOnCourseList)
         {
             if (studentOnCourseList.Count == 0)
@@ -36,6 +40,11 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// printing students homework report
+        /// </summary>
+        /// <param name="studentOnCourseList">student list with checked homework</param>
+        /// <returns></returns>
         public static bool GetHomeworkReport(List<StudentOnCourseDto> studentOnCourseList)
         {
             if (studentOnCourseList.Count == 0)
@@ -60,6 +69,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// printing course basic data
+        /// </summary>
+        /// <param name="course">course to print</param>
         public static bool GetCourseReport(CourseDto course)
         {
             Console.WriteLine("COURSE REPORT \n");
@@ -67,6 +80,9 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// printing students list in journal
+        /// </summary>
         public static bool IfNoCourse()
         {
             Console.WriteLine("There is no active course! Try 'change' ");

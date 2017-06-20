@@ -18,11 +18,17 @@ namespace CourseJournalMS
         private int _zjv = 0;
         private CourseDto _choosenCourse;
 
+        /// <summary>
+        /// running an app
+        /// </summary>
         public void Run()
         {
             SwitchCommand();
         }
 
+        /// <summary>
+        /// command types used in app
+        /// </summary>
         public enum CommandTypes
         {
             none,
@@ -41,6 +47,10 @@ namespace CourseJournalMS
             help,
         }
 
+        /// <summary>
+        /// getting command from user
+        /// </summary>
+        /// <returns>command</returns>
         public CommandTypes GetCommandFromUser()
         {
             CommandTypes command = CommandTypes.none;
@@ -66,6 +76,9 @@ namespace CourseJournalMS
             return command;
         }
 
+        /// <summary>
+        /// main function switching given command
+        /// </summary>
         public void SwitchCommand()
         {
             var exit = false;
@@ -171,6 +184,10 @@ namespace CourseJournalMS
             }
         }
 
+        /// <summary>
+        /// adding student to student list
+        /// </summary>
+        /// <returns></returns>
         private bool AddStudent()
         {
             Console.Clear();
@@ -194,6 +211,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// adding course to journal
+        /// </summary>
+        /// <returns></returns>
         private bool AddCourse()
         {
             Console.Clear();
@@ -218,6 +239,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// updating course data
+        /// </summary>
+        /// <returns></returns>
         private bool UpdateCourse()
         {
             Console.Clear();
@@ -249,6 +274,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// changing active course, choose from list
+        /// </summary>
+        /// <returns></returns>
         private bool ChangeActiveCourse()
         {
             Console.Clear();
@@ -264,6 +293,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// sign in student on course, choosen from lists
+        /// </summary>
+        /// <returns></returns>
         private bool SignInStudentOnCourse()
         {
             Console.Clear();
@@ -303,6 +336,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// sign out student from ACTIVE course, choosen from lists
+        /// </summary>
+        /// <returns></returns>
         private bool SignOutStudentFromCourse()
         {
             Console.Clear();
@@ -360,6 +397,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// update student data, choosen from list
+        /// </summary>
+        /// <returns></returns>
         private bool UpdateStudent()
         {
             Console.Clear();
@@ -395,6 +436,10 @@ namespace CourseJournalMS
 
         }
 
+        /// <summary>
+        /// add day of course - check attendance on active course
+        /// </summary>
+        /// <returns></returns>
         private bool AddDayOfCourse()
         {
             Console.Clear();
@@ -441,6 +486,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// add homework on course - check students results
+        /// </summary>
+        /// <returns></returns>
         private bool AddHomeworkToCourse()
         {
             Console.Clear();
@@ -490,6 +539,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// printing active course report
+        /// </summary>
+        /// <returns></returns>
         private bool PrintReport()
         {
             Console.Clear();
@@ -525,12 +578,19 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// clear the console
+        /// </summary>
+        /// <returns></returns>
         private bool Clear()
         {
             Console.Clear();
             return true;
         }
 
+        /// <summary>
+        /// exit the app
+        /// </summary>
         private void Exit()
         {
             Console.WriteLine($"\n\nYou used {++_zjv} commands :)");
@@ -538,17 +598,27 @@ namespace CourseJournalMS
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// action counter
+        /// </summary>
         private void Action(bool zjv)
         {
             _zjv++;
         }
 
+        /// <summary>
+        /// reload course data from database
+        /// </summary>
         private void ReloadCourse()
         {
             var courseServices = new CourseServices();
             _choosenCourse = courseServices.RefreshCourse(_choosenCourse);
         }
 
+        /// <summary>
+        /// reload course from database
+        /// </summary>
+        /// <param name="course">course to be set as active</param>
         private void ReloadCourse(CourseDto course)
         {
             var courseServices = new CourseServices();

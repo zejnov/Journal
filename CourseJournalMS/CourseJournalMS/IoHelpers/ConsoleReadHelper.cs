@@ -10,6 +10,9 @@ namespace CourseJournalMS.IoConsole
 {
     internal class ConsoleReadHelper
     {
+        /// <summary>
+        /// Generic function to get data
+        /// </summary>
         public static T GetData<T>(string message)
         {
             while (true)
@@ -30,6 +33,9 @@ namespace CourseJournalMS.IoConsole
             }
         }
 
+        /// <summary>
+        /// function to get proper PESEL
+        /// </summary>
         public static long GetStudentPesel()
         {
             var pesel = GetData<long>("Provide student PESEL: ");
@@ -45,6 +51,9 @@ namespace CourseJournalMS.IoConsole
             return pesel;
         }
 
+        /// <summary>
+        /// function to get int value in given range
+        /// </summary>
         public static int GetIntInRange(string message, int minValue, int maxValue)
         {
             var result = GetData<int>(message);
@@ -57,6 +66,10 @@ namespace CourseJournalMS.IoConsole
             return result;
         }
 
+        /// <summary>
+        /// getting course data
+        /// </summary>
+        /// <returns>CourseDto</returns>
         public static CourseDto GetCourseData()
         {
             var courseDto = new CourseDto();
@@ -75,6 +88,9 @@ namespace CourseJournalMS.IoConsole
             return courseDto;
         }
 
+        /// <summary>
+        /// updating course data, if empty saves old parameter
+        /// </summary>
         public static CourseDto UpdateCourseData(CourseDto oldCourseDto)
         {
             var courseDto = new CourseDto();
@@ -94,6 +110,10 @@ namespace CourseJournalMS.IoConsole
             return courseDto;
         }
 
+        /// <summary>
+        /// getting student data
+        /// </summary>
+        /// <returns>StudentDto</returns>
         public static StudentDto GetStudentData()
         {
             var studentDto = new StudentDto();
@@ -107,6 +127,9 @@ namespace CourseJournalMS.IoConsole
             return studentDto;
         }
 
+        /// <summary>
+        /// updating student data, if empty saves old parameter
+        /// </summary>
         public static StudentDto UpdateStudentData(StudentDto oldStudentDto)
         {
             var studentDto = new StudentDto();
@@ -122,6 +145,9 @@ namespace CourseJournalMS.IoConsole
             return studentDto;
         }
 
+        /// <summary>
+        /// getting student gender
+        /// </summary>
         private static string GetStudentGender()
         {
             var enumResult = GenderType.none;
@@ -143,11 +169,17 @@ namespace CourseJournalMS.IoConsole
             return enumResult.ToString();
         }
 
+        /// <summary>
+        /// getting student homework result
+        /// </summary>
         public static int GetStudentHomework(StudentDto student, int maxPoints)
         {
             return GetIntInRange($"Student {student.Name} {student.Surname} gets",0,maxPoints);
         }
 
+        /// <summary>
+        /// getting student attendance on course day
+        /// </summary>
         public static string GetStudentAttendance(StudentDto student)
         {
             var enumResult = AttendanceType.none;
@@ -169,6 +201,9 @@ namespace CourseJournalMS.IoConsole
             return AttendanceResult(enumResult);
         }
         
+        /// <summary>
+        /// enums of gender
+        /// </summary>
         private enum GenderType 
         {
             none,
@@ -178,6 +213,9 @@ namespace CourseJournalMS.IoConsole
             f,
         }
 
+        /// <summary>
+        /// enums of attendance
+        /// </summary>
         private enum AttendanceType
         {
             none,
@@ -187,6 +225,9 @@ namespace CourseJournalMS.IoConsole
             a,
         }
 
+        /// <summary>
+        /// converting attendance to string
+        /// </summary>
         private static string AttendanceResult(AttendanceType type)
         {
             if (type == AttendanceType.p || type == AttendanceType.present)
