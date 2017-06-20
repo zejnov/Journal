@@ -1,4 +1,4 @@
-#Journal on MsSql by ZejnoV®
+﻿#Journal on MsSql by ZejnoV®
 Console application to keep a journal
 
 ### What is this journal for? ###
@@ -23,7 +23,7 @@ Console application to keep a journal
 ### Who do I talk to? ###
 
 * zejnov@gmail.com
-* https://www.linkedin.com/in/mati-zejnov-b39845119/
+* https://www.linkedin.com/in/mateusz-z-b39845119/
 
 
 ### Avaible commands ###
