@@ -6,11 +6,24 @@ using System.Threading.Tasks;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Data.Repository;
+using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Business.Services
 {
     public class StudentServices
     {
+        private IStudentRepository _studentRepository;
+
+        public StudentServices()
+        {
+            _studentRepository = new StudentRepository();
+        }
+
+        public StudentServices(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }
+
         public static bool Add(StudentDto studentDto)
         {
             if (Exist(studentDto))

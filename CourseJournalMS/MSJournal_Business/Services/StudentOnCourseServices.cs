@@ -6,11 +6,24 @@ using System.Threading.Tasks;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Data.Repository;
+using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Business.Services
 {
     public class StudentOnCourseServices
     {
+        private IStudentOnCourseRepository _studentOnCourseRepository;
+
+        public StudentOnCourseServices()
+        {
+            _studentOnCourseRepository = new StudentOnCourseRepository();
+        }
+
+        public StudentOnCourseServices(IStudentOnCourseRepository studentOnCourseRepository)
+        {
+            _studentOnCourseRepository = studentOnCourseRepository;
+        }
+
         public static bool AddStudentToCourse(StudentOnCourseDto studentOnCourseDto)
         {
             var canCombine = true;
