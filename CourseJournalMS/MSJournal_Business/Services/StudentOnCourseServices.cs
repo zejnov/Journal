@@ -24,35 +24,38 @@ namespace MSJournal_Business.Services
             _studentOnCourseRepository = studentOnCourseRepository;
         }
 
-        public static bool AddStudentToCourse(StudentOnCourseDto studentOnCourseDto)
+        public bool AddStudentToCourse(StudentOnCourseDto studentOnCourseDto)
         {
+            var courseServices = new CourseServices();
+            var studentServices = new StudentServices();
+
             var canCombine = true;
-                canCombine &= CourseServices.Exist(studentOnCourseDto.Course);
-                canCombine &= StudentServices.Exist(studentOnCourseDto.Student);
+                canCombine &= courseServices.Exist(studentOnCourseDto.Course);
+                canCombine &= studentServices.Exist(studentOnCourseDto.Student);
 
             if (!canCombine)
                 return false;
 
-            return new StudentOnCourseRepository().AddStudentToCourse(
+            return _studentOnCourseRepository.AddStudentToCourse(
                 DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto));
         }
 
-        public static bool RemoveStudentFromCourse(StudentOnCourseDto studentOnCourseDto)
+        public bool RemoveStudentFromCourse(StudentOnCourseDto studentOnCourseDto)
         {
-            return new StudentOnCourseRepository()
+            return _studentOnCourseRepository
                .RemoveStudentFromCourse(DtoToEntity
                .StudentOnCourseDtoToEntity(studentOnCourseDto));
         }
 
-        public static List<StudentOnCourseDto> StudentsListOnCourse(CourseDto course)
+        public List<StudentOnCourseDto> StudentsListOnCourse(CourseDto course)
         {
-            return new StudentOnCourseRepository()
+            return _studentOnCourseRepository
                 .StudentsListOnCourse(DtoToEntity.CourseDtoToEntity(course))
                 .Select(EntityToDto.StudentOnCourseEntityToDto)
                 .ToList();
         }
 
-        public static bool CheckAttendance(StudentOnCourseDto studentOnCourseDto, List<CourseDayDto> attendanceList)
+        public bool CheckAttendance(StudentOnCourseDto studentOnCourseDto, List<CourseDayDto> attendanceList)
         {
             if (attendanceList.Count == 0)
             {
@@ -89,7 +92,7 @@ namespace MSJournal_Business.Services
             return true;
         }
         
-        public static bool CheckHomework(StudentOnCourseDto studentOnCourseDto, List<HomeworkDto> homeworkList)
+        public bool CheckHomework(StudentOnCourseDto studentOnCourseDto, List<HomeworkDto> homeworkList)
         {
             if (homeworkList.Count == 0)
             {
@@ -121,9 +124,9 @@ namespace MSJournal_Business.Services
             return true;
         }
 
-        public static bool Exist(StudentOnCourseDto studentOnCourseDto)
+        public bool Exist(StudentOnCourseDto studentOnCourseDto)
         {
-            return new StudentOnCourseRepository()
+            return _studentOnCourseRepository
                 .Exist(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto));
         }
 

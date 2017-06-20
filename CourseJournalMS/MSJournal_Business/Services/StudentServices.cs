@@ -24,52 +24,52 @@ namespace MSJournal_Business.Services
             _studentRepository = studentRepository;
         }
 
-        public static bool Add(StudentDto studentDto)
+        public bool Add(StudentDto studentDto)
         {
             if (Exist(studentDto))
                 return false;
-            return new StudentRepository().Add(DtoToEntity.StudentDtoToEntity(studentDto));
+            return _studentRepository.Add(DtoToEntity.StudentDtoToEntity(studentDto));
         }
 
-        public static bool Exist(StudentDto studentDto)
+        public bool Exist(StudentDto studentDto)
         {
-           return new StudentRepository()
+           return _studentRepository
                 .Exist(DtoToEntity.StudentDtoToEntity(studentDto));
         }
 
-        public static StudentDto Get(int id)
+        public StudentDto Get(int id)
         {
             if (!Exist(new StudentDto() {Id = id}))
                 return null;
 
             return EntityToDto.StudentEntityToDto
-                (new StudentRepository().Get(id));
+                (_studentRepository.Get(id));
         }
 
-        public static List<StudentDto> GetAll()
+        public List<StudentDto> GetAll()
         {
-            return new StudentRepository()
+            return _studentRepository
                 .GetAll()
                 .Select(EntityToDto.StudentEntityToDto)
                 .ToList();
         }
 
-        public static int StudentsCount()
+        public int StudentsCount()
         {
-            return new StudentRepository().StudentsCount();
+            return _studentRepository.StudentsCount();
         }
 
-        public static bool UpdateStudentData(StudentDto oldStudent, StudentDto newStudent)
+        public bool UpdateStudentData(StudentDto oldStudent, StudentDto newStudent)
         {
             if (!Exist(oldStudent))
                 return false;
 
-            return new StudentRepository().UpdateStudentData(
+            return _studentRepository.UpdateStudentData(
                 DtoToEntity.StudentDtoToEntity(oldStudent),
                 DtoToEntity.StudentDtoToEntity(newStudent));
         }
 
-        public static bool CheckPesel(long pesel)
+        public bool CheckPesel(long pesel)
         {
             return pesel.ToString().Length == 11;
         }

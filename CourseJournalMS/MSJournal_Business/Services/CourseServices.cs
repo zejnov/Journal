@@ -24,55 +24,55 @@ namespace MSJournal_Business.Services
             _courseRepository = courseRepository;
         }
 
-        public static bool Add(CourseDto courseDto)
+        public bool Add(CourseDto courseDto)
         {
             if (Exist(courseDto))
                 return false;
-            return new CourseRepository()
+            return _courseRepository
                 .Add(DtoToEntity.CourseDtoToEntity(courseDto));
         }
 
-        public static bool Exist(CourseDto courseDto)
+        public bool Exist(CourseDto courseDto)
         {
-            return new CourseRepository()
+            return _courseRepository
                 .Exist(DtoToEntity.CourseDtoToEntity(courseDto));
         }
-        public static CourseDto Get(int id)
+        public CourseDto Get(int id)
         {
             if (!Exist(new CourseDto() { Id = id }))
                 return null;
 
             return EntityToDto.CourseEntityToDto
-                (new CourseRepository().Get(id));
+                (_courseRepository.Get(id));
         }
 
-        public static List<CourseDto> GetAll()
+        public List<CourseDto> GetAll()
         {
-            return new CourseRepository()
+            return _courseRepository
                 .GetAll()
                 .Select(EntityToDto.CourseEntityToDto)
                 .ToList();
         }
 
-        public static bool UpdateCourseData(CourseDto oldModel, CourseDto newModel)
+        public bool UpdateCourseData(CourseDto oldModel, CourseDto newModel)
         {
             if (!Exist(oldModel))
                 return false;
 
-            return new CourseRepository().UpdateCourseData(
+            return _courseRepository.UpdateCourseData(
                 DtoToEntity.CourseDtoToEntity(oldModel),
                 DtoToEntity.CourseDtoToEntity(newModel));
         }
 
-        public static int GetCourseCount()
+        public int GetCourseCount()
         {
-            return new CourseRepository().GetCourseCount();
+            return _courseRepository.GetCourseCount();
         }
 
-        public static CourseDto RefreshCourse(CourseDto course)
+        public CourseDto RefreshCourse(CourseDto course)
         {
             return EntityToDto.CourseEntityToDto(
-                new CourseRepository().RefreshCourse
+                _courseRepository.RefreshCourse
                     (DtoToEntity.CourseDtoToEntity(course)));
 
         }

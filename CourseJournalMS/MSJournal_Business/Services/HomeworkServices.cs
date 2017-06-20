@@ -25,58 +25,58 @@ namespace MSJournal_Business.Services
         }
 
 
-        public static bool Add(HomeworkDto homeworkDto)
+        public bool Add(HomeworkDto homeworkDto)
         {
             if (Exist(homeworkDto))
                 return false;
-            return new HomeworkRepository().Add(DtoToEntity.HomeworkDtoToEntity(homeworkDto));
+            return _homeworkRepository.Add(DtoToEntity.HomeworkDtoToEntity(homeworkDto));
         }
 
-        private static bool Exist(HomeworkDto homeworkDto)
+        private bool Exist(HomeworkDto homeworkDto)
         {
-            return new HomeworkRepository()
+            return _homeworkRepository
                 .Exist(DtoToEntity.HomeworkDtoToEntity(homeworkDto));
         }
 
-        private static HomeworkDto Get(int id)
+        private HomeworkDto Get(int id)
         {
             if (!Exist(new HomeworkDto() { Id = id }))
                 return null;
 
             return EntityToDto.HomeworkEntityToDto
-                (new HomeworkRepository().Get(id));
+                (_homeworkRepository.Get(id));
         }
 
-        public static List<HomeworkDto> GetAll()
+        public List<HomeworkDto> GetAll()
         {
-            return new HomeworkRepository()
+            return _homeworkRepository
                 .GetAll()
                 .Select(EntityToDto.HomeworkEntityToDto)
                 .ToList();
         }
 
-        public static List<HomeworkDto> GetHomework(StudentOnCourseDto studentOnCourseDto)
-        {
-            return new HomeworkRepository()
-                .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
-                .Select(EntityToDto.HomeworkEntityToDto)
-                .ToList();
-        }
-
-        public static bool RemoveHomework(HomeworkDto homework)
-        {
-            return new HomeworkRepository()
-                .RemoveHomework(DtoToEntity.HomeworkDtoToEntity(homework));
-
-        }
-        
-        //********* do Moq'a **********
-        public List<HomeworkDto> GetHomeworkTest(StudentOnCourseDto studentOnCourseDto)
+        public List<HomeworkDto> GetHomework(StudentOnCourseDto studentOnCourseDto)
         {
             return _homeworkRepository
                 .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
                 .Select(EntityToDto.HomeworkEntityToDto)
                 .ToList();
         }
+
+        public bool RemoveHomework(HomeworkDto homework)
+        {
+            return _homeworkRepository
+                .RemoveHomework(DtoToEntity.HomeworkDtoToEntity(homework));
+
+        }
+        
+        //********* do Moq'a **********
+        //public List<HomeworkDto> GetHomeworkTest(StudentOnCourseDto studentOnCourseDto)
+        //{
+        //    return _homeworkRepository
+        //        .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
+        //        .Select(EntityToDto.HomeworkEntityToDto)
+        //        .ToList();
+        //}
     }
 }
