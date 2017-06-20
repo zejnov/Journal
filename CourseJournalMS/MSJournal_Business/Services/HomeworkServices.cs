@@ -69,14 +69,5 @@ namespace MSJournal_Business.Services
                 .RemoveHomework(DtoToEntity.HomeworkDtoToEntity(homework));
 
         }
-        
-        //********* do Moq'a **********
-        //public List<HomeworkDto> GetHomeworkTest(StudentOnCourseDto studentOnCourseDto)
-        //{
-        //    return _homeworkRepository
-        //        .GetHomework(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
-        //        .Select(EntityToDto.HomeworkEntityToDto)
-        //        .ToList();
-        //}
     }
 }

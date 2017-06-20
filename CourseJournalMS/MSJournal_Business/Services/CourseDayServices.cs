@@ -69,14 +69,5 @@ namespace MSJournal_Business.Services
             return _courseDayRepository
                 .RemoveDay(DtoToEntity.CourseDayDtoToEntity(courseDay));
         }
-        
-        //********* do Moq'a **********
-        //public List<CourseDayDto> GetAttendanceTest(StudentOnCourseDto studentOnCourseDto)
-        //{
-        //    return _courseDayRepository
-        //        .GetAttendance(DtoToEntity.StudentOnCourseDtoToEntity(studentOnCourseDto))
-        //        .Select(EntityToDto.CourseDayEntityToDto)
-        //        .ToList();
-        //}
     }
 }
