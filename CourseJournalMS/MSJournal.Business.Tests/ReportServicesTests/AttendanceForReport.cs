@@ -80,7 +80,8 @@ namespace MSJournal.Business.Tests.ReportServicesTests
                 },
             };
 
-            StudentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
+            var studentOnCourseServices = new StudentOnCourseServices();
+            studentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
 
             Assert.AreEqual(studentOnCourseToCheck,expectedCheckedStudent);
         }
@@ -155,7 +156,8 @@ namespace MSJournal.Business.Tests.ReportServicesTests
                 },
             };
 
-            StudentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
+            var studentOnCourseServices = new StudentOnCourseServices();
+            studentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
 
             Assert.AreEqual(studentOnCourseToCheck, expectedCheckedStudent);
         }
@@ -192,8 +194,9 @@ namespace MSJournal.Business.Tests.ReportServicesTests
             {
                 
             };
-            
-            var result = StudentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
+
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var result = studentOnCourseServices.CheckAttendance(studentOnCourseToCheck, attendanceList);
 
             Assert.IsFalse(result);
         }
