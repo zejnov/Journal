@@ -8,7 +8,16 @@ namespace MSJournal_Data.Models
 {
     public class Report
     {
-        public DateTime TimeOfGeneration { get; set; }
-        
+        //TODO: z zachowaniem odpowiedniej warstwy
+        public Course Course { get; set; }
+        public List<StudentOnCourse> CourseStudentList { get; set; } = new List<StudentOnCourse>();
+
+
+        public DateTime TimeOfGeneration { get; private set; } = new DateTime();
+
+        public Report()
+        {
+            TimeOfGeneration = DateTime.Now;
+        }
     }
 }

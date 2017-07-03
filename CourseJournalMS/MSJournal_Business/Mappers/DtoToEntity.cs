@@ -10,6 +10,27 @@ namespace MSJournal_Business.Mappers
 {
     public class DtoToEntity
     {
+        public static Report ReportDtoToEntity(ReportDto reportDto)
+        {
+            if (reportDto == null)
+            {
+                return null;
+            }
+
+            var report = new Report()
+            {
+                Course = CourseDtoToEntity(reportDto.Course),
+            };
+
+                report.CourseStudentList = new List<StudentOnCourse>();
+            foreach (var entry in reportDto.CourseStudentList)
+            {
+                report.CourseStudentList.Add(StudentOnCourseDtoToEntity(entry));
+            }
+            
+            return report;
+        }
+
         public static Student StudentDtoToEntity(StudentDto student)
         {
             if (student == null)

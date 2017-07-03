@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace MSJournal_Data.SaveToFileMappers
 {
-    class JsonMapper : IJsonMapper
+    public class JsonMapper : IJsonMapper
     {
         public string FromContent(Report report)
         {

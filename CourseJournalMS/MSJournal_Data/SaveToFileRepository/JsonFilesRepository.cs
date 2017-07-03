@@ -10,7 +10,7 @@ using Ninject;
 
 namespace MSJournal_Data.SaveToFileRepository
 {
-    class JsonFilesRepository
+    public class JsonFilesRepository
     {
         private readonly IJsonMapper _mapper;
 

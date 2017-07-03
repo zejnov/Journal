@@ -561,6 +561,9 @@ namespace CourseJournalMS
             printOk &= report.PrintReport();
             
             Console.WriteLine(printOk ? "Report generated and printed successfully!" : "\nSomething goes wrong...");
+
+            Console.WriteLine(report.ExportReportToFile() ? "Report exported successfully!" : "\nReport not exported.");
+
             Console.ReadKey();
 
             return true;

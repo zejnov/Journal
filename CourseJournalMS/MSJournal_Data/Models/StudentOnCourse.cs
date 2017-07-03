@@ -20,6 +20,10 @@ namespace MSJournal_Data.Models
                 return false;
 
             var studentOnCourse = obj as StudentOnCourse;
+
+            if (studentOnCourse == null)
+                return false;
+
             bool equal = true;
 
             equal &= studentOnCourse.Id == Id;

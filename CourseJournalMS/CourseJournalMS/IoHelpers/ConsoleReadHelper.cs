@@ -226,6 +226,18 @@ namespace CourseJournalMS.IoConsole
         }
 
         /// <summary>
+        /// enums of approval
+        /// </summary>
+        private enum ApprovalType
+        {
+            none,
+            yes,
+            no,
+            y,
+            n,
+        }
+
+        /// <summary>
         /// converting attendance to string
         /// </summary>
         private static string AttendanceResult(AttendanceType type)
@@ -239,6 +251,40 @@ namespace CourseJournalMS.IoConsole
                 return "absent";
             }
             return "";
+        }
+
+        public static bool GetApproval(string message)
+        {
+            var enumResult = ApprovalType.none;
+
+            do
+            {
+                try
+                {
+                    enumResult = (ApprovalType)Enum.Parse(typeof(ApprovalType),
+                        GetData<string>($"Would you like to {message}?"));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Bad entry, try yes/no.");
+                }
+
+            } while (enumResult == ApprovalType.none);
+
+            return ApprovalResult(enumResult);
+        }
+
+        private static bool ApprovalResult(ApprovalType type)
+        {
+            if (type == ApprovalType.y || type == ApprovalType.yes)
+            {
+                return true;
+            }
+            if (type == ApprovalType.n || type == ApprovalType.no)
+            {
+                return false;
+            }
+            return false;
         }
     }
 }
