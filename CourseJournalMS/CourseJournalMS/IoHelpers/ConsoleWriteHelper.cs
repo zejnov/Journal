@@ -146,6 +146,35 @@ namespace CourseJournalMS.IoConsole
             Console.WriteLine($"Hello {Environment.UserName} in course journal :) \n\n\nPress any key to start");
             Console.ReadKey();
         }
+
+        public static void PrintResults(List<StudentOnCourseDto> studentOnCourseList)
+        {
+            if (studentOnCourseList.Count == 0)
+            {
+                Console.WriteLine("\nThere where no attendance checks on this course.\n");
+            }
+
+            Console.WriteLine("\nAttendance on course results:\n");
+
+            var ordinal = 1;
+            foreach (var student in studentOnCourseList)
+            {
+                ConsoleWriteHelper.PrintStudentAttendanceResult(student, ordinal++);
+            }
+
+            if (studentOnCourseList.Count == 0)
+            {
+                Console.WriteLine("\nThere where no homeworks on this course.\n");
+            }
+
+            Console.WriteLine("\nHomework results:\n");
+
+            ordinal = 1;
+            foreach (var student in studentOnCourseList)
+            {
+                ConsoleWriteHelper.PrintStudentHomeworkResult(student, ordinal++);
+            }
+        }
     }
 
 

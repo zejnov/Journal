@@ -12,6 +12,7 @@ namespace CourseJournalMS
     public class ReportHelper
     {
         private readonly CourseDto _choosenCourse;
+        private ReportDto _report { get; set; }
 
         public ReportHelper(CourseDto course)
         {
@@ -27,97 +28,109 @@ namespace CourseJournalMS
 
         public bool GenerateReport()
         {
-            var report = new ReportDto();
-
-            report.Course = _choosenCourse;
+            _report = new ReportDto();
+            _report.Course = _choosenCourse;
 
             var studentOnCourseServices = new StudentOnCourseServices();
             var courseDayServices = new CourseDayServices();
             var homeworkServices = new HomeworkServices();
-
-
-            var studentOnCourseList = studentOnCourseServices
+            
+            var studentList = studentOnCourseServices
                 .StudentsListOnCourse(_choosenCourse);
 
-            if (studentOnCourseList.Count != 0)
+            if (studentList.Count != 0)
             {
-                foreach (var student in studentOnCourseList)
+                foreach (var student in studentList)
                 {
                     studentOnCourseServices.CheckAttendance
                         (student, courseDayServices.GetAttendance(student));
                     studentOnCourseServices.CheckHomework
                         (student, homeworkServices.GetHomework(student));
+
+                    _report.CourseStudentList.Add(student);
                 }
             }
 
             return true;
         }
 
-        /// <summary>
-        /// printing students attendance report
-        /// </summary>
-        /// <param name="studentOnCourseList">student list with checked attendance</param>
-        /// <returns></returns>
-        public bool GetAttendanceReport()
+        public bool PrintReport()
         {
             var studentOnCourseServices = new StudentOnCourseServices();
-            var courseDayServices = new CourseDayServices();
+            
+            Console.WriteLine("COURSE REPORT \n");
+            ConsoleWriteHelper.PrintCourseData(_choosenCourse);
+            ConsoleWriteHelper.PrintResults(_report.CourseStudentList);
+            Console.WriteLine($"\nTimestamp of generation: {_report.TimeOfGeneration}");
 
-            var studentOnCourseList = studentOnCourseServices
-                .StudentsListOnCourse(_choosenCourse);
-
-            if (studentOnCourseList.Count == 0)
-            {
-                Console.WriteLine("\nThere where no attendance checks on this course.\n");
-                return false;
-            }
-
-            Console.WriteLine("\nAttendance on course results:\n");
-
-            var ordinal = 1;
-
-            foreach (var student in studentOnCourseList)
-            {
-                studentOnCourseServices.CheckAttendance
-                    (student, courseDayServices.GetAttendance(student));
-
-                ConsoleWriteHelper.PrintStudentAttendanceResult(student, ordinal++);
-            }
             return true;
         }
 
-        /// <summary>
-        /// printing students homework report
-        /// </summary>
-        /// <param name="studentOnCourseList">student list with checked homework</param>
-        /// <returns></returns>
-        public bool GetHomeworkReport()
-        {
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var homeworkServices = new HomeworkServices();
+        ///// <summary>
+        ///// printing students attendance report
+        ///// </summary>
+        ///// <param name="studentOnCourseList">student list with checked attendance</param>
+        ///// <returns></returns>
+        //public bool GetAttendanceReport()
+        //{
+        //    var studentOnCourseServices = new StudentOnCourseServices();
+        //    var courseDayServices = new CourseDayServices();
 
-            var studentOnCourseList = studentOnCourseServices
-                .StudentsListOnCourse(_choosenCourse);
+        //    var studentOnCourseList = studentOnCourseServices
+        //        .StudentsListOnCourse(_choosenCourse);
 
-            if (studentOnCourseList.Count == 0)
-            {
-                Console.WriteLine("\nThere where no homeworks on this course.\n");
-                return false;
-            }
+        //    if (studentOnCourseList.Count == 0)
+        //    {
+        //        Console.WriteLine("\nThere where no attendance checks on this course.\n");
+        //        return false;
+        //    }
 
-            Console.WriteLine("\nHomework results:\n");
+        //    Console.WriteLine("\nAttendance on course results:\n");
 
-            var ordinal = 1;
+        //    var ordinal = 1;
 
-            foreach (var student in studentOnCourseList)
-            {
-                studentOnCourseServices.CheckHomework
-                    (student, homeworkServices.GetHomework(student));
+        //    foreach (var student in studentOnCourseList)
+        //    {
+        //        studentOnCourseServices.CheckAttendance
+        //            (student, courseDayServices.GetAttendance(student));
 
-                ConsoleWriteHelper.PrintStudentHomeworkResult(student, ordinal++);
-            }
-            return true;
-        }
+        //        ConsoleWriteHelper.PrintStudentAttendanceResult(student, ordinal++);
+        //    }
+        //    return true;
+        //}
+
+        ///// <summary>
+        ///// printing students homework report
+        ///// </summary>
+        ///// <param name="studentOnCourseList">student list with checked homework</param>
+        ///// <returns></returns>
+        //public bool GetHomeworkReport()
+        //{
+        //    var studentOnCourseServices = new StudentOnCourseServices();
+        //    var homeworkServices = new HomeworkServices();
+
+        //    var studentOnCourseList = studentOnCourseServices
+        //        .StudentsListOnCourse(_choosenCourse);
+
+        //    if (studentOnCourseList.Count == 0)
+        //    {
+        //        Console.WriteLine("\nThere where no homeworks on this course.\n");
+        //        return false;
+        //    }
+
+        //    Console.WriteLine("\nHomework results:\n");
+
+        //    var ordinal = 1;
+
+        //    foreach (var student in studentOnCourseList)
+        //    {
+        //        studentOnCourseServices.CheckHomework
+        //            (student, homeworkServices.GetHomework(student));
+
+        //        ConsoleWriteHelper.PrintStudentHomeworkResult(student, ordinal++);
+        //    }
+        //    return true;
+        //}
 
         /// <summary>
         /// printing course basic data

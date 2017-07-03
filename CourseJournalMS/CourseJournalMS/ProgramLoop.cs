@@ -556,24 +556,11 @@ namespace CourseJournalMS
 
             //*******************Drukowanie raportu**********************
             var printOk = true;
-            printOk &= report.GetCourseReport();
 
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var studentOnCourseList = studentOnCourseServices
-                .StudentsListOnCourse(_choosenCourse);
-
-            //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
-            if (studentOnCourseList.Count != 0)
-            {
-                printOk &= report.GetHomeworkReport();
-                printOk &= report.GetAttendanceReport();
-            }
-            else
-            {
-                Console.WriteLine("\nThere are no students on this course");
-            }
-
-            Console.WriteLine(printOk ? "\nReport generated and printed successfully!" : "\nSomething goes wrong...");
+            printOk &= report.GenerateReport();
+            printOk &= report.PrintReport();
+            
+            Console.WriteLine(printOk ? "Report generated and printed successfully!" : "\nSomething goes wrong...");
             Console.ReadKey();
 
             return true;

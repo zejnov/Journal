@@ -9,10 +9,10 @@ namespace MSJournal_Business.Dtos
     public class ReportDto
     {
         public CourseDto Course { get; set; }
+        public List<StudentOnCourseDto> CourseStudentList { get; set; } = new List<StudentOnCourseDto>();
 
 
-
-        public DateTime TimeOfGeneration { get; private set; }
+        public DateTime TimeOfGeneration { get; private set; } = new DateTime();
 
         public ReportDto()
         {
