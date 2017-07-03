@@ -59,10 +59,10 @@
     <Compile Include="IoHelpers\ChooseFromList.cs" />
     <Compile Include="IoHelpers\ConsoleReadHelper.cs" />
     <Compile Include="IoHelpers\ConsoleWriteHelper.cs" />
+    <Compile Include="IoHelpers\ReportHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramLoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IoHelpers\ReportHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -7,9 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
+using MSJournal_Business.Modules;
 using MSJournal_Business.Services;
 using MSJournal_Data;
 using MSJournal_Data.Models;
+using Ninject;
 
 namespace CourseJournalMS
 {
@@ -17,6 +19,7 @@ namespace CourseJournalMS
     {
         private int _zjv = 0;
         private CourseDto _choosenCourse;
+        private IKernel _container = new StandardKernel(new ServicesModule(), new RepositoriesModule());
 
         /// <summary>
         /// running an app
@@ -192,7 +195,7 @@ namespace CourseJournalMS
         {
             Console.Clear();
             var studentDto = new StudentDto();
-            var studentServices = new StudentServices();
+            var studentServices = _container.Get<StudentServices>();
 
             studentDto = ConsoleReadHelper.GetStudentData();
 

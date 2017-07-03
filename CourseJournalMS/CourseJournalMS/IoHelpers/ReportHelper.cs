@@ -14,6 +14,8 @@ namespace CourseJournalMS
 {
     public class ReportHelper
     {
+        //klasa powinna znajdywać się raczej w serwisach, ale wtedy nie mam dostępu do console helpersów
+
         private readonly CourseDto _choosenCourse;
         private ReportDto _report { get; set; }
 
