@@ -546,16 +546,17 @@ namespace CourseJournalMS
         private bool PrintReport()
         {
             Console.Clear();
+            var report = new ReportHelper(_choosenCourse);
 
             if (_choosenCourse == null)
             {
-                ReportHelper.IfNoCourse();
+                report.IfNoCourse();
                 return false;
             }
 
             //*******************Drukowanie raportu**********************
             var printOk = true;
-            printOk &= ReportHelper.GetCourseReport(_choosenCourse);
+            printOk &= report.GetCourseReport();
 
             var studentOnCourseServices = new StudentOnCourseServices();
             var studentOnCourseList = studentOnCourseServices
@@ -564,8 +565,8 @@ namespace CourseJournalMS
             //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
             if (studentOnCourseList.Count != 0)
             {
-                printOk &= ReportHelper.GetHomeworkReport(studentOnCourseList);
-                printOk &= ReportHelper.GetAttendanceReport(studentOnCourseList);
+                printOk &= report.GetHomeworkReport();
+                printOk &= report.GetAttendanceReport();
             }
             else
             {

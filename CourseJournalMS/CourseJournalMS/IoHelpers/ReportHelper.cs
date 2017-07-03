@@ -11,13 +11,61 @@ namespace CourseJournalMS
 {
     public class ReportHelper
     {
+        private readonly CourseDto _choosenCourse;
+
+        public ReportHelper(CourseDto course)
+        {
+            _choosenCourse = course;
+        }
+
+        public bool ExportReportToFile()
+        {
+
+
+            return true;
+        }
+
+        public bool GenerateReport()
+        {
+            var report = new ReportDto();
+
+            report.Course = _choosenCourse;
+
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var courseDayServices = new CourseDayServices();
+            var homeworkServices = new HomeworkServices();
+
+
+            var studentOnCourseList = studentOnCourseServices
+                .StudentsListOnCourse(_choosenCourse);
+
+            if (studentOnCourseList.Count != 0)
+            {
+                foreach (var student in studentOnCourseList)
+                {
+                    studentOnCourseServices.CheckAttendance
+                        (student, courseDayServices.GetAttendance(student));
+                    studentOnCourseServices.CheckHomework
+                        (student, homeworkServices.GetHomework(student));
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// printing students attendance report
         /// </summary>
         /// <param name="studentOnCourseList">student list with checked attendance</param>
         /// <returns></returns>
-        public static bool GetAttendanceReport(List<StudentOnCourseDto> studentOnCourseList)
+        public bool GetAttendanceReport()
         {
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var courseDayServices = new CourseDayServices();
+
+            var studentOnCourseList = studentOnCourseServices
+                .StudentsListOnCourse(_choosenCourse);
+
             if (studentOnCourseList.Count == 0)
             {
                 Console.WriteLine("\nThere where no attendance checks on this course.\n");
@@ -27,8 +75,6 @@ namespace CourseJournalMS
             Console.WriteLine("\nAttendance on course results:\n");
 
             var ordinal = 1;
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var courseDayServices = new CourseDayServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -45,8 +91,14 @@ namespace CourseJournalMS
         /// </summary>
         /// <param name="studentOnCourseList">student list with checked homework</param>
         /// <returns></returns>
-        public static bool GetHomeworkReport(List<StudentOnCourseDto> studentOnCourseList)
+        public bool GetHomeworkReport()
         {
+            var studentOnCourseServices = new StudentOnCourseServices();
+            var homeworkServices = new HomeworkServices();
+
+            var studentOnCourseList = studentOnCourseServices
+                .StudentsListOnCourse(_choosenCourse);
+
             if (studentOnCourseList.Count == 0)
             {
                 Console.WriteLine("\nThere where no homeworks on this course.\n");
@@ -56,8 +108,6 @@ namespace CourseJournalMS
             Console.WriteLine("\nHomework results:\n");
 
             var ordinal = 1;
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var homeworkServices = new HomeworkServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -73,17 +123,17 @@ namespace CourseJournalMS
         /// printing course basic data
         /// </summary>
         /// <param name="course">course to print</param>
-        public static bool GetCourseReport(CourseDto course)
+        public bool GetCourseReport()
         {
             Console.WriteLine("COURSE REPORT \n");
-            ConsoleWriteHelper.PrintCourseData(course);
+            ConsoleWriteHelper.PrintCourseData(_choosenCourse);
             return true;
         }
 
         /// <summary>
         /// printing students list in journal
         /// </summary>
-        public static bool IfNoCourse()
+        public bool IfNoCourse()
         {
             Console.WriteLine("There is no active course! Try 'change' ");
             var studentServices = new StudentServices();
