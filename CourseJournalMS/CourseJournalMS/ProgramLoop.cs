@@ -22,6 +22,7 @@ namespace CourseJournalMS
     class ProgramLoop
     {
         private int _zjv = 0;
+        private bool _exit = false;
         private CourseDto _choosenCourse;
         private CommandManagement _commandManager = new CommandManagement();
 
@@ -55,10 +56,12 @@ namespace CourseJournalMS
         public void Run()
         {
             InitializeCommands();
-
             SwitchCommand();
         }
 
+        /// <summary>
+        /// initializing commands
+        /// </summary>
         private void InitializeCommands()
         {
             _commandManager.AddCommand("add", AddStudent);
@@ -69,10 +72,10 @@ namespace CourseJournalMS
             _commandManager.AddCommand("updatestudent", UpdateStudent);
             _commandManager.AddCommand("change", ChangeActiveCourse);
             _commandManager.AddCommand("addday", AddDayOfCourse);
-            _commandManager.AddCommand("addhome",);
-            _commandManager.AddCommand("print",);
-            _commandManager.AddCommand("exit",);
-            _commandManager.AddCommand("help",);
+            _commandManager.AddCommand("addhome", AddHomeworkToCourse);
+            _commandManager.AddCommand("print", PrintReport);
+            _commandManager.AddCommand("exit", Exit);
+            _commandManager.AddCommand("help", PrintHelp);
 
         }
 
@@ -131,108 +134,13 @@ namespace CourseJournalMS
         /// </summary>
         public void SwitchCommand()
         {
-            var exit = false;
-            
-            while (!exit)
+            while (!_exit)
             {  
-                
                 ConsoleWriteHelper.PrintMenu();
 
                 var command = GetCommandFromUser();
-
+                Action();
                 _commandManager.Manage(command);
-
-                //switch (command)
-                //{
-                //    #region         Command types on short list   
-                //    //    none,
-                //    //add,
-                //    //sample,
-                //    //create,
-                //    //change,
-                //    //addday,
-                //    //addhome,
-                //    //print,
-                //    //clear,
-                //    //exit,
-                //    //help,
-                //    #endregion
-                //    case CommandTypes.none:
-                //    {
-                //        //nothing happens here
-                //    }
-                //        break;
-                //    case CommandTypes.add:
-                //    {
-                //        Action(AddStudent());
-                //    }
-                //        break;
-                //    case CommandTypes.create:
-                //    {
-                //        Action(AddCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.update:
-                //    {
-                //        Action(UpdateCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.signin:
-                //    {
-                //        Action(SignInStudentOnCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.signout:
-                //    {
-                //        Action(SignOutStudentFromCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.updatestudent:
-                //    {
-                //        Action(UpdateStudent());
-                //    }
-                //        break;
-                //    case CommandTypes.change:
-                //    {
-                //        Action(ChangeActiveCourse());
-                //    }
-                //        break;
-
-                //    case CommandTypes.addday:
-                //    {
-                //         Action(AddDayOfCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.addhome:
-                //    {
-                //         Action(AddHomeworkToCourse());
-                //    }
-                //        break;
-                //    case CommandTypes.print:
-                //    {
-                //        Action(PrintReport());
-                //    }
-                //        break;
-                //    case CommandTypes.clear:
-                //    {
-                //        Action(Clear());
-                //    }
-                //        break;
-                //    case CommandTypes.exit:
-                //    {
-                //        exit = true;
-                //        Exit();
-                //    }
-                //        break;
-                //    case CommandTypes.help:
-                //    {
-                //        Action(ConsoleWriteHelper.PrintHelp());
-                //    }
-                //        break;
-                //    default:            //almost useless
-                //        Console.WriteLine("Bad command, try again");
-                //        break;
-                //}
             }
         }
 
@@ -622,17 +530,19 @@ namespace CourseJournalMS
         /// <summary>
         /// exit the app
         /// </summary>
-        private void Exit()
+        private bool Exit()
         {
+            _exit = true;
             Console.WriteLine($"\n\nYou used {++_zjv} commands :)");
             Console.WriteLine($"Bye, bye {Environment.UserName}");
             Console.ReadKey();
+            return true;
         }
 
         /// <summary>
         /// action counter
         /// </summary>
-        private void Action(bool zjv)
+        private void Action()
         {
             _zjv++;
         }
@@ -644,6 +554,16 @@ namespace CourseJournalMS
         {
             var courseServices = new CourseServices();
             _choosenCourse = courseServices.RefreshCourse(_choosenCourse);
+        }
+
+        /// <summary>
+        /// printing help informations
+        /// </summary>
+        /// <returns></returns>
+        private bool PrintHelp()
+        {
+            ConsoleWriteHelper.PrintHelp();
+            return true;
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace CourseJournalMS.IoConsole
             Console.Clear();
             Console.WriteLine("Avaible commands:");
             Console.WriteLine("/add     /create     /update     /signin     /signout    /updatestudent " +
-                            "\n/change  /addday     /addhome    /print      /clear      /exit   /help");
+                            "\n/change  /addday     /addhome    /print      /exit       /help");
             Console.Write("Please enter the name of the action: ");
         }
         
@@ -42,11 +42,9 @@ namespace CourseJournalMS.IoConsole
                               $"\n{i++}. /addday        - Check attendance for active course " +
                               $"\n{i++}. /addhome       - Add homework to active course" +
                               $"\n{i++}. /print         - PRINTING COURSE REPORT" +
-                              $"\n{i++}. /clear         - clear your console" +
                               $"\n{i++}. /exit          - exit program" +
                               $"\n{i++}. /help          - prints this menu");
             
-            Console.WriteLine("\n^Tip^ You can use numbers instead of commands as follows");
             Console.WriteLine("\n\nzejnov/2017\n");
             Console.ReadKey();
             Console.Clear();
