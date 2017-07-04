@@ -7,8 +7,10 @@ using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
 using MSJournal_Business.Services;
+using MSJournal_Business.Services.ServicesInterfaces;
 using MSJournal_Data.SaveToFileMappers;
 using MSJournal_Data.SaveToFileRepository;
+using Ninject;
 
 namespace CourseJournalMS
 {
@@ -16,14 +18,24 @@ namespace CourseJournalMS
     {
         //klasa powinna znajdywać się raczej w serwisach, ale wtedy nie mam dostępu do console helpersów
 
-        private readonly CourseDto _choosenCourse;
+        private CourseDto _choosenCourse;
         private ReportDto _report { get; set; }
 
-        public ReportHelper(CourseDto course)
-        {
-            _choosenCourse = course;
-        }
+        private ICourseDayServices _courseDayServices;
+        //private ICourseServices _courseServices;
+        private IHomeworkServices _homeworkServices;
+        private IStudentOnCourseServices _studentOnCourseServices;
+        //private IStudentServices _studentServices;
 
+        [Inject]
+        public ReportHelper(ICourseDayServices courseDayServices,
+            IHomeworkServices homeworkServices, IStudentOnCourseServices studentOnCourseServices)
+        {
+            _courseDayServices = courseDayServices;
+            _homeworkServices = homeworkServices;
+            _studentOnCourseServices = studentOnCourseServices;
+        }
+        
         public bool ExportReportToFile()
         {
             if (ExportToFile())
@@ -55,26 +67,24 @@ namespace CourseJournalMS
         /// generating report for choosen course
         /// </summary>
         /// <returns></returns>
-        public bool GenerateReport()
+        public bool GenerateReport(CourseDto course)
         {
+            _choosenCourse = course;
+
             _report = new ReportDto();
             _report.Course = _choosenCourse;
 
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var courseDayServices = new CourseDayServices();
-            var homeworkServices = new HomeworkServices();
-            
-            var studentList = studentOnCourseServices
+           var studentList = _studentOnCourseServices
                 .StudentsListOnCourse(_choosenCourse);
 
             if (studentList.Count != 0)
             {
                 foreach (var student in studentList)
                 {
-                    studentOnCourseServices.CheckAttendance
-                        (student, courseDayServices.GetAttendance(student));
-                    studentOnCourseServices.CheckHomework
-                        (student, homeworkServices.GetHomework(student));
+                    _studentOnCourseServices.CheckAttendance
+                        (student, _courseDayServices.GetAttendance(student));
+                    _studentOnCourseServices.CheckHomework
+                        (student, _homeworkServices.GetHomework(student));
 
                     _report.CourseStudentList.Add(student);
                 }
