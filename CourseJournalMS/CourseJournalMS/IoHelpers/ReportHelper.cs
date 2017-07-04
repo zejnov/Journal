@@ -21,11 +21,9 @@ namespace CourseJournalMS
         private CourseDto _choosenCourse;
         private ReportDto _report { get; set; }
 
-        private ICourseDayServices _courseDayServices;
-        //private ICourseServices _courseServices;
-        private IHomeworkServices _homeworkServices;
-        private IStudentOnCourseServices _studentOnCourseServices;
-        //private IStudentServices _studentServices;
+        private readonly ICourseDayServices _courseDayServices;
+        private readonly IHomeworkServices _homeworkServices;
+        private readonly IStudentOnCourseServices _studentOnCourseServices;
 
         [Inject]
         public ReportHelper(ICourseDayServices courseDayServices,
@@ -35,7 +33,12 @@ namespace CourseJournalMS
             _homeworkServices = homeworkServices;
             _studentOnCourseServices = studentOnCourseServices;
         }
-        
+
+        public ReportDto GetGeneratedReport()
+        {
+            return _report;
+        }
+
         public bool ExportReportToFile()
         {
             if (ExportToFile())
@@ -46,6 +49,24 @@ namespace CourseJournalMS
                 string fileName = $"{_report.Course.Name }_report.json";
 
                 repository.SaveToFile($"{filePath}{fileName}", DtoToEntity.ReportDtoToEntity(_report));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ExportReportToFile(ReportDto report)
+        {
+            if (ExportToFile())
+            {
+                var repository = new JsonFilesRepository(new JsonMapper());
+
+                string filePath = @"c:\pliki\";
+                string fileName = $"{report.Course.Name }_report.json";
+
+                repository.SaveToFile($"{filePath}{fileName}", DtoToEntity.ReportDtoToEntity(report));
                 return true;
             }
             else
@@ -103,6 +124,7 @@ namespace CourseJournalMS
             ConsoleWriteHelper.PrintCourseData(_choosenCourse);
             ConsoleWriteHelper.PrintResults(_report.CourseStudentList);
             Console.WriteLine($"\nTimestamp of generation: {_report.TimeOfGeneration}");
+            
 
             return true;
         }

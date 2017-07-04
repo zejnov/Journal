@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandTemplate.cs" />
+    <Compile Include="Commands\CommandManagement.cs" />
+    <Compile Include="Events\JournalDelegates.cs" />
     <Compile Include="IoHelpers\ChooseFromList.cs" />
     <Compile Include="IoHelpers\ConsoleReadHelper.cs" />
     <Compile Include="IoHelpers\ConsoleWriteHelper.cs" />

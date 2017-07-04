@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseJournalMS.Events;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Modules;
@@ -22,14 +23,18 @@ namespace CourseJournalMS
         private int _zjv = 0;
         private CourseDto _choosenCourse;
 
-        private IKernel _container = new StandardKernel(new ServicesModule(), new RepositoriesModule());
+        public event JournalDelegates.ReportGeneratedEventHandler ReportGenerated;
+        private readonly IKernel _container = new StandardKernel(new ServicesModule(), new RepositoriesModule());
         
-        private ICourseDayServices _courseDayServices;
-        private ICourseServices _courseServices;
-        private IHomeworkServices _homeworkServices;
-        private IStudentOnCourseServices _studentOnCourseServices;
-        private IStudentServices _studentServices;
+        private readonly ICourseDayServices _courseDayServices;
+        private readonly ICourseServices _courseServices;
+        private readonly IHomeworkServices _homeworkServices;
+        private readonly IStudentOnCourseServices _studentOnCourseServices;
+        private readonly IStudentServices _studentServices;
 
+        /// <summary>
+        /// constructor to inject services
+        /// </summary>
         [Inject]
         public ProgramLoop(ICourseDayServices courseDayServices, ICourseServices courseServices,
             IHomeworkServices homeworkServices, IStudentOnCourseServices studentOnCourseServices,
@@ -49,7 +54,7 @@ namespace CourseJournalMS
         {
             SwitchCommand();
         }
-
+        
         /// <summary>
         /// command types used in app
         /// </summary>
@@ -573,8 +578,9 @@ namespace CourseJournalMS
             
             Console.WriteLine(printOk ? "Report generated and printed successfully!" : "\nSomething goes wrong...");
 
-            Console.WriteLine(report.ExportReportToFile() ? "Report exported successfully!" : "\nReport not exported.");
+            OnRaportGenerated(report.GetGeneratedReport());   //event ?starter
 
+            Console.WriteLine("Action finished.");
             Console.ReadKey();
 
             return true;
@@ -625,6 +631,15 @@ namespace CourseJournalMS
         {
             var courseServices = new CourseServices();
             _choosenCourse = courseServices.RefreshCourse(course);
+        }
+
+        /// <summary>
+        /// using event
+        /// </summary>
+        /// <param name="report"></param>
+        private void OnRaportGenerated(ReportDto report)
+        {
+            ReportGenerated?.Invoke(this, report);
         }
     }//class
 }
