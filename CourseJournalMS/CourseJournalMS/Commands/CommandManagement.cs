@@ -5,10 +5,8 @@ namespace CourseJournalMS.Commands
 {
     public class CommandManagement
     {
-
-        private List<CommandTemplate> _journalCommands = new List<CommandTemplate>();
+        private readonly List<CommandTemplate> _journalCommands = new List<CommandTemplate>();
         
-
         private CommandTemplate GetCommand(string command)
         {
             return _journalCommands.Find(p => p.Command == command);
@@ -24,7 +22,7 @@ namespace CourseJournalMS.Commands
             return false;
         }
 
-        public bool AddCommand(string command, Func<bool> action)
+        public bool AddCommand(string command, CommandTemplate.FunctionHandler action)
         {
             if (CommandExist(command))
                 return false;

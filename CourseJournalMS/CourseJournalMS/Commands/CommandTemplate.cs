@@ -9,9 +9,14 @@ namespace CourseJournalMS.Commands
     public class CommandTemplate
     {
         public string Command { get; private set; }
-        private readonly Func<bool> _action;
 
-        public CommandTemplate(string command, Func<bool> action)
+        public delegate bool FunctionHandler();
+
+        private readonly FunctionHandler _action;
+
+        //private readonly Func<bool> _action;
+
+        public CommandTemplate(string command, FunctionHandler action)
         {
             Command = command;
            _action = action;
