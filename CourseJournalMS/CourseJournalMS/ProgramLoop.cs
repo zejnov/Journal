@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseJournalMS.Commands;
 using CourseJournalMS.Events;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
@@ -22,6 +23,7 @@ namespace CourseJournalMS
     {
         private int _zjv = 0;
         private CourseDto _choosenCourse;
+        private CommandManagement _commandManager = new CommandManagement();
 
         public event JournalDelegates.ReportGeneratedEventHandler ReportGenerated;
         private readonly IKernel _container = new StandardKernel(new ServicesModule(), new RepositoriesModule());
@@ -52,9 +54,28 @@ namespace CourseJournalMS
         /// </summary>
         public void Run()
         {
+            InitializeCommands();
+
             SwitchCommand();
         }
-        
+
+        private void InitializeCommands()
+        {
+            _commandManager.AddCommand("add", AddStudent);
+            _commandManager.AddCommand("create", AddCourse);
+            _commandManager.AddCommand("update", UpdateCourse);
+            _commandManager.AddCommand("signin", SignInStudentOnCourse);
+            _commandManager.AddCommand("signout", SignOutStudentFromCourse);
+            _commandManager.AddCommand("updatestudent", UpdateStudent);
+            _commandManager.AddCommand("change", ChangeActiveCourse);
+            _commandManager.AddCommand("addday", AddDayOfCourse);
+            _commandManager.AddCommand("addhome",);
+            _commandManager.AddCommand("print",);
+            _commandManager.AddCommand("exit",);
+            _commandManager.AddCommand("help",);
+
+        }
+
         /// <summary>
         /// command types used in app
         /// </summary>
@@ -80,7 +101,7 @@ namespace CourseJournalMS
         /// getting command from user
         /// </summary>
         /// <returns>command</returns>
-        public CommandTypes GetCommandFromUser()
+        public string GetCommandFromUser()
         {
             CommandTypes command = CommandTypes.none;
             bool commandOk = false;
@@ -102,7 +123,7 @@ namespace CourseJournalMS
                 }
             } while (!commandOk);
 
-            return command;
+            return command.ToString();
         }
 
         /// <summary>
@@ -118,98 +139,100 @@ namespace CourseJournalMS
                 ConsoleWriteHelper.PrintMenu();
 
                 var command = GetCommandFromUser();
-                
-                switch (command)
-                {
-                    #region         Command types on short list   
-                    //    none,
-                    //add,
-                    //sample,
-                    //create,
-                    //change,
-                    //addday,
-                    //addhome,
-                    //print,
-                    //clear,
-                    //exit,
-                    //help,
-                    #endregion
-                    case CommandTypes.none:
-                    {
-                        //nothing happens here
-                    }
-                        break;
-                    case CommandTypes.add:
-                    {
-                        Action(AddStudent());
-                    }
-                        break;
-                    case CommandTypes.create:
-                    {
-                        Action(AddCourse());
-                    }
-                        break;
-                    case CommandTypes.update:
-                    {
-                        Action(UpdateCourse());
-                    }
-                        break;
-                    case CommandTypes.signin:
-                    {
-                        Action(SignInStudentOnCourse());
-                    }
-                        break;
-                    case CommandTypes.signout:
-                    {
-                        Action(SignOutStudentFromCourse());
-                    }
-                        break;
-                    case CommandTypes.updatestudent:
-                    {
-                        Action(UpdateStudent());
-                    }
-                        break;
-                    case CommandTypes.change:
-                    {
-                        Action(ChangeActiveCourse());
-                    }
-                        break;
 
-                    case CommandTypes.addday:
-                    {
-                         Action(AddDayOfCourse());
-                    }
-                        break;
-                    case CommandTypes.addhome:
-                    {
-                         Action(AddHomeworkToCourse());
-                    }
-                        break;
-                    case CommandTypes.print:
-                    {
-                        Action(PrintReport());
-                    }
-                        break;
-                    case CommandTypes.clear:
-                    {
-                        Action(Clear());
-                    }
-                        break;
-                    case CommandTypes.exit:
-                    {
-                        exit = true;
-                        Exit();
-                    }
-                        break;
-                    case CommandTypes.help:
-                    {
-                        Action(ConsoleWriteHelper.PrintHelp());
-                    }
-                        break;
-                    default:            //almost useless
-                        Console.WriteLine("Bad command, try again");
-                        break;
-                }
+                _commandManager.Manage(command);
+
+                //switch (command)
+                //{
+                //    #region         Command types on short list   
+                //    //    none,
+                //    //add,
+                //    //sample,
+                //    //create,
+                //    //change,
+                //    //addday,
+                //    //addhome,
+                //    //print,
+                //    //clear,
+                //    //exit,
+                //    //help,
+                //    #endregion
+                //    case CommandTypes.none:
+                //    {
+                //        //nothing happens here
+                //    }
+                //        break;
+                //    case CommandTypes.add:
+                //    {
+                //        Action(AddStudent());
+                //    }
+                //        break;
+                //    case CommandTypes.create:
+                //    {
+                //        Action(AddCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.update:
+                //    {
+                //        Action(UpdateCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.signin:
+                //    {
+                //        Action(SignInStudentOnCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.signout:
+                //    {
+                //        Action(SignOutStudentFromCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.updatestudent:
+                //    {
+                //        Action(UpdateStudent());
+                //    }
+                //        break;
+                //    case CommandTypes.change:
+                //    {
+                //        Action(ChangeActiveCourse());
+                //    }
+                //        break;
+
+                //    case CommandTypes.addday:
+                //    {
+                //         Action(AddDayOfCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.addhome:
+                //    {
+                //         Action(AddHomeworkToCourse());
+                //    }
+                //        break;
+                //    case CommandTypes.print:
+                //    {
+                //        Action(PrintReport());
+                //    }
+                //        break;
+                //    case CommandTypes.clear:
+                //    {
+                //        Action(Clear());
+                //    }
+                //        break;
+                //    case CommandTypes.exit:
+                //    {
+                //        exit = true;
+                //        Exit();
+                //    }
+                //        break;
+                //    case CommandTypes.help:
+                //    {
+                //        Action(ConsoleWriteHelper.PrintHelp());
+                //    }
+                //        break;
+                //    default:            //almost useless
+                //        Console.WriteLine("Bad command, try again");
+                //        break;
+                //}
             }
         }
 
