@@ -13,11 +13,6 @@ namespace MSJournal_Data.Models
         public List<StudentOnCourse> CourseStudentList { get; set; } = new List<StudentOnCourse>();
 
 
-        public DateTime TimeOfGeneration { get; private set; } = new DateTime();
-
-        public Report()
-        {
-            TimeOfGeneration = DateTime.Now;
-        }
+        public DateTime TimeOfGeneration { get; set; } = new DateTime();
     }
 }

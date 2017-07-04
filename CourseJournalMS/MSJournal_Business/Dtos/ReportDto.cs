@@ -12,7 +12,7 @@ namespace MSJournal_Business.Dtos
         public List<StudentOnCourseDto> CourseStudentList { get; set; } = new List<StudentOnCourseDto>();
 
 
-        public DateTime TimeOfGeneration { get; private set; } = new DateTime();
+        public DateTime TimeOfGeneration { get; set; } = new DateTime();
 
         public ReportDto()
         {

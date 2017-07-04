@@ -20,6 +20,7 @@ namespace MSJournal_Business.Mappers
             var report = new Report()
             {
                 Course = CourseDtoToEntity(reportDto.Course),
+                TimeOfGeneration = reportDto.TimeOfGeneration,
             };
 
                 report.CourseStudentList = new List<StudentOnCourse>();
@@ -46,6 +47,15 @@ namespace MSJournal_Business.Mappers
                 Gender = student.Gender,
                 BirthDate = student.BirthDate,
                 Pesel = student.Pesel,
+
+                HomeworkPoints = student.HomeworkPoints,
+                HomeworkPerformance = student.HomeworkPerformance,
+                HomeworkMaxPoints = student.HomeworkMaxPoints,
+                PresentDays = student.PresentDays,
+                StudentAttendance = student.StudentAttendance,
+                AttendanceOk = student.AttendanceOk,
+                HomeworkOk = student.HomeworkOk,
+                CourseDays = student.CourseDays,
             };
         }
 
