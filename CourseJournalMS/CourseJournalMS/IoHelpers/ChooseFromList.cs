@@ -10,6 +10,9 @@ namespace CourseJournalMS.IoConsole
 {
     public class ChooseFromList
     {
+        /// <summary>
+        /// choosing student from given list
+        /// </summary>
         public static StudentDto StudentFromList(List<StudentDto> studentList)
         {
             int answer = 1;
@@ -42,6 +45,9 @@ namespace CourseJournalMS.IoConsole
             return studentList[answer - 1];
         }
 
+        /// <summary>
+        /// choosing course from given list
+        /// </summary>
         public static CourseDto CourseFromList(List<CourseDto> courseList)
         {
             int answer = 1;
@@ -73,6 +79,9 @@ namespace CourseJournalMS.IoConsole
             return courseList[answer - 1];
         }
 
+        /// <summary>
+        /// choosing student on course from given list
+        /// </summary>
         public static StudentOnCourseDto StudentOnCourseList(List<StudentOnCourseDto> studentList)
         {
             int answer = 1;

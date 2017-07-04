@@ -10,6 +10,28 @@ namespace MSJournal_Business.Mappers
 {
     public class EntityToDto
     {
+        public static ReportDto ReportDtoToEntity(Report report)
+        {
+            if (report == null)
+            {
+                return null;
+            }
+
+            var reportDto = new ReportDto()
+            {
+                Course = CourseEntityToDto(report.Course),
+                TimeOfGeneration = report.TimeOfGeneration,
+            };
+
+            report.CourseStudentList = new List<StudentOnCourse>();
+            foreach (var entry in report.CourseStudentList)
+            {
+                reportDto.CourseStudentList.Add(StudentOnCourseEntityToDto(entry));
+            }
+
+            return reportDto;
+        }
+
         public static StudentDto StudentEntityToDto(Student student)
         {
             if (student == null)
@@ -25,6 +47,15 @@ namespace MSJournal_Business.Mappers
                 Gender = student.Gender,
                 BirthDate = student.BirthDate,
                 Pesel = student.Pesel,
+
+                HomeworkPoints = student.HomeworkPoints,
+                HomeworkPerformance = student.HomeworkPerformance,
+                HomeworkMaxPoints = student.HomeworkMaxPoints,
+                PresentDays = student.PresentDays,
+                StudentAttendance = student.StudentAttendance,
+                AttendanceOk = student.AttendanceOk,
+                HomeworkOk = student.HomeworkOk,
+                CourseDays = student.CourseDays,
             };
         }
 
@@ -48,7 +79,7 @@ namespace MSJournal_Business.Mappers
             };
         }
 
-       public static StudentOnCourseDto StudentOnCourseEntityToDto(StudentOnCourse studentOnCourse)
+        public static StudentOnCourseDto StudentOnCourseEntityToDto(StudentOnCourse studentOnCourse)
         {
             if (studentOnCourse == null)
             {

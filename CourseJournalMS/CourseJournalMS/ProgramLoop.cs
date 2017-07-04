@@ -1,28 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseJournalMS.Commands;
+using CourseJournalMS.Events;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
+using MSJournal_Business.Modules;
 using MSJournal_Business.Services;
+using MSJournal_Business.Services.ServicesInterfaces;
 using MSJournal_Data;
 using MSJournal_Data.Models;
+using Ninject;
 
 namespace CourseJournalMS
 {
     class ProgramLoop
     {
         private int _zjv = 0;
+        private bool _exit = false;
         private CourseDto _choosenCourse;
+        private CommandManagement _commandManager = new CommandManagement();
 
+        public event JournalDelegates.ReportGeneratedEventHandler ReportGenerated;
+        private readonly IKernel _container = new StandardKernel(new ServicesModule(), new RepositoriesModule());
+        
+        private readonly ICourseDayServices _courseDayServices;
+        private readonly ICourseServices _courseServices;
+        private readonly IHomeworkServices _homeworkServices;
+        private readonly IStudentOnCourseServices _studentOnCourseServices;
+        private readonly IStudentServices _studentServices;
+
+        /// <summary>
+        /// constructor to inject services
+        /// </summary>
+        [Inject]
+        public ProgramLoop(ICourseDayServices courseDayServices, ICourseServices courseServices,
+            IHomeworkServices homeworkServices, IStudentOnCourseServices studentOnCourseServices,
+            IStudentServices studentServices)
+        {
+            _courseDayServices = courseDayServices;
+            _courseServices = courseServices;
+            _homeworkServices = homeworkServices;
+            _studentOnCourseServices = studentOnCourseServices;
+            _studentServices = studentServices;
+        }
+
+        /// <summary>
+        /// running an app
+        /// </summary>
         public void Run()
         {
+            InitializeCommands();
             SwitchCommand();
         }
 
+        /// <summary>
+        /// initializing commands
+        /// </summary>
+        private void InitializeCommands()
+        {
+            _commandManager.AddCommand("add", AddStudent);
+            _commandManager.AddCommand("create", AddCourse);
+            _commandManager.AddCommand("update", UpdateCourse);
+            _commandManager.AddCommand("signin", SignInStudentOnCourse);
+            _commandManager.AddCommand("signout", SignOutStudentFromCourse);
+            _commandManager.AddCommand("updatestudent", UpdateStudent);
+            _commandManager.AddCommand("change", ChangeActiveCourse);
+            _commandManager.AddCommand("addday", AddDayOfCourse);
+            _commandManager.AddCommand("addhome", AddHomeworkToCourse);
+            _commandManager.AddCommand("print", PrintReport);
+            _commandManager.AddCommand("exit", Exit);
+            _commandManager.AddCommand("help", PrintHelp);
+
+        }
+
+        /// <summary>
+        /// command types used in app
+        /// </summary>
         public enum CommandTypes
         {
             none,
@@ -41,7 +100,11 @@ namespace CourseJournalMS
             help,
         }
 
-        public CommandTypes GetCommandFromUser()
+        /// <summary>
+        /// getting command from user
+        /// </summary>
+        /// <returns>command</returns>
+        public string GetCommandFromUser()
         {
             CommandTypes command = CommandTypes.none;
             bool commandOk = false;
@@ -63,123 +126,36 @@ namespace CourseJournalMS
                 }
             } while (!commandOk);
 
-            return command;
+            return command.ToString();
         }
 
+        /// <summary>
+        /// main function switching given command
+        /// </summary>
         public void SwitchCommand()
         {
-            var exit = false;
-            
-            while (!exit)
+            while (!_exit)
             {  
-                
                 ConsoleWriteHelper.PrintMenu();
 
                 var command = GetCommandFromUser();
-                
-                switch (command)
-                {
-                    #region         Command types on short list   
-                    //    none,
-                    //add,
-                    //sample,
-                    //create,
-                    //change,
-                    //addday,
-                    //addhome,
-                    //print,
-                    //clear,
-                    //exit,
-                    //help,
-                    #endregion
-                    case CommandTypes.none:
-                    {
-                        //nothing happens here
-                    }
-                        break;
-                    case CommandTypes.add:
-                    {
-                        Action(AddStudent());
-                    }
-                        break;
-                    case CommandTypes.create:
-                    {
-                        Action(AddCourse());
-                    }
-                        break;
-                    case CommandTypes.update:
-                    {
-                        Action(UpdateCourse());
-                    }
-                        break;
-                    case CommandTypes.signin:
-                    {
-                        Action(SignInStudentOnCourse());
-                    }
-                        break;
-                    case CommandTypes.signout:
-                    {
-                        Action(SignOutStudentFromCourse());
-                    }
-                        break;
-                    case CommandTypes.updatestudent:
-                    {
-                        Action(UpdateStudent());
-                    }
-                        break;
-                    case CommandTypes.change:
-                    {
-                        Action(ChangeActiveCourse());
-                    }
-                        break;
-
-                    case CommandTypes.addday:
-                    {
-                         Action(AddDayOfCourse());
-                    }
-                        break;
-                    case CommandTypes.addhome:
-                    {
-                         Action(AddHomeworkToCourse());
-                    }
-                        break;
-                    case CommandTypes.print:
-                    {
-                        Action(PrintReport());
-                    }
-                        break;
-                    case CommandTypes.clear:
-                    {
-                        Action(Clear());
-                    }
-                        break;
-                    case CommandTypes.exit:
-                    {
-                        exit = true;
-                        Exit();
-                    }
-                        break;
-                    case CommandTypes.help:
-                    {
-                        Action(ConsoleWriteHelper.PrintHelp());
-                    }
-                        break;
-                    default:            //almost useless
-                        Console.WriteLine("Bad command, try again");
-                        break;
-                }
+                Action();
+                _commandManager.Manage(command);
             }
         }
 
+        /// <summary>
+        /// adding student to student list
+        /// </summary>
+        /// <returns></returns>
         private bool AddStudent()
         {
             Console.Clear();
             var studentDto = new StudentDto();
-            var studentServices = new StudentServices();
-
+            
             studentDto = ConsoleReadHelper.GetStudentData();
 
-            var success = studentServices.Add(studentDto);
+            var success = _studentServices.Add(studentDto);
 
             if (success)
             {
@@ -194,15 +170,18 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// adding course to journal
+        /// </summary>
+        /// <returns></returns>
         private bool AddCourse()
         {
             Console.Clear();
 
             var courseDto = new CourseDto();
-            var courseServices = new CourseServices();
 
             courseDto = ConsoleReadHelper.GetCourseData();
-            var success = courseServices.Add(courseDto);
+            var success = _courseServices.Add(courseDto);
 
             if (success)
             {
@@ -218,6 +197,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// updating course data
+        /// </summary>
+        /// <returns></returns>
         private bool UpdateCourse()
         {
             Console.Clear();
@@ -229,11 +212,10 @@ namespace CourseJournalMS
             }
 
             var course = new CourseDto();
-            var courseServices = new CourseServices();
 
             Console.WriteLine("Please provide new course data:\n");
             course = ConsoleReadHelper.UpdateCourseData(_choosenCourse);
-            var success = courseServices.UpdateCourseData(_choosenCourse, course);
+            var success = _courseServices.UpdateCourseData(_choosenCourse, course);
 
             if (success)
             {
@@ -249,21 +231,28 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// changing active course, choose from list
+        /// </summary>
+        /// <returns></returns>
         private bool ChangeActiveCourse()
         {
             Console.Clear();
-            var courseServices = new CourseServices();
 
-            if (courseServices.GetCourseCount() == 0)
+            if (_courseServices.GetCourseCount() == 0)
             {
                 Console.WriteLine("You need to create course first!");
                 return true;
             }
 
-            _choosenCourse = ChooseFromList.CourseFromList(courseServices.GetAll());
+            _choosenCourse = ChooseFromList.CourseFromList(_courseServices.GetAll());
             return true;
         }
 
+        /// <summary>
+        /// sign in student on course, choosen from lists
+        /// </summary>
+        /// <returns></returns>
         private bool SignInStudentOnCourse()
         {
             Console.Clear();
@@ -275,15 +264,13 @@ namespace CourseJournalMS
             }
 
             var studentOnCourse = new StudentOnCourseDto();
-            var studentServices = new StudentServices();
-            var studentOnCourseServices = new StudentOnCourseServices();
 
             studentOnCourse.Course = _choosenCourse;
-            studentOnCourse.Student = ChooseFromList.StudentFromList(studentServices.GetAll());
+            studentOnCourse.Student = ChooseFromList.StudentFromList(_studentServices.GetAll());
 
-            if (!studentOnCourseServices.Exist(studentOnCourse))
+            if (!_studentOnCourseServices.Exist(studentOnCourse))
             {
-                var success = studentOnCourseServices.AddStudentToCourse(studentOnCourse);
+                var success = _studentOnCourseServices.AddStudentToCourse(studentOnCourse);
 
                 if (success)
                 {
@@ -303,6 +290,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// sign out student from ACTIVE course, choosen from lists
+        /// </summary>
+        /// <returns></returns>
         private bool SignOutStudentFromCourse()
         {
             Console.Clear();
@@ -314,25 +305,22 @@ namespace CourseJournalMS
             }
 
             var studentOnCourse = new StudentOnCourseDto();
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var homeworkServices = new HomeworkServices();
-            var courseDayServices = new CourseDayServices();
 
 
             studentOnCourse.Course = _choosenCourse;
-            studentOnCourse = ChooseFromList.StudentOnCourseList(studentOnCourseServices
+            studentOnCourse = ChooseFromList.StudentOnCourseList(_studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course));
 
             //************deleting all 'references'***********
             var success = true;
-            var homeworkList = homeworkServices.GetHomework(studentOnCourse);
-            var attendanceList = courseDayServices.GetAttendance(studentOnCourse);
+            var homeworkList = _homeworkServices.GetHomework(studentOnCourse);
+            var attendanceList = _courseDayServices.GetAttendance(studentOnCourse);
 
             if (homeworkList.Count != 0)
             {
                 foreach (var homework in homeworkList)
                 {
-                    success &= homeworkServices.RemoveHomework(homework);
+                    success &= _homeworkServices.RemoveHomework(homework);
                 }
             }
 
@@ -340,12 +328,12 @@ namespace CourseJournalMS
             {
                 foreach (var day in attendanceList)
                 {
-                    success &= courseDayServices.RemoveDay(day);
+                    success &= _courseDayServices.RemoveDay(day);
                 }
             }
 
             //deleting literally 'student on course'
-            success &= studentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
+            success &= _studentOnCourseServices.RemoveStudentFromCourse(studentOnCourse);
             
             if (success)
             {
@@ -360,15 +348,18 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// update student data, choosen from list
+        /// </summary>
+        /// <returns></returns>
         private bool UpdateStudent()
         {
             Console.Clear();
 
             var student = new StudentDto();
-            var studentServices = new StudentServices();
 
             Console.WriteLine("Please choose student you want update: \n");
-            student = ChooseFromList.StudentFromList(studentServices.GetAll());
+            student = ChooseFromList.StudentFromList(_studentServices.GetAll());
             
             if (student == null)
             {
@@ -379,7 +370,7 @@ namespace CourseJournalMS
             Console.WriteLine("Please provide new student data:\n");
             var newStudent = new StudentDto();
             newStudent = ConsoleReadHelper.UpdateStudentData(student);
-            var success = studentServices.UpdateStudentData(student, newStudent);
+            var success = _studentServices.UpdateStudentData(student, newStudent);
 
             if (success)
             {
@@ -395,6 +386,10 @@ namespace CourseJournalMS
 
         }
 
+        /// <summary>
+        /// add day of course - check attendance on active course
+        /// </summary>
+        /// <returns></returns>
         private bool AddDayOfCourse()
         {
             Console.Clear();
@@ -408,12 +403,10 @@ namespace CourseJournalMS
             var studentOnCourse = new StudentOnCourseDto();
             studentOnCourse.Course = _choosenCourse;
 
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var studentOnCourseList = studentOnCourseServices
+            var studentOnCourseList = _studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
 
             var success = true;
-            var courseDayServices = new CourseDayServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -425,7 +418,7 @@ namespace CourseJournalMS
                 
                 courseDay.Attendance = ConsoleReadHelper.GetStudentAttendance(student.Student);
 
-                success &= courseDayServices.Add(courseDay);
+                success &= _courseDayServices.Add(courseDay);
             }
 
             if (success)
@@ -441,6 +434,10 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// add homework on course - check students results
+        /// </summary>
+        /// <returns></returns>
         private bool AddHomeworkToCourse()
         {
             Console.Clear();
@@ -454,14 +451,12 @@ namespace CourseJournalMS
             var studentOnCourse = new StudentOnCourseDto();
             studentOnCourse.Course = _choosenCourse;
 
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var studentOnCourseList = studentOnCourseServices
+            var studentOnCourseList = _studentOnCourseServices
                 .StudentsListOnCourse(studentOnCourse.Course);
 
             var maxHomeworkPoints = ConsoleReadHelper.GetIntInRange("Please provide max homework points", 0, 1000);
 
             var success = true;
-            var homeworkServices = new HomeworkServices();
 
             foreach (var student in studentOnCourseList)
             {
@@ -474,7 +469,7 @@ namespace CourseJournalMS
                 homework.MaxPoints = maxHomeworkPoints;
                 homework.StudentPoints = ConsoleReadHelper.GetStudentHomework(student.Student,maxHomeworkPoints);
 
-                success &= homeworkServices.Add(homework);
+                success &= _homeworkServices.Add(homework);
             }
 
             if (success)
@@ -490,69 +485,104 @@ namespace CourseJournalMS
             return true;
         }
 
+        /// <summary>
+        /// printing active course report
+        /// </summary>
+        /// <returns></returns>
         private bool PrintReport()
         {
             Console.Clear();
 
+            var report = _container.Get<ReportHelper>();
+            
             if (_choosenCourse == null)
             {
-                ReportHelper.IfNoCourse();
+                report.IfNoCourse();
                 return false;
             }
 
             //*******************Drukowanie raportu**********************
             var printOk = true;
-            printOk &= ReportHelper.GetCourseReport(_choosenCourse);
 
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var studentOnCourseList = studentOnCourseServices
-                .StudentsListOnCourse(_choosenCourse);
+            printOk &= report.GenerateReport(_choosenCourse);
+            printOk &= report.PrintReport();
+            
+            Console.WriteLine(printOk ? "Report generated and printed successfully!" : "\nSomething goes wrong...");
 
-            //ConsoleWriteHelper.PrintOrderedList(studentOnCourseList);
-            if (studentOnCourseList.Count != 0)
-            {
-                printOk &= ReportHelper.GetHomeworkReport(studentOnCourseList);
-                printOk &= ReportHelper.GetAttendanceReport(studentOnCourseList);
-            }
-            else
-            {
-                Console.WriteLine("\nThere are no students on this course");
-            }
+            OnRaportGenerated(report.GetGeneratedReport());   //event ?starter
 
-            Console.WriteLine(printOk ? "\nReport generated and printed successfully!" : "\nSomething goes wrong...");
+            Console.WriteLine("Action finished.");
             Console.ReadKey();
 
             return true;
         }
 
+        /// <summary>
+        /// clear the console
+        /// </summary>
+        /// <returns></returns>
         private bool Clear()
         {
             Console.Clear();
             return true;
         }
 
-        private void Exit()
+        /// <summary>
+        /// exit the app
+        /// </summary>
+        private bool Exit()
         {
+            _exit = true;
             Console.WriteLine($"\n\nYou used {++_zjv} commands :)");
             Console.WriteLine($"Bye, bye {Environment.UserName}");
             Console.ReadKey();
+            return true;
         }
 
-        private void Action(bool zjv)
+        /// <summary>
+        /// action counter
+        /// </summary>
+        private void Action()
         {
             _zjv++;
         }
 
+        /// <summary>
+        /// reload course data from database
+        /// </summary>
         private void ReloadCourse()
         {
             var courseServices = new CourseServices();
             _choosenCourse = courseServices.RefreshCourse(_choosenCourse);
         }
 
+        /// <summary>
+        /// printing help informations
+        /// </summary>
+        /// <returns></returns>
+        private bool PrintHelp()
+        {
+            ConsoleWriteHelper.PrintHelp();
+            return true;
+        }
+
+        /// <summary>
+        /// reload course from database
+        /// </summary>
+        /// <param name="course">course to be set as active</param>
         private void ReloadCourse(CourseDto course)
         {
             var courseServices = new CourseServices();
             _choosenCourse = courseServices.RefreshCourse(course);
+        }
+
+        /// <summary>
+        /// using event
+        /// </summary>
+        /// <param name="report"></param>
+        private void OnRaportGenerated(ReportDto report)
+        {
+            ReportGenerated?.Invoke(this, report);
         }
     }//class
 }

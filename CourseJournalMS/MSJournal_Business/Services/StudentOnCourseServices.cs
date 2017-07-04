@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MSJournal_Business.Dtos;
 using MSJournal_Business.Mappers;
+using MSJournal_Business.Services.ServicesInterfaces;
 using MSJournal_Data.Repository;
 using MSJournal_Data.Repository.Interfaces;
 
 namespace MSJournal_Business.Services
 {
-    public class StudentOnCourseServices
+    public class StudentOnCourseServices : IStudentOnCourseServices
     {
         private IStudentOnCourseRepository _studentOnCourseRepository;
 

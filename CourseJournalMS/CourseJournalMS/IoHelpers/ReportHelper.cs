@@ -5,69 +5,145 @@ using System.Text;
 using System.Threading.Tasks;
 using CourseJournalMS.IoConsole;
 using MSJournal_Business.Dtos;
+using MSJournal_Business.Mappers;
 using MSJournal_Business.Services;
+using MSJournal_Business.Services.ServicesInterfaces;
+using MSJournal_Data.SaveToFileMappers;
+using MSJournal_Data.SaveToFileRepository;
+using Ninject;
 
 namespace CourseJournalMS
 {
     public class ReportHelper
     {
+        //klasa powinna znajdywać się raczej w serwisach, ale wtedy nie mam dostępu do console helpersów
 
-        public static bool GetAttendanceReport(List<StudentOnCourseDto> studentOnCourseList)
+        private CourseDto _choosenCourse;
+        private ReportDto _report { get; set; }
+
+        private readonly ICourseDayServices _courseDayServices;
+        private readonly IHomeworkServices _homeworkServices;
+        private readonly IStudentOnCourseServices _studentOnCourseServices;
+
+        [Inject]
+        public ReportHelper(ICourseDayServices courseDayServices,
+            IHomeworkServices homeworkServices, IStudentOnCourseServices studentOnCourseServices)
         {
-            if (studentOnCourseList.Count == 0)
+            _courseDayServices = courseDayServices;
+            _homeworkServices = homeworkServices;
+            _studentOnCourseServices = studentOnCourseServices;
+        }
+
+        public ReportDto GetGeneratedReport()
+        {
+            return _report;
+        }
+
+        public bool ExportReportToFile()
+        {
+            if (ExportToFile())
             {
-                Console.WriteLine("\nThere where no attendance checks on this course.\n");
+                var repository = new JsonFilesRepository(new JsonMapper());
+
+                string filePath = @"c:\pliki\";
+                string fileName = $"{_report.Course.Name }_report.json";
+
+                repository.SaveToFile($"{filePath}{fileName}", DtoToEntity.ReportDtoToEntity(_report));
+                return true;
+            }
+            else
+            {
                 return false;
             }
+        }
 
-            Console.WriteLine("\nAttendance on course results:\n");
-
-            var ordinal = 1;
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var courseDayServices = new CourseDayServices();
-
-            foreach (var student in studentOnCourseList)
+        public bool ExportReportToFile(ReportDto report)
+        {
+            if (ExportToFile())
             {
-                studentOnCourseServices.CheckAttendance
-                    (student, courseDayServices.GetAttendance(student));
+                var repository = new JsonFilesRepository(new JsonMapper());
 
-                ConsoleWriteHelper.PrintStudentAttendanceResult(student, ordinal++);
+                string filePath = @"c:\pliki\";
+                string fileName = $"{report.Course.Name }_report.json";
+
+                repository.SaveToFile($"{filePath}{fileName}", DtoToEntity.ReportDtoToEntity(report));
+                return true;
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// asking user if to export
+        /// </summary>
+        /// <returns></returns>
+        private bool ExportToFile()
+        {
+           return ConsoleReadHelper.GetApproval("export report to file");
+        }
+
+        /// <summary>
+        /// generating report for choosen course
+        /// </summary>
+        /// <returns></returns>
+        public bool GenerateReport(CourseDto course)
+        {
+            _choosenCourse = course;
+
+            _report = new ReportDto();
+            _report.Course = _choosenCourse;
+
+           var studentList = _studentOnCourseServices
+                .StudentsListOnCourse(_choosenCourse);
+
+            if (studentList.Count != 0)
+            {
+                foreach (var student in studentList)
+                {
+                    _studentOnCourseServices.CheckAttendance
+                        (student, _courseDayServices.GetAttendance(student));
+                    _studentOnCourseServices.CheckHomework
+                        (student, _homeworkServices.GetHomework(student));
+
+                    _report.CourseStudentList.Add(student);
+                }
+            }
+
             return true;
         }
 
-        public static bool GetHomeworkReport(List<StudentOnCourseDto> studentOnCourseList)
-        {
-            if (studentOnCourseList.Count == 0)
-            {
-                Console.WriteLine("\nThere where no homeworks on this course.\n");
-                return false;
-            }
-
-            Console.WriteLine("\nHomework results:\n");
-
-            var ordinal = 1;
-            var studentOnCourseServices = new StudentOnCourseServices();
-            var homeworkServices = new HomeworkServices();
-
-            foreach (var student in studentOnCourseList)
-            {
-                studentOnCourseServices.CheckHomework
-                    (student, homeworkServices.GetHomework(student));
-
-                ConsoleWriteHelper.PrintStudentHomeworkResult(student, ordinal++);
-            }
-            return true;
-        }
-
-        public static bool GetCourseReport(CourseDto course)
+        /// <summary>
+        /// printing generated report
+        /// </summary>
+        /// <returns></returns>
+        public bool PrintReport()
         {
             Console.WriteLine("COURSE REPORT \n");
-            ConsoleWriteHelper.PrintCourseData(course);
+            ConsoleWriteHelper.PrintCourseData(_choosenCourse);
+            ConsoleWriteHelper.PrintResults(_report.CourseStudentList);
+            Console.WriteLine($"\nTimestamp of generation: {_report.TimeOfGeneration}");
+            
+
+            return true;
+        }
+        
+        /// <summary>
+        /// printing course basic data
+        /// </summary>
+        /// <param name="course">course to print</param>
+        public bool GetCourseReport()
+        {
+            Console.WriteLine("COURSE REPORT \n");
+            ConsoleWriteHelper.PrintCourseData(_choosenCourse);
             return true;
         }
 
-        public static bool IfNoCourse()
+        /// <summary>
+        /// printing students list in journal
+        /// </summary>
+        public bool IfNoCourse()
         {
             Console.WriteLine("There is no active course! Try 'change' ");
             var studentServices = new StudentServices();
