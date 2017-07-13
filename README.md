@@ -12,6 +12,7 @@ Console application to keep a journal
 * Check attendnace in selected course
 * Check homework in selected course
 * Print active course report
+* Export generated report to Json file
 
 ### How do I get set up? ###
 
